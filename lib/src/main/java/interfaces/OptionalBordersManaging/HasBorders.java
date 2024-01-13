@@ -10,26 +10,22 @@ import interfaces.BotInterface;
  */
 public interface HasBorders {
     
-    //Responsible to manage the bots nearby the borders
-    BorderManagerInterface borderManager = null;
+    //getters and setters
+    public double getLowerX();
+    public double getLowerY();
+    public double getHigherX();
+    public double getHigherY();
+    public void setLowerX();
+    public void setLowerY();
+    public void setHigherX();
+    public void setHigherY();
 
 
     /**
-     * Uses the "borderManager" to manage the bots which are about to exit the borders.
+     * Resolves the problem concerning the bots exiting from the simulation's borders.
      * 
-     * @param botList The list of bots to manage.
-     * @return A modified disposition where the problem is solved if "borderManager" isn't null.
-     *              Returns "botList" otherwise.
+     * @param botList The botList in which bots may be going too far.
+     * @return A modified disposition where the borders problem is solved.
      */
-    default public ArrayList<BotInterface> manageBorders(ArrayList<BotInterface> botList)
-    {
-        if (this.borderManager != null)
-        {
-            return this.borderManager.manageBotsOnBorders(botList);
-        }
-        else
-        {
-            return botList;
-        }
-    }
+    public ArrayList<BotInterface> manageBotsOnBorders(ArrayList<BotInterface> botList);
 }

@@ -8,11 +8,15 @@ import java.util.ArrayList;
  */
 public interface BotManagerInterface {
 
-    ArrayList<BotInterface> botList = new ArrayList<>();
-    ArrayList<? extends CartesianArea> targetList = new ArrayList<>();
+    //getters and setters
+    public ArrayList<BotInterface> getBotList();
+    public ArrayList<? extends CartesianArea> getTargetList();
+    public void setBotList();
+    public void setTargetList();
 
-    //Duration of a simulation cycle expressed in seconds
-    double simulationTimeCycle = 1;
+    //Duration of a simulation cycle expressed in seconds (getters and setters)
+    public double getSimulationTimeCycle();
+    public void setSimulationTimeCycle();
 
 
     /**

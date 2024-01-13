@@ -5,18 +5,25 @@ package interfaces;
  */
 public interface BotInterface {
 
-    //coordinates
-    double xPosition = 0;
-    double yPosition = 0;
+    //coordinates (getters and setters)
+    public double getXPosition();
+    public double getYPosition();
+    public void setXPosition();
+    public void setYPosition();
 
-    //direction and speed
-    double xVector = 0;
-    double yVector = 0;
-    double speed = 0;
+    //direction and speed (getters and setters)
+    public double getXVector();
+    public double getYVector();
+    public double getSpeed();
+    public void setXVector();
+    public void setYVector();
+    public void setSpeed();
 
     //signal emission
-    String signalLabel = "";
-    boolean emitSignal = false;
+    public String getSignalLabel();
+    public boolean IsEmittingSignal();
+    public void setSignalLabel();
+    public void setEmittingSignal();
     
 
     /**

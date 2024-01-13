@@ -14,14 +14,17 @@ import java.util.ArrayList;
  */
 public interface ProgramInterface {
 
-    //list of references of bots' methods
-    ArrayList<Runnable> taskList = new ArrayList<>();
-    //list of bots for label check
-    ArrayList<BotInterface> botToCheckList = new ArrayList<>();
+    //getters and setters
+    public ArrayList<Runnable> getTaskList();
+    public ArrayList<BotInterface> getBotToCheckList();
+    public void setTaskList();
+    public void setBotList();
 
-    //condition parameters
-    int counter = 0;
-    String labelToCheck = "";
+    //condition parameters (getters and setters)
+    public int getCounter();
+    public String getLabelToCheck();
+    public void setCounter();
+    public void setLabelToCheck();
 
     
     /**

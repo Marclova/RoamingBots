@@ -7,7 +7,9 @@ import java.util.ArrayList;
  */
 public interface ProgramManagerInterface {
     
-    ArrayList<ProgramInterface> programList = new ArrayList<>();
+    //getters and setters
+    public ArrayList<ProgramInterface> getProgramList();
+    public void setProgramList();
 
     
     /**
