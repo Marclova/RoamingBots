@@ -7,8 +7,9 @@ import java.util.ArrayList;
  */
 public interface ProgramManagerInterface {
     
-    ArrayList<ProgramInterface> programList = new ArrayList<ProgramInterface>();
+    ArrayList<ProgramInterface> programList = new ArrayList<>();
 
+    
     /**
      * Deletes all the Programs whom counter value is 0.
      */

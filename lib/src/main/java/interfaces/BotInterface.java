@@ -18,6 +18,7 @@ public interface BotInterface {
     String signalLabel = "";
     boolean emitSignal = false;
     
+
     /**
      * Sets the bot in a direction indicated by the x and y values at the given velocity
      *      for one simulation cycle.

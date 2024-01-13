@@ -14,13 +14,16 @@ import java.util.ArrayList;
  */
 public interface ProgramInterface {
 
-    ArrayList<Runnable> taskList = new ArrayList<Runnable>(); //list of references of bots' methods
-    ArrayList<BotInterface> botToCheckList = new ArrayList<BotInterface>(); //list of bots for label check
+    //list of references of bots' methods
+    ArrayList<Runnable> taskList = new ArrayList<>();
+    //list of bots for label check
+    ArrayList<BotInterface> botToCheckList = new ArrayList<>();
 
     //condition parameters
     int counter = 0;
     String labelToCheck = "";
 
+    
     /**
      * Executes once all the tasks in the "taskList".
      * It acts differently depending on the type of program:
