@@ -10,13 +10,14 @@ import java.util.ArrayList;
  * The Program's type is established depending on his parameters:
  * -Program with "counter" grater than 0: Repeat Program
  * -Program with "counter" equal to -1: Infinite Program
- * -program with "counter" equal to -1 and with not empty "labelToCheck": Label Program
+ * -program with "counter" equal to -1 and
+ *      with not empty "labelToCheck" and "botCheckList": Label Program
  */
-public interface ProgramInterface {
+public interface ProgramInterface<B extends BotInterface> {
 
     //getters and setters
     public ArrayList<Runnable> getTaskList();
-    public ArrayList<BotInterface> getBotToCheckList();
+    public ArrayList<B> getBotToCheckList();
     public void setTaskList();
     public void setBotList();
 

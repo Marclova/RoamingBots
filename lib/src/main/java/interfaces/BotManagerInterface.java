@@ -6,10 +6,10 @@ import java.util.ArrayList;
  * The class extending this interface will have the responsibility to create and move bots
  *      within the simulation area and through the targets.  
  */
-public interface BotManagerInterface {
+public interface BotManagerInterface<B extends BotInterface> {
 
     //getters and setters
-    public ArrayList<BotInterface> getBotList();
+    public ArrayList<B> getBotList();
     public ArrayList<? extends CartesianArea> getTargetList();
     public void setBotList();
     public void setTargetList();
@@ -34,7 +34,7 @@ public interface BotManagerInterface {
      * @param bot The bot to add
      * @return  True if the bot is correctly created. False otherwise.
      */
-    public boolean createBot(BotInterface botToAdd);
+    public boolean createBot(B botToAdd);
 
     /**
      * Adds the given bots into the "botList"
@@ -42,7 +42,7 @@ public interface BotManagerInterface {
      * @param botListToAdd The bot list to add
      * @return True if the bots are correctly created. False otherwise.
      */
-    public boolean createBot(ArrayList<BotInterface> botListToAdd);
+    public boolean createBot(ArrayList<B> botListToAdd);
 
     /**
      * Created a given quantity of bots with random coordinates
