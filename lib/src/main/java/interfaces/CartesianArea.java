@@ -10,8 +10,8 @@ public interface CartesianArea {
     //getters and setters
     public double getXCoordinate();
     public double getYCoordinate();
-    public void setXCoordinate();
-    public void setYCoordinate();
+    public void setXCoordinate(double xCoordinate);
+    public void setYCoordinate(double yCoordinate);
 
     
     /**

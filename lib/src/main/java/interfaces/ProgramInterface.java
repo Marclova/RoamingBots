@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Contains the list of tasks to execute in every simulation cycle and the number of repetitions.
  * 
- * A program's "taskList" doesn't necessary contains tasks about just a single bot.
+ * A program's "taskList" can contain other objects commands //TODO Serch online for type checkers and add exemples
  * 
  * The Program's type is established depending on his parameters:
  * -Program with "counter" grater than 0: Repeat Program
@@ -15,17 +15,15 @@ import java.util.ArrayList;
  */
 public interface ProgramInterface<B extends BotInterface> {
 
-    //getters and setters
+    //getters
     public ArrayList<Runnable> getTaskList();
     public ArrayList<B> getBotToCheckList();
-    public void setTaskList();
-    public void setBotList();
 
     //condition parameters (getters and setters)
     public int getCounter();
     public String getLabelToCheck();
-    public void setCounter();
-    public void setLabelToCheck();
+    public void setCounter(int counter);
+    public void setLabelToCheck(String label);
 
     
     /**

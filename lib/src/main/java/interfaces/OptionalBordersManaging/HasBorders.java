@@ -15,10 +15,10 @@ public interface HasBorders {
     public double getLowerY();
     public double getHigherX();
     public double getHigherY();
-    public void setLowerX();
-    public void setLowerY();
-    public void setHigherX();
-    public void setHigherY();
+    public void setLowerX(double xCoordinate);
+    public void setLowerY(double yCoordinate);
+    public void setHigherX(double xCoordinate);
+    public void setHigherY(double yCoordinate);
 
 
     /**

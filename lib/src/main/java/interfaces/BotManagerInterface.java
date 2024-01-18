@@ -8,16 +8,23 @@ import java.util.ArrayList;
  */
 public interface BotManagerInterface<B extends BotInterface> {
 
-    //getters and setters
+    //getters
     public ArrayList<B> getBotList();
     public ArrayList<? extends CartesianArea> getTargetList();
-    public void setBotList();
-    public void setTargetList();
 
     //Duration of a simulation cycle expressed in seconds (getters and setters)
     public double getSimulationTimeCycle();
     public void setSimulationTimeCycle();
 
+
+    /**
+     * Adds the given cartesian shape into the "targetList".
+     * 
+     * @param <C>
+     * @param target
+     * @return
+     */
+    public <C extends CartesianArea> boolean createTarget(C target);
 
     /**
      * Adds a robot with the given coordinates into the "botList"
@@ -62,5 +69,5 @@ public interface BotManagerInterface<B extends BotInterface> {
      * 
      * @return True if the bots' disposition has been changed. False if no bot has moved.
      */
-    public boolean moveBots();
+    public boolean moveAllBots();
 }

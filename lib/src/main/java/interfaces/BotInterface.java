@@ -8,22 +8,22 @@ public interface BotInterface {
     //coordinates (getters and setters)
     public double getXPosition();
     public double getYPosition();
-    public void setXPosition();
-    public void setYPosition();
+    public void setXPosition(double xCoordinate);
+    public void setYPosition(double yCoordinate);
 
     //direction and speed (getters and setters)
     public double getXVector();
     public double getYVector();
     public double getSpeed();
-    public void setXVector();
-    public void setYVector();
-    public void setSpeed();
+    public void setXVector(double xVector);
+    public void setYVector(double yVector);
+    public void setSpeed(double speed);
 
     //signal emission
     public String getSignalLabel();
     public boolean IsEmittingSignal();
-    public void setSignalLabel();
-    public void setEmittingSignal();
+    public void setSignalLabel(String label);
+    public void setEmittingSignal(boolean isEmitting);
     
 
     /**

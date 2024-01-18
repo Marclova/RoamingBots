@@ -5,11 +5,10 @@ import java.util.ArrayList;
 /**
  * Creates and manages all the bot's programs every simulation cycle
  */
-public interface ProgramManagerInterface<B extends BotInterface, P extends ProgramInterface<B>> {
+public interface ProgramManagerInterface<B extends BotInterface> {
     
     //getters and setters
     public ArrayList<ProgramInterface<B>> getProgramList();
-    public void setProgramList();
 
     
     /**
