@@ -7,11 +7,10 @@ package interfaces;
  */
 public interface CartesianArea {
     
-    //getters and setters
+    //getters
     public double getXCoordinate();
     public double getYCoordinate();
-    public void setXCoordinate(double xCoordinate);
-    public void setYCoordinate(double yCoordinate);
+    public String getLabel();
 
     
     /**

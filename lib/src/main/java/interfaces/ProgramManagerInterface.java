@@ -2,52 +2,69 @@ package interfaces;
 
 import java.util.ArrayList;
 
+import functionalInterfaces.BotCommand;
+
 /**
- * Creates and manages all the bot's programs every simulation cycle
+ * Creates and manages all the bot's programs.
  */
-public interface ProgramManagerInterface<B extends BotInterface> {
+public interface ProgramManagerInterface<B extends BotInterface<B>> {
     
-    //getters and setters
-    public ArrayList<ProgramInterface<B>> getProgramList();
+    // //getters and setters
+    public SimulationManagerInterface<B> getSimulationManager();
+    public void setSimulationManager(SimulationManagerInterface<B> simM);
+
+    // public ArrayList<ProgramInterface<B>> getProgramList();
+    // public ArrayList<? extends CartesianArea> getTargetList();
 
     
     /**
-     * Deletes all the Programs whom counter value is 0.
+     * Executes all the Programs' tasks.
+     */
+    public void executePrograms();
+
+    /**
+     * Deletes all the Counter Programs whom counter value is 0,
+     *      the Target Program whom bot has reached destination
+     *      and all Label Program whom bot has detected the right label.
      */
     public void deleteExpiredPrograms();
 
     /**
-     * Executes all the Programs' tasks
-     *      and then it deletes the ones which counter has reached 0.
-     * Programs with a negative counter value are considered with infinite repetitions.
-     */
-    public void executeAndDeletePrograms();
-
-    /**
-     * Creates a Program that executes all the given tasks a defined amount of times.
+     * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.
      * 
+     * @param botToProgram The bot to install the program into.
      * @param taskList The list of bots' tasks to execute.
      * @param repetitions The program's number of simulation cycle of life (counter value).
-     * @return True if a new program has been created. False otherwise.
      */
-    public boolean createRepeatingProgram(ArrayList<Runnable> taskList, int repetitions);
+    public void createRepeatingProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, int repetitions);
 
     /**
-     * Creates a Program that executes all the given tasks an infinite amount of times.
-     *      The Program's counter will be set to -1.
+     * Creates and gives to the given bot a Program that executes all the given tasks
+     *      an infinite amount of times.
      * 
+     * @param botToProgram The bot to install the program into.
      * @param taskList The list of bots' tasks to execute.
-     * @return True if a new program has been created. False otherwise.
      */
-    public boolean createInfiniteProgram(ArrayList<Runnable> taskList);
+    public void createInfiniteProgram(B botToProgram, ArrayList<BotCommand<B>> taskList);
 
     /**
-     * Creates a Program that executes all the given tasks until a specific label is revealed in the bot.
-     *      The Program's counter will be set to -1.
+     * Creates and gives to the given bot a Program that executes all the given tasks
+     *      until it reaches for the given target.
      * 
-     * @param taskList
-     * @param labelToCheck
-     * @return
+     * @param botToProgram The bot to install the program into.
+     * @param taskList The list of commands to execute.
+     * @param targetLabelToReach The target label the bot is going to look for.
      */
-    public boolean createLabelCheckProgram(ArrayList<Runnable> taskList, String labelToCheck);
+    public void createTargetProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, String targetLabelToReach);
+
+    /**
+     * Creates and gives to the given bot a Program that executes all the given tasks
+     *      until it detects the given label from another bot.
+     * 
+     * @param botToProgram The bot to install the program into.
+     * @param taskList The list of commands to execute.
+     * @param targetLabelToReach The target label the bot is going to look for by detection.
+     * @param detectionDistance
+     */
+    public void createLabelProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, String labelToDetect, double detectionDistance);
 }

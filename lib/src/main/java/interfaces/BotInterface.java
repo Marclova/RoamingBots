@@ -1,9 +1,13 @@
 package interfaces;
 
+import java.util.ArrayList;
+
 /**
  * Interface for bots' base behavior
  */
-public interface BotInterface {
+public interface BotInterface<B extends BotInterface<B>> {
+
+    public ArrayList<ProgramInterface<B>> getProgramList();
 
     //coordinates (getters and setters)
     public double getXPosition();
@@ -15,14 +19,20 @@ public interface BotInterface {
     public double getXVector();
     public double getYVector();
     public double getSpeed();
+    public double getMovementTimer();
+    public String getFollowingLabel();
+    public double getFollowingDistance();
     public void setXVector(double xVector);
     public void setYVector(double yVector);
     public void setSpeed(double speed);
+    public void setMovementTimer(double seconds);
+    public void setFollowingLabel(String labelToFollow);
+    public void setFollowingDistance(double followingDistance);
 
     //signal emission
     public String getSignalLabel();
     public boolean IsEmittingSignal();
-    public void setSignalLabel(String label);
+    public void setSignalLabel(String labelToEmit);
     public void setEmittingSignal(boolean isEmitting);
     
 
@@ -36,7 +46,7 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean move(double x, double y, double speed);
+    public boolean setMove(double x, double y, double speed);
 
     /**
      * Sets the bot in a random direction based on the given interval at the given velocity
@@ -49,33 +59,25 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean moveRandom(double x1, double y1, double x2, double y2, double speed);
-
-    /**
-     * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.
-     * 
-     * @param label The label identifier to set.
-     * @return True if the signal has been started or changed. False if there are no changes.
-     */
-    public boolean signalLabel(String label);
-
-    /**
-     * Sets the bot's "emitSignal" flag to false.
-     * 
-     * @return True if the "emitSignal" flag has been changed. False if it was already set on false.
-     */
-    public boolean unsignalLabel();
+    public boolean setMoveRandom(double x1, double y1, double x2, double y2, double speed);
 
     /**
      * Sets the bot in a direction so that following one ore more bots within the given distance
-     *      which is emitting the corresponding label.
+     *      which is emitting the corresponding label for one simulation cycle.
      * 
      * @param Label The label identifier to find.
      * @param dist The distance within research.
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean follow(String Label, double dist, double speed);
+    public boolean setFollow(String Label, double dist, double speed, ArrayList<B> botList);
+
+    /**
+     * Checks if the bot is currently detecting the label that it is supposed to follow.
+     * 
+     * @return True if the "followingLabel" has been detected in range. False otherwise.
+     */
+    public boolean getFollowingLabelDetection(ArrayList<B> botList);
 
     /**
      * Sets a time limit for the current bot's motion.
@@ -83,7 +85,7 @@ public interface BotInterface {
      * @param seconds In-simulation time before the bot stops.
      * @return True if the time limit has been set or updated. False if the bot is already stopped.
      */
-    public boolean continueMotion(double seconds);
+    public boolean setContinueMotion(double seconds);
 
     /**
      * Stops the current bot's motion settings.
@@ -91,4 +93,19 @@ public interface BotInterface {
      * @return True if the bot has been stopped. False if the bot was already stopped.
      */
     public boolean stopMotion();
+
+    /**
+     * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.
+     * 
+     * @param label The label identifier to set.
+     * @return True if the signal has been started or changed. False if there are no changes.
+     */
+    public boolean startEmittingSignalLabel(String label);
+
+    /**
+     * Sets the bot's "emitSignal" flag to false.
+     * 
+     * @return True if the "emitSignal" flag has been changed. False if it was already set on false.
+     */
+    public boolean unsignalLabel();
 }
