@@ -5,9 +5,9 @@ import java.util.ArrayList;
 /**
  * Interface for bots' base behavior
  */
-public interface BotInterface<B extends BotInterface<B>> {
+public interface BotInterface {
 
-    public ArrayList<ProgramInterface<B>> getProgramList();
+    public ArrayList<ProgramInterface> getProgramList();
 
     //coordinates (getters and setters)
     public double getXPosition();
@@ -70,14 +70,14 @@ public interface BotInterface<B extends BotInterface<B>> {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean setFollow(String Label, double dist, double speed, ArrayList<B> botList);
+    public boolean setFollow(String Label, double dist, double speed, ArrayList<BotInterface> botList);
 
     /**
      * Checks if the bot is currently detecting the label that it is supposed to follow.
      * 
      * @return True if the "followingLabel" has been detected in range. False otherwise.
      */
-    public boolean getFollowingLabelDetection(ArrayList<B> botList);
+    public boolean getFollowingLabelDetection(ArrayList<BotInterface> botList);
 
     /**
      * Sets a time limit for the current bot's motion.

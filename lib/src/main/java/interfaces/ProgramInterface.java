@@ -3,16 +3,17 @@ package interfaces;
 import java.util.ArrayList;
 
 import enumerations.ProgramTypesEnum;
+import functionalInterfaces.BotCommand;
 
 /**
  * Contains the list of tasks to execute in every simulation cycle and the number of repetitions.
  * 
  * A program's "taskList" can contain other objects commands. //TODO Rewrite this documentation
  */
-public interface ProgramInterface<B extends BotInterface<B>> {
+public interface ProgramInterface {
 
     //getters
-    public ArrayList<Runnable> getTaskList();
+    public ArrayList<BotCommand> getTaskList();
     public ProgramTypesEnum getProgramType();
 
     //condition parameters (getters and setters)

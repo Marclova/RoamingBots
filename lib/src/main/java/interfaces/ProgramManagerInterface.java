@@ -7,7 +7,7 @@ import functionalInterfaces.BotCommand;
 /**
  * Creates and manages all the bot's programs.
  */
-public interface ProgramManagerInterface<B extends BotInterface<B>> {
+public interface ProgramManagerInterface<B extends BotInterface> {
     
     // //getters and setters
     public SimulationManagerInterface<B> getSimulationManager();
@@ -36,7 +36,7 @@ public interface ProgramManagerInterface<B extends BotInterface<B>> {
      * @param taskList The list of bots' tasks to execute.
      * @param repetitions The program's number of simulation cycle of life (counter value).
      */
-    public void createRepeatingProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, int repetitions);
+    public void createRepeatingProgram(B botToProgram, ArrayList<BotCommand> taskList, int repetitions);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -45,7 +45,7 @@ public interface ProgramManagerInterface<B extends BotInterface<B>> {
      * @param botToProgram The bot to install the program into.
      * @param taskList The list of bots' tasks to execute.
      */
-    public void createInfiniteProgram(B botToProgram, ArrayList<BotCommand<B>> taskList);
+    public void createInfiniteProgram(B botToProgram, ArrayList<BotCommand> taskList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -55,7 +55,7 @@ public interface ProgramManagerInterface<B extends BotInterface<B>> {
      * @param taskList The list of commands to execute.
      * @param targetLabelToReach The target label the bot is going to look for.
      */
-    public void createTargetProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, String targetLabelToReach);
+    public void createTargetProgram(B botToProgram, ArrayList<BotCommand> taskList, String targetLabelToReach);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -66,5 +66,5 @@ public interface ProgramManagerInterface<B extends BotInterface<B>> {
      * @param targetLabelToReach The target label the bot is going to look for by detection.
      * @param detectionDistance
      */
-    public void createLabelProgram(B botToProgram, ArrayList<BotCommand<B>> taskList, String labelToDetect, double detectionDistance);
+    public void createLabelProgram(B botToProgram, ArrayList<BotCommand> taskList, String labelToDetect, double detectionDistance);
 }

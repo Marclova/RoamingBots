@@ -8,7 +8,7 @@ import interfaces.BotInterface;
  * Interface for classes which implement outer borders and
  *      need to manage bots interacting with said borders.
  */
-public interface HasBorders<B extends BotInterface<B>> {
+public interface HasBorders {
     
     //getters and setters
     public double getLowerX();
@@ -27,5 +27,5 @@ public interface HasBorders<B extends BotInterface<B>> {
      * @param botList The botList in which bots may be going too far.
      * @return A modified disposition where the borders problem is solved.
      */
-    public ArrayList<BotInterface<B>> manageBotsOnBorders(ArrayList<BotInterface<B>> botList);
+    public ArrayList<BotInterface> manageBotsOnBorders(ArrayList<BotInterface> botList);
 }

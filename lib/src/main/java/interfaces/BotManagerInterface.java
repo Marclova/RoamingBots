@@ -6,7 +6,7 @@ package interfaces;
  * The class extending this interface will have the responsibility to create and move bots
  *      within the simulation area.  
  */
-public interface BotManagerInterface<B extends BotInterface<B>> {
+public interface BotManagerInterface<B extends BotInterface> {
 
     //getters and setters
     public <S extends SimulationManagerInterface<B>> S getSimulationManager();
