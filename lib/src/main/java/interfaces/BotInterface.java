@@ -16,14 +16,12 @@ public interface BotInterface {
     public void setYPosition(double yCoordinate);
 
     //direction and speed (getters and setters)
-    public double getXVector();
-    public double getYVector();
+    public double getDirectionAngle();  //0° = right, 90° = up, 180° = left, 270° = down
     public double getSpeed();
     public double getMovementTimer();
     public String getFollowingLabel();
     public double getFollowingDistance();
-    public void setXVector(double xVector);
-    public void setYVector(double yVector);
+    public void setDirectionAngle(double degrees);
     public void setSpeed(double speed);
     public void setMovementTimer(double seconds);
     public void setFollowingLabel(String labelToFollow);
@@ -37,8 +35,7 @@ public interface BotInterface {
     
 
     /**
-     * Sets the bot in a direction indicated by the x and y values at the given velocity
-     *      for one simulation cycle.
+     * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
      * At least one of the two parameters x and y must be different from 0.
      * 
      * @param x The x vector for movement direction (value between -1 and 1)
@@ -49,8 +46,7 @@ public interface BotInterface {
     public boolean setMove(double x, double y, double speed);
 
     /**
-     * Sets the bot in a random direction based on the given interval at the given velocity
-     *      for one simulation cycle.
+     * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
      * 
      * @param x1 The lower value of the x vector's for the interval (value between -1 and 1)
      * @param y1 The lower value of the y vector's for the interval (value between -1 and 1)
@@ -62,7 +58,7 @@ public interface BotInterface {
     public boolean setMoveRandom(double x1, double y1, double x2, double y2, double speed);
 
     /**
-     * Sets the bot in a direction so that following one ore more bots within the given distance
+     * Sets the bot in a direction so that following one or more bots within the given distance
      *      which is emitting the corresponding label for one simulation cycle.
      * 
      * @param Label The label identifier to find.
@@ -77,7 +73,7 @@ public interface BotInterface {
      * 
      * @return True if the "followingLabel" has been detected in range. False otherwise.
      */
-    public boolean getFollowingLabelDetection(ArrayList<BotInterface> botList);
+    public boolean isDetectingLabelToFollow(ArrayList<BotInterface> botList);
 
     /**
      * Sets a time limit for the current bot's motion.
@@ -93,6 +89,14 @@ public interface BotInterface {
      * @return True if the bot has been stopped. False if the bot was already stopped.
      */
     public boolean stopMotion();
+
+    /**
+     * Moves the bot depending on its own settings.
+     * 
+     * @param movementTime The time given to move.
+     * @return True if the bot has moved.
+     */
+    public boolean proceed(double movementTime);
 
     /**
      * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.

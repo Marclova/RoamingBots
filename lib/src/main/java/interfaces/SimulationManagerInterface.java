@@ -5,15 +5,15 @@ import java.util.ArrayList;
 /**
  * It contains and executes all the elements of the simulation.
  */
-public interface SimulationManagerInterface<B extends BotInterface> { //TODO finish defining interface
+public interface SimulationManagerInterface { //TODO finish defining interface
 
     //Getters and setters
-    public ArrayList<B> getBotList();
+    public ArrayList<BotInterface> getBotList();
     public ArrayList<? extends CartesianArea> getTargetList();
-    public BotManagerInterface<B> getBotManager();
-    public ProgramManagerInterface<B> getProgramManager();
-    public void setBotManager(BotManagerInterface<B> botM);
-    public void setProgramManager(ProgramManagerInterface<B> progM);
+    public BotManagerInterface getBotManager();
+    public ProgramManagerInterface getProgramManager();
+    public void setBotManager(BotManagerInterface botM);
+    public void setProgramManager(ProgramManagerInterface progM);
 
     //Duration of a simulation cycle expressed in seconds (getters and setters)
     public double getExecutionTimeCycle();
@@ -24,7 +24,7 @@ public interface SimulationManagerInterface<B extends BotInterface> { //TODO fin
      *      The eventual old botManager will be deleted by the garbage collector.
      * @param botM The botManager to set.
      */
-    public void createBotManager(BotManagerInterface<B> botM);
+    public void createBotManager(BotManagerInterface botM);
 
     /**
      * Initialize a new programManager and sets it as parameter.
@@ -32,7 +32,7 @@ public interface SimulationManagerInterface<B extends BotInterface> { //TODO fin
      * 
      * @param progM The programManager to set.
      */
-    public void createProgramManager(ProgramManagerInterface<B> progM);
+    public void createProgramManager(ProgramManagerInterface progM);
 
     /**
      * Adds the given cartesian shape into the "targetList".
@@ -57,7 +57,7 @@ public interface SimulationManagerInterface<B extends BotInterface> { //TODO fin
      * @param bot The bot to add
      * @return  True if the bot is correctly created. False otherwise.
      */
-    public boolean createBot(B botToAdd);
+    public boolean createBot(BotInterface botToAdd);
 
     /**
      * Adds the given bots into the "botList"
@@ -65,7 +65,7 @@ public interface SimulationManagerInterface<B extends BotInterface> { //TODO fin
      * @param botListToAdd The bot list to add
      * @return True if the bots are correctly created. False otherwise.
      */
-    public boolean createBot(ArrayList<B> botListToAdd);
+    public boolean createBot(ArrayList<BotInterface> botListToAdd);
 
     /**
      * Created a given quantity of bots with random coordinates
