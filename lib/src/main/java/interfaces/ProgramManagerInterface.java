@@ -9,12 +9,9 @@ import functionalInterfaces.BotCommand;
  */
 public interface ProgramManagerInterface {
     
-    // //getters and setters
+    //getters and setters
     public SimulationManagerInterface getSimulationManager();
     public void setSimulationManager(SimulationManagerInterface simM);
-
-    // public ArrayList<ProgramInterface<B>> getProgramList();
-    // public ArrayList<? extends CartesianArea> getTargetList();
 
     
     /**

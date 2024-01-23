@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * It contains and executes all the elements of the simulation.
  */
-public interface SimulationManagerInterface { //TODO finish defining interface
+public interface SimulationManagerInterface {
 
     //Getters and setters
     public ArrayList<BotInterface> getBotList();
