@@ -93,7 +93,7 @@ public interface BotInterface {
     /**
      * Moves the bot depending on its own settings.
      * 
-     * @param movementTime The time given to move.
+     * @param movementTime The time given to move (0 < value <= 1).
      * @return True if the bot has moved.
      */
     public boolean proceed(double movementTime);
@@ -111,5 +111,5 @@ public interface BotInterface {
      * 
      * @return True if the "emitSignal" flag has been changed. False if it was already set on false.
      */
-    public boolean unsignalLabel();
+    public boolean stopEmittingSignalLabel();
 }
