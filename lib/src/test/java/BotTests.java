@@ -15,35 +15,65 @@ import interfaces.BotInterface;
 public class BotTests {
     
     @Test
+    public void illegalArgumentTests() {
+
+        BotInterface bot = new Bot(0, 0);
+        assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(361);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(0);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMovementTimer(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setFollowingDistance(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(0, 0, -1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(-1, 1, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(-10, 10, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(0, 0, 0, 0, -1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(1, 1, -1, -1, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(-10, -10, 10, 10, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setFollow(null, 0, 0, null);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("", -1, -1, new ArrayList<BotInterface>());});
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabelToFollow(null);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setContinueMotion(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
+    }
+
+    @Test
     public void gettersAndSetters()
     {
         String rightLabel = "rightLabel";
-        BotInterface searchingBot = new Bot(0, 0);
+        BotInterface bot = new Bot(0, 0);
+
+        assertFalse(bot.IsEmittingSignal());
+        assertEquals("", bot.getSignalLabel());
+        assertEquals("", bot.getFollowingLabel());
+        bot.startEmittingSignalLabel(rightLabel);
+        bot.setFollowingLabel(rightLabel);
+        bot.setFollowingDistance(3);
+        bot.setDirectionAngle(90);
+        bot.setContinueMotion(10);
+
+        assertTrue(bot.IsEmittingSignal());
+        assertEquals(rightLabel, bot.getSignalLabel());
+        assertEquals(rightLabel, bot.getFollowingLabel());
+        assertTrue(3 == bot.getFollowingDistance());
+        assertTrue(90 == bot.getDirectionAngle());
+        assertTrue(10 == bot.getMovementTimer());
+        assertFalse(bot.proceed(1));
+        assertTrue(0.0 == bot.getXPosition() && 0.0 == bot.getYPosition());
+
+        bot.setSpeed(1);
         
-        assertFalse(searchingBot.IsEmittingSignal());
-        assertEquals("", searchingBot.getSignalLabel());
-        assertEquals("", searchingBot.getFollowingLabel());
-        searchingBot.startEmittingSignalLabel(rightLabel);
-        searchingBot.setFollowingLabel(rightLabel);
-        searchingBot.setFollowingDistance(3);
-        searchingBot.setDirectionAngle(30);
+        assertTrue(bot.proceed(1));
+        assertTrue(0.0 == bot.getXPosition() && 1.0 == bot.getYPosition());
+        assertTrue(bot.proceed(1));
 
-        assertTrue(searchingBot.IsEmittingSignal());
-        assertEquals(rightLabel, searchingBot.getSignalLabel());
-        assertEquals(rightLabel, searchingBot.getFollowingLabel());
-        assertTrue(3 == searchingBot.getFollowingDistance());
-        assertTrue(30 == searchingBot.getDirectionAngle());
+        bot.stopEmittingSignalLabel();
+        bot.stopMotion();
 
-
-        assertThrows(IllegalArgumentException.class, () -> {searchingBot.setMove(0, 0, 0);});
-        assertThrows(IllegalArgumentException.class, () -> {searchingBot.setMove(-1, 1, -1);});
-        assertThrows(IllegalArgumentException.class, () -> {searchingBot.setMove(-1, 1, 0);});
-        assertFalse(searchingBot.proceed(1));
-        assertTrue(225 == searchingBot.getDirectionAngle());
-        assertTrue(0.0 == searchingBot.getXPosition() && 0.0 == searchingBot.getYPosition());
-        assertTrue(1 == searchingBot.getMovementTimer());
-        searchingBot.setContinueMotion(10);
-        assertTrue(10 == searchingBot.getMovementTimer());
+        assertFalse(bot.IsEmittingSignal());
+        assertEquals("", bot.getSignalLabel());
+        assertFalse(bot.proceed(1));
     }
 
     @Test
@@ -72,6 +102,7 @@ public class BotTests {
         assertTrue(searchingBot.isDetectingLabelToFollow(botList));
     }
 
+    @Test
     public void movementTests() {
 
         BotInterface movingBot = new Bot(0, 0);
@@ -109,5 +140,18 @@ public class BotTests {
                     0.89 == new BigDecimal(movingBot.getYPosition())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
+    }
+
+    @Test
+    public void randomMovementTests() {
+
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        botList.add(new Bot(0, 0));
+        botList.add(new Bot(0, 0));
+        botList.add(new Bot(0, 0));
+
+        for (BotInterface bot : botList) {
+            bot.setMoveRandom(-1, -1, 1, 1, 0);
+        }
     }
  }
