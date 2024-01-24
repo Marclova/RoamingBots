@@ -19,7 +19,7 @@ public class BotTests {
 
         BotInterface bot = new Bot(0, 0);
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(-1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(361);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(360);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(0);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setMovementTimer(-1);});
@@ -146,12 +146,18 @@ public class BotTests {
     public void randomMovementTests() {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
-        botList.add(new Bot(0, 0));
-        botList.add(new Bot(0, 0));
-        botList.add(new Bot(0, 0));
+        for (int i = 0; i < 10; i++) {
+            botList.add(new Bot(0, 0));
+        }
 
         for (BotInterface bot : botList) {
-            bot.setMoveRandom(-1, -1, 1, 1, 0);
+            bot.setMoveRandom(-1, -1, 1, 1, 1);
+            assertTrue(bot.getXPosition() < -1 && bot.getXPosition() > 1 &&
+                        bot.getYPosition() < -1 && bot.getYPosition() > 1); //It will happen extremely unlikely by chance in case of malfunction
         }
+
+        assertFalse(botList.get(0).getXPosition() == botList.get(1).getXPosition() &&
+                    botList.get(0).getXPosition() == botList.get(2).getXPosition() &&
+                    botList.get(0).getXPosition() == botList.get(3).getXPosition());  //It will happen extremely unlikely by chance in case of malfunction
     }
  }
