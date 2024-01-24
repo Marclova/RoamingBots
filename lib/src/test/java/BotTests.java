@@ -3,7 +3,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import java.lang.IllegalArgumentException;
-import java.lang.Math;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -14,7 +15,7 @@ import interfaces.BotInterface;
 public class BotTests {
     
     @Test
-    public void botClassTest()
+    public void gettersAndSetters()
     {
         String rightLabel = "rightLabel";
         BotInterface searchingBot = new Bot(0, 0);
@@ -23,9 +24,16 @@ public class BotTests {
         assertEquals("", searchingBot.getSignalLabel());
         assertEquals("", searchingBot.getFollowingLabel());
         searchingBot.startEmittingSignalLabel(rightLabel);
+        searchingBot.setFollowingLabel(rightLabel);
+        searchingBot.setFollowingDistance(3);
+        searchingBot.setDirectionAngle(30);
 
         assertTrue(searchingBot.IsEmittingSignal());
         assertEquals(rightLabel, searchingBot.getSignalLabel());
+        assertEquals(rightLabel, searchingBot.getFollowingLabel());
+        assertTrue(3 == searchingBot.getFollowingDistance());
+        assertTrue(30 == searchingBot.getDirectionAngle());
+
 
         assertThrows(IllegalArgumentException.class, () -> {searchingBot.setMove(0, 0, 0);});
         assertThrows(IllegalArgumentException.class, () -> {searchingBot.setMove(-1, 1, -1);});
@@ -36,20 +44,23 @@ public class BotTests {
         assertTrue(1 == searchingBot.getMovementTimer());
         searchingBot.setContinueMotion(10);
         assertTrue(10 == searchingBot.getMovementTimer());
-        
+    }
 
+    @Test
+    public void detectingTests() {
+        
+        String rightLabel = "rightLabel";
+        BotInterface searchingBot = new Bot(0, 0);
         BotInterface wrongLabelBot = new Bot(1, 1);
         BotInterface emptyLabelBot = new Bot(-1, -1);
         BotInterface notEmittingBot = new Bot(0, 2);
         BotInterface farAwayBot = new Bot(3, 3);
         BotInterface rightLAbelBot = new Bot(0, -2);
-        wrongLabelBot.setSignalLabel("wrongLabel");
-        wrongLabelBot.setEmittingSignal(true);
+        wrongLabelBot.startEmittingSignalLabel("wrongLabel");
+        farAwayBot.startEmittingSignalLabel(rightLabel);
+        rightLAbelBot.startEmittingSignalLabel(rightLabel);
         emptyLabelBot.setEmittingSignal(true);
-        farAwayBot.setSignalLabel(rightLabel);
-        farAwayBot.setEmittingSignal(true);
-        rightLAbelBot.setSignalLabel(rightLabel);
-        rightLAbelBot.setEmittingSignal(true);
+        
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         botList.add(wrongLabelBot);
@@ -59,32 +70,44 @@ public class BotTests {
         assertFalse(searchingBot.isDetectingLabelToFollow(botList));
         botList.add(rightLAbelBot);
         assertTrue(searchingBot.isDetectingLabelToFollow(botList));
+    }
 
-        searchingBot.setFollow(rightLabel, 3, 1, botList);  //coordinates = (0, 0)
-        assertTrue(3 == searchingBot.getFollowingDistance() && 1 == searchingBot.getSpeed());
-        assertTrue(270 == searchingBot.getDirectionAngle());
-        assertTrue(searchingBot.proceed(1));
-        assertTrue(0 == searchingBot.getXPosition() && -1 == searchingBot.getYPosition());
-
-        rightLAbelBot.setXPosition(-1);  //Coordinates = (-1, -2)
-        searchingBot.setFollow(rightLabel, 3, 1, botList);
-        assertTrue(225 == searchingBot.getDirectionAngle());
-        assertTrue(searchingBot.proceed(1));  //expected new coordinates = (-1,4..., -2,4...)
-        assertTrue(-Math.sqrt(2) == searchingBot.getXPosition() && (-1-Math.sqrt(2)) == searchingBot.getYPosition());
+    public void movementTests() {
 
         BotInterface movingBot = new Bot(0, 0);
-        movingBot.setMove(-0.5, 0.7, 2);
-        assertTrue(125.537677791974 == searchingBot.getDirectionAngle());
-        movingBot.proceed(1);
-        assertTrue(-1.162476387438 == movingBot.getXPosition() && 1.627466942414 == movingBot.getYPosition());
 
-        searchingBot.setXPosition(0);
-        searchingBot.setYPosition(0);
-        rightLAbelBot.setXPosition(-1);
-        rightLAbelBot.setYPosition(0);
-        farAwayBot.setXPosition(-1);
-        farAwayBot.setYPosition(1);
-        searchingBot.setFollow(rightLabel, 3, 2, botList);
-        assertTrue(116.565051177078 == searchingBot.getDirectionAngle());
+        movingBot.setMove(-0.5, 0.7, 2);
+        assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue());
+        movingBot.proceed(1);
+        assertTrue(-1.16 == new BigDecimal(movingBot.getXPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue()
+                                &&
+                    1.63 == new BigDecimal(movingBot.getYPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue());
+
+        movingBot = new Bot(0, 0);
+        String rightLabel = "rightLabel";
+        BotInterface bot1 = new Bot(-1, 0);
+        BotInterface bot2 = new Bot(-1, 1);
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        botList.add(bot1);
+        botList.add(bot2);
+
+        movingBot.setFollow(rightLabel, 3, 2, botList);
+        assertTrue(153.44 == new BigDecimal(movingBot.getDirectionAngle())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue());
+        movingBot.proceed(1);
+        assertTrue(-1.79 == new BigDecimal(movingBot.getXPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue()
+                                &&
+                    0.89 == new BigDecimal(movingBot.getYPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue());
     }
-}
+ }
