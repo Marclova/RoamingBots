@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import enumerations.ProgramTypesEnum;
 import functionalInterfaces.BotCommand;
 
 /**
@@ -12,32 +11,14 @@ import functionalInterfaces.BotCommand;
  */
 public interface ProgramInterface {
 
-    //getters
+    //getters and setter
     public ArrayList<BotCommand> getTaskList();
-    public ProgramTypesEnum getProgramType();
-
-    //condition parameters (getters and setters)
-    public int getCounter();
-    public void setCounter(int counter);
-    public String getTargetLabelToCheck();
-
+    public boolean isExpired();
+    public void setExpiredFlag(boolean bool);
     
     /**
      * Executes once all the tasks in the "taskList".
-     * It acts differently depending on the type of program:
-     * 
-     * Repeat Program: Executes the task if the counter is grater than 0, decreasing it.
-     * Infinite Program: Executes the tasks without checking the counter nor the labelToCheck.
-     * Target Program: Executes the tasks until one of the bots' labels in the "botToCheckList"
-     *                  matches with the "labelToCheck".
-     *                  Otherwise the counter is set to 0 (turning into an expired Repeat Program).
+     * It acts differently depending on the type of program.
      */
     public void executeTasks();
-
-    // /**
-    //  * Checks if any bots in the "botToCheckList" has matching label with the "labelToCheck".
-    //  * 
-    //  * @return True if there's at least one bot with a matching label. False otherwise.
-    //  */
-    // public boolean checkTarget();
 }

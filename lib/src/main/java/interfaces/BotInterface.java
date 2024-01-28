@@ -73,7 +73,7 @@ public interface BotInterface {
      * 
      * @return True if the "followingLabel" has been detected in range. False otherwise.
      */
-    public boolean isDetectingLabelToFollow(ArrayList<BotInterface> botList);
+    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect);
 
     /**
      * Sets a time limit for the current bot's motion.

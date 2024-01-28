@@ -9,22 +9,22 @@ import functionalInterfaces.BotCommand;
  */
 public interface ProgramManagerInterface {
     
-    //getters and setters
-    public SimulationManagerInterface getSimulationManager();
-    public void setSimulationManager(SimulationManagerInterface simM);
+    // //getters and setters
+    // public SimulationManagerInterface getSimulationManager();
+    // public void setSimulationManager(SimulationManagerInterface simM);
 
     
     /**
      * Executes all the Programs' tasks.
      */
-    public void executePrograms();
+    public void executePrograms(ArrayList<BotInterface> botList);
 
     /**
      * Deletes all the Counter Programs whom counter value is 0,
      *      the Target Program whom bot has reached destination
      *      and all Label Program whom bot has detected the right label.
      */
-    public void deleteExpiredPrograms();
+    public void deleteExpiredPrograms(ArrayList<BotInterface> botList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.
