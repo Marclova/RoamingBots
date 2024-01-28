@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import classes.Bot;
+import classes.bots.Bot;
+import classes.bots.BotManager;
 import interfaces.BotInterface;
+import interfaces.BotManagerInterface;
 
 public class BotTests {
     
@@ -32,7 +34,7 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(-10, -10, 10, 10, 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow(null, 0, 0, null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("", -1, -1, new ArrayList<BotInterface>());});
-        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabelToFollow(null);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(null, "");});
         assertThrows(IllegalArgumentException.class, () -> {bot.setContinueMotion(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
@@ -97,9 +99,9 @@ public class BotTests {
         botList.add(emptyLabelBot);
         botList.add(notEmittingBot);
         botList.add(farAwayBot);
-        assertFalse(searchingBot.isDetectingLabelToFollow(botList));
+        assertFalse(searchingBot.isDetectingLabel(botList, rightLabel));
         botList.add(rightLAbelBot);
-        assertTrue(searchingBot.isDetectingLabelToFollow(botList));
+        assertTrue(searchingBot.isDetectingLabel(botList, rightLabel));
     }
 
     @Test
@@ -159,5 +161,39 @@ public class BotTests {
         assertFalse(botList.get(0).getXPosition() == botList.get(1).getXPosition() &&
                     botList.get(0).getXPosition() == botList.get(2).getXPosition() &&
                     botList.get(0).getXPosition() == botList.get(3).getXPosition());  //It will happen extremely unlikely by chance in case of malfunction
+    }
+
+    @Test
+    public void moveAllBotsTest() {
+
+        BotManagerInterface botManager = new BotManager();
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            botList.add(new Bot(0, 0));    
+        }
+        BotInterface bot1 = botList.get(0);
+        BotInterface bot2 = botList.get(1);
+        BotInterface bot3 = botList.get(2);
+        bot1.setMove(-1, 0, 1);
+        bot2.setMove(1, -0.6, 1);
+        bot3.setMove(-0.5, -0.99, 2);
+
+        botManager.moveAllBots(1, botList);
+
+        assertTrue(-1 == bot1.getXPosition() && 0 == bot1.getYPosition());
+        assertTrue(0.86 == new BigDecimal(bot2.getXPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue()
+                                && 
+                    -0.51 == new BigDecimal(bot2.getYPosition())
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue());
+        assertTrue(-0.90 == new BigDecimal(bot3.getXPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue()
+                                &&
+                    -1.79 == new BigDecimal(bot3.getYPosition())
+                                .setScale(2, RoundingMode.HALF_UP)
+                                .doubleValue());
     }
  }
