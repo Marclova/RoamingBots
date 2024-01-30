@@ -13,10 +13,8 @@ import classes.programs.LabelProgram;
 import classes.programs.TargetProgram;
 import classes.targets.Square;
 import functionalInterfaces.BotCommand;
-import interfaces.BotInterface;
 import interfaces.CartesianArea;
-import interfaces.ProgramInterface;
-import interfaces.ProgramManagerInterface;
+import interfaces.bots.BotInterface;
 
 public class ProgramTests {
 

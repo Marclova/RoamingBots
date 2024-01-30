@@ -1,6 +1,8 @@
-package interfaces;
+package interfaces.bots;
 
 import java.util.ArrayList;
+
+import interfaces.programs.ProgramInterface;
 
 /**
  * Interface for bots' base behavior

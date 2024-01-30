@@ -1,8 +1,10 @@
-package interfaces;
+package interfaces.programs;
 
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.CartesianArea;
+import interfaces.bots.BotInterface;
 
 /**
  * Creates and manages all the bot's programs.

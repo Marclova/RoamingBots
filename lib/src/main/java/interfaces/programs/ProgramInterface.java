@@ -1,8 +1,10 @@
-package interfaces;
+package interfaces.programs;
 
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.CartesianArea;
+import interfaces.bots.BotInterface;
 
 /**
  * Contains the list of tasks to execute in every simulation cycle and the number of repetitions.

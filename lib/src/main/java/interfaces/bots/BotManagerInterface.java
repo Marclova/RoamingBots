@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.bots;
 
 import java.util.ArrayList;
 
