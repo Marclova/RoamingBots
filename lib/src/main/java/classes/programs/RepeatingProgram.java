@@ -9,11 +9,11 @@ import interfaces.bots.BotInterface;
 /**
  * A program able to execute its tasks a limited amount of times
  */
-public class CounterProgram extends AbstractProgram {
+public class RepeatingProgram extends AbstractProgram {
 
     private int counter;
 
-    public CounterProgram(ArrayList<BotCommand> taskList, int counter) {
+    public RepeatingProgram(ArrayList<BotCommand> taskList, int counter) {
         super(taskList);
         this.counter = counter;
     }

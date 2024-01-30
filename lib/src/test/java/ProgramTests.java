@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import classes.bots.Bot;
-import classes.programs.CounterProgram;
+import classes.programs.RepeatingProgram;
 import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
 import classes.programs.TargetProgram;
@@ -25,13 +25,13 @@ public class ProgramTests {
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
-        CounterProgram counterProgram = new CounterProgram(taskList, 1);
+        RepeatingProgram counterProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
 
-        assertThrows(IllegalArgumentException.class, () -> {new CounterProgram(null, 0);});
-        assertThrows(IllegalArgumentException.class, () -> {new CounterProgram(taskList, -1);});
-        assertThrows(IllegalArgumentException.class, () -> {new CounterProgram(taskList, 0).setCounter(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(null, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, -1);});
+        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0).setCounter(-1);});
         assertThrows(IllegalArgumentException.class, () -> {counterProgram
                                                                     .isExpired(null, null, null);});
 
@@ -61,7 +61,7 @@ public class ProgramTests {
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
         botList.add(bot);
-        CounterProgram counterProgram = new CounterProgram(taskList, 1);
+        RepeatingProgram counterProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
 
@@ -91,7 +91,7 @@ public class ProgramTests {
         }
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((bot) -> bot.IsEmittingSignal());
-        CounterProgram counterProgram = new CounterProgram(taskList, 1);
+        RepeatingProgram counterProgram = new RepeatingProgram(taskList, 1);
         InfiniteProgram infiniteProgram = new InfiniteProgram(taskList);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 1);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
