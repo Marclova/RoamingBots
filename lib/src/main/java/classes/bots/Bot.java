@@ -2,8 +2,8 @@ package classes.bots;
 
 import java.util.ArrayList;
 
-import interfaces.BotInterface;
-import interfaces.ProgramInterface;
+import interfaces.bots.BotInterface;
+import interfaces.programs.ProgramInterface;
 
 public class Bot implements BotInterface {
 

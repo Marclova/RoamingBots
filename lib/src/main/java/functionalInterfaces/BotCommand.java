@@ -1,6 +1,6 @@
 package functionalInterfaces;
 
-import interfaces.BotInterface;
+import interfaces.bots.BotInterface;
 /**
  * Functional function used to use methods as parameters (functional programming).
  */

@@ -2,11 +2,11 @@ package classes;
 
 import java.util.ArrayList;
 
-import interfaces.BotInterface;
-import interfaces.BotManagerInterface;
 import interfaces.CartesianArea;
-import interfaces.ProgramManagerInterface;
 import interfaces.SimulationManagerInterface;
+import interfaces.bots.BotInterface;
+import interfaces.bots.BotManagerInterface;
+import interfaces.programs.ProgramManagerInterface;
 
 public class SimulationManager implements SimulationManagerInterface {
 

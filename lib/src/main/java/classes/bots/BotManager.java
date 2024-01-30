@@ -1,9 +1,10 @@
 package classes.bots;
 
-import interfaces.BotInterface;
-import interfaces.BotManagerInterface;
 // import interfaces.SimulationManagerInterface;
 import java.util.ArrayList;
+
+import interfaces.bots.BotInterface;
+import interfaces.bots.BotManagerInterface;
 
 public class BotManager implements BotManagerInterface {
 

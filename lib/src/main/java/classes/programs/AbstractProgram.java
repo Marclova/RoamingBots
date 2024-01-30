@@ -3,7 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.ProgramInterface;
+import interfaces.programs.ProgramInterface;
 
 /**
  * A generic program installed into a bot able to execute its own tasks

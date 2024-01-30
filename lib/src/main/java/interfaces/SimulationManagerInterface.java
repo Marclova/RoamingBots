@@ -2,6 +2,10 @@ package interfaces;
 
 import java.util.ArrayList;
 
+import interfaces.bots.BotInterface;
+import interfaces.bots.BotManagerInterface;
+import interfaces.programs.ProgramManagerInterface;
+
 /**
  * It contains and executes all the elements of the simulation.
  */

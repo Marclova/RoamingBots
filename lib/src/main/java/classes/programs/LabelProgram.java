@@ -3,8 +3,8 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.BotInterface;
 import interfaces.CartesianArea;
+import interfaces.bots.BotInterface;
 
 /**
  * A program that executes its tasks until the bot has detected the given signal label.

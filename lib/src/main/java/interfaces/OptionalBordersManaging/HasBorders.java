@@ -2,7 +2,7 @@ package interfaces.OptionalBordersManaging;
 
 import java.util.ArrayList;
 
-import interfaces.BotInterface;
+import interfaces.bots.BotInterface;
 
 /**
  * Interface for classes which implement outer borders and

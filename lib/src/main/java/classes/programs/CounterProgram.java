@@ -3,8 +3,8 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.BotInterface;
 import interfaces.CartesianArea;
+import interfaces.bots.BotInterface;
 
 /**
  * A program able to execute its tasks a limited amount of times

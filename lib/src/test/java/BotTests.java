@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import classes.bots.Bot;
 import classes.bots.BotManager;
-import interfaces.BotInterface;
-import interfaces.BotManagerInterface;
+import interfaces.bots.BotInterface;
+import interfaces.bots.BotManagerInterface;
 
 public class BotTests {
     
