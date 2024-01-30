@@ -7,7 +7,9 @@ import java.util.ArrayList;
  */
 public interface BotInterface {
 
-    public ArrayList<ProgramInterface> getProgramList();
+    public ArrayList<? extends ProgramInterface> getProgramList();
+    public <P extends ProgramInterface> void addProgram(P program);
+    public void removeFirstProgram();
 
     //coordinates (getters and setters)
     public double getXPosition();
@@ -19,18 +21,18 @@ public interface BotInterface {
     public double getDirectionAngle();  //0° = right, 90° = up, 180° = left, 270° = down
     public double getSpeed();
     public double getMovementTimer();
-    public String getFollowingLabel();
+    public String getLabelToFollow();
     public double getFollowingDistance();
     public void setDirectionAngle(double degrees);
     public void setSpeed(double speed);
     public void setMovementTimer(double seconds);
-    public void setFollowingLabel(String labelToFollow);
+    public void setLabelToFollow(String labelToFollow);
     public void setFollowingDistance(double followingDistance);
 
     //signal emission
-    public String getSignalLabel();
+    public String getLabelToEmit();
     public boolean IsEmittingSignal();
-    public void setSignalLabel(String labelToEmit);
+    public void setLabelToEmit(String labelToEmit);
     public void setEmittingSignal(boolean isEmitting);
     
 

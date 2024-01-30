@@ -3,6 +3,8 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.BotInterface;
+import interfaces.CartesianArea;
 
 /**
  * A program able to execute its tasks a limited amount of times
@@ -20,9 +22,14 @@ public class CounterProgram extends AbstractProgram {
         return this.counter;
     }
 
-    public void setCounter() {
+    public void setCounter(int n) {
         //TODO implement
         throw new UnsupportedOperationException("Unimplemented method 'setCounter'");
+    }
+
+    @Override
+    public boolean isExpired(BotInterface botToProgram, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList) {
+        return this.counter <= 0;
     }
 
     @Override

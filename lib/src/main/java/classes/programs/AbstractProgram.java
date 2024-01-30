@@ -11,7 +11,6 @@ import interfaces.ProgramInterface;
 public abstract class AbstractProgram implements ProgramInterface {
 
     private ArrayList<BotCommand> taskList;
-    private boolean expired = false;
 
     public AbstractProgram(ArrayList<BotCommand> taskList) {
         this.taskList = taskList;
@@ -20,16 +19,6 @@ public abstract class AbstractProgram implements ProgramInterface {
     @Override
     public ArrayList<BotCommand> getTaskList() {
         return this.taskList;
-    }
-
-    @Override
-    public boolean isExpired() {
-        return this.expired;
-    }
-
-    @Override
-    public void setExpiredFlag(boolean bool) {
-        this.expired = bool;
     }
 
     @Override

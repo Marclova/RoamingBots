@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
 import interfaces.BotInterface;
+import interfaces.CartesianArea;
 
 /**
  * A program that executes its tasks until the bot has detected the given signal label.
@@ -13,25 +14,20 @@ public class LabelProgram extends AbstractProgram{
     String labelToDetect;
     double detectingDistance;
 
-    public LabelProgram(ArrayList<BotCommand> taskList, String label) {
+    public LabelProgram(ArrayList<BotCommand> taskList, String label, double detectingDistance) {
         super(taskList);
         this.labelToDetect = label;
+        this.detectingDistance = detectingDistance;
     }
 
     public String getTargetToReach() {
         return this.labelToDetect;
     }
 
-    /**
-     * Checks if the bot can detect any other bot emitting the correct label signal within the detecting distance.
-     * 
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param botList The list of all existing bots (the current bot may be included).
-     */
-    public void checkLabel(double x, double y, ArrayList<BotInterface> botList) {
-        //TODO implement
-        throw new UnsupportedOperationException("Unimplemented method 'checkTarget'");
+    @Override
+    public boolean isExpired(BotInterface botToProgram, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isExpired'");
     }
 
     @Override

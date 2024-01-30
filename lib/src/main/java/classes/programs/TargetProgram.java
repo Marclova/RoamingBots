@@ -3,6 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.BotInterface;
 import interfaces.CartesianArea;
 
 /**
@@ -21,16 +22,10 @@ public class TargetProgram extends AbstractProgram{
         return this.targetToReach;
     }
 
-    /**
-     * Checks if the bot has reached a target with the right label
-     * 
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param targetList The list of all existing targets
-     */
-    public void checkTarget(double x, double y, ArrayList<CartesianArea> targetList) {
-        //TODO implement
-        throw new UnsupportedOperationException("Unimplemented method 'checkTarget'");
+    @Override
+    public boolean isExpired(BotInterface botToProgram, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isExpired'");
     }
 
     @Override

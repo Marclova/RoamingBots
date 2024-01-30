@@ -20,11 +20,14 @@ public interface ProgramManagerInterface {
     public void executePrograms(ArrayList<BotInterface> botList);
 
     /**
-     * Deletes all the Counter Programs whom counter value is 0,
+     * Deletes all the Counter Programs considered expired
      *      the Target Program whom bot has reached destination
      *      and all Label Program whom bot has detected the right label.
+     *
+     * @param botList List of all bots in the simulation plane
+     * @param targetList List of all the target area in the simulation plane
      */
-    public void deleteExpiredPrograms(ArrayList<BotInterface> botList);
+    public void deleteExpiredPrograms(ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.
