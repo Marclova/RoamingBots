@@ -1,8 +1,10 @@
 package functionalInterfaces;
 
 import interfaces.BotInterface;
-
+/**
+ * Functional function used to use methods as parameters (functional programming).
+ */
 @FunctionalInterface
 public interface BotCommand {
-    void execute(BotInterface bot, Object... parameters);
+    boolean execute(BotInterface bot);
 }

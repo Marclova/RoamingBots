@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public interface BotInterface {
 
-    public ArrayList<? extends ProgramInterface> getProgramList();
+    public ArrayList<ProgramInterface> getProgramList();
     public <P extends ProgramInterface> void addProgram(P program);
     public void removeFirstProgram();
 

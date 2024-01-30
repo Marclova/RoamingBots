@@ -1,4 +1,4 @@
-package classes;
+package classes.bots;
 
 import java.util.ArrayList;
 
@@ -9,14 +9,20 @@ public class Bot implements BotInterface {
 
     private ArrayList<ProgramInterface> programList = new ArrayList<>();
 
-    private double xPosition = 0;
-    private double yPosition = 0;
+    //position
+    private double xPosition;
+    private double yPosition;
 
+    //movement
     private double directionAngle = 0;
     private double speed = 0;
     private double movementTimer = 0;
-    private String followingLabel = "";
+    private String labelToFollow = "";
     private double followingDistance = 0;
+
+    //signal emission
+    boolean IsEmittingSignal = false;
+    String labelToEmit = "";
 
     public Bot(double xCoordinate, double yCoordinate) {
 
@@ -24,20 +30,71 @@ public class Bot implements BotInterface {
 
     @Override
     public ArrayList<ProgramInterface> getProgramList() {
+        return this.programList;
+    }
+
+    @Override
+    public <P extends ProgramInterface> void addProgram(P program) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProgramList'");
+        throw new UnsupportedOperationException("Unimplemented method 'addProgram'");
+    }
+
+    @Override
+    public void removeFirstProgram() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeFirstProgram'");
     }
 
     @Override
     public double getXPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getXPosition'");
+        return this.xPosition;
     }
 
     @Override
     public double getYPosition() {
+        return this.yPosition;
+    }
+
+    @Override
+    public double getDirectionAngle() {
+        return this.directionAngle;
+    }
+
+    @Override
+    public double getSpeed() {
+        return this.speed;
+    }
+
+    @Override
+    public double getMovementTimer() {
+        return this.movementTimer;
+    }
+
+    @Override
+    public String getLabelToFollow() {
+        return this.labelToFollow;
+    }
+
+    @Override
+    public double getFollowingDistance() {
+        return this.followingDistance;
+    }
+
+    @Override
+    public String getLabelToEmit() {
+        return this.labelToEmit;
+    }
+
+    @Override
+    public boolean IsEmittingSignal() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getYPosition'");
+        throw new UnsupportedOperationException("Unimplemented method 'IsEmittingSignal'");
+    }
+
+    @Override
+    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isDetectingLabelToFollow'");
     }
 
     @Override
@@ -50,36 +107,6 @@ public class Bot implements BotInterface {
     public void setYPosition(double yCoordinate) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setYPosition'");
-    }
-
-    @Override
-    public double getDirectionAngle() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDirectionAngle'");
-    }
-
-    @Override
-    public double getSpeed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSpeed'");
-    }
-
-    @Override
-    public double getMovementTimer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMovementTimer'");
-    }
-
-    @Override
-    public String getFollowingLabel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFollowingLabel'");
-    }
-
-    @Override
-    public double getFollowingDistance() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFollowingDistance'");
     }
 
     @Override
@@ -101,7 +128,7 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public void setFollowingLabel(String labelToFollow) {
+    public void setLabelToFollow(String labelToFollow) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setFollowingLabel'");
     }
@@ -113,19 +140,7 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public String getSignalLabel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSignalLabel'");
-    }
-
-    @Override
-    public boolean IsEmittingSignal() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'IsEmittingSignal'");
-    }
-
-    @Override
-    public void setSignalLabel(String labelToEmit) {
+    public void setLabelToEmit(String labelToEmit) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setSignalLabel'");
     }
@@ -152,12 +167,6 @@ public class Bot implements BotInterface {
     public boolean setFollow(String Label, double dist, double speed, ArrayList<BotInterface> botList) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setFollow'");
-    }
-
-    @Override
-    public boolean isDetectingLabelToFollow(ArrayList<BotInterface> botList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isDetectingLabelToFollow'");
     }
 
     @Override
@@ -189,5 +198,4 @@ public class Bot implements BotInterface {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'stopEmittingSignalLabel'");
     }
-    
 }
