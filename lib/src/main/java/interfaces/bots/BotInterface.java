@@ -9,7 +9,7 @@ import interfaces.programs.ProgramInterface;
  */
 public interface BotInterface {
 
-    public ArrayList<ProgramInterface> getProgramList();
+    public ArrayList<ProgramInterface> getProgramList(); //the first program is considered "active", while the other are in wait
     public <P extends ProgramInterface> void addProgram(P program);
     public void removeFirstProgram();
 

@@ -20,8 +20,12 @@ public class LabelProgram extends AbstractProgram{
         this.detectingDistance = detectingDistance;
     }
 
-    public String getTargetToReach() {
+    public String getLabelToDetect() {
         return this.labelToDetect;
+    }
+
+    public double getDetectingDistance() {
+        return this.detectingDistance;
     }
 
     @Override

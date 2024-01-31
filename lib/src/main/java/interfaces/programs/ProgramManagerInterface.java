@@ -2,6 +2,10 @@ package interfaces.programs;
 
 import java.util.ArrayList;
 
+import classes.programs.InfiniteProgram;
+import classes.programs.LabelProgram;
+import classes.programs.RepeatingProgram;
+import classes.programs.TargetProgram;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianArea;
 import interfaces.bots.BotInterface;
@@ -10,26 +14,24 @@ import interfaces.bots.BotInterface;
  * Creates and manages all the bot's programs.
  */
 public interface ProgramManagerInterface {
-    
-    // //getters and setters
-    // public SimulationManagerInterface getSimulationManager();
-    // public void setSimulationManager(SimulationManagerInterface simM);
-
-    
-    /**
-     * Executes all the Programs' tasks.
-     */
-    public void executePrograms(ArrayList<BotInterface> botList);
 
     /**
-     * Deletes all the Counter Programs considered expired
-     *      the Target Program whom bot has reached destination
-     *      and all Label Program whom bot has detected the right label.
-     *
-     * @param botList List of all bots in the simulation plane
-     * @param targetList List of all the target area in the simulation plane
+     * Removes the first program in the given bot's programList if this results expired.
+     * 
+     * @param bot   The given bot which program must be checked.
+     * @param botList   List of bots which programs must be executed.
+     * @param targetList    Parameter used for program expiration check.
      */
-    public void deleteExpiredPrograms(ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
+    public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
+
+    /**
+     * Executes all the active Program's tasks from the given bots.
+     * 
+     * @param botToCheck The given bot containing the program to check.
+     * @param botList   Parameter used for program expiration check.
+     * @param targetList    Parameter used for program expiration check.
+     */
+    public void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.
@@ -37,8 +39,9 @@ public interface ProgramManagerInterface {
      * @param botToProgram The bot to install the program into.
      * @param taskList The list of bots' tasks to execute.
      * @param repetitions The program's number of simulation cycle of life (counter value).
+     * @return The assigned program.
      */
-    public void createRepeatingProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList, int repetitions);
+    public RepeatingProgram createRepeatingProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList, int repetitions);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -47,7 +50,7 @@ public interface ProgramManagerInterface {
      * @param botToProgram The bot to install the program into.
      * @param taskList The list of bots' tasks to execute.
      */
-    public void createInfiniteProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList);
+    public InfiniteProgram createInfiniteProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -56,8 +59,9 @@ public interface ProgramManagerInterface {
      * @param botToProgram The bot to install the program into.
      * @param taskList The list of commands to execute.
      * @param targetLabelToReach The target label the bot is going to look for.
+     * @return The assigned program.
      */
-    public void createTargetProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList, String targetLabelToReach);
+    public TargetProgram createTargetProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList, String targetLabelToReach);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks
@@ -66,8 +70,9 @@ public interface ProgramManagerInterface {
      * @param botToProgram The bot to install the program into.
      * @param taskList The list of commands to execute.
      * @param targetLabelToReach The target label the bot is going to look for by detection.
-     * @param detectionDistance
+     * @param detectionDistance The distance within the bot will detect other bot's signal emission.
+     * @return The assigned program.
      */
-    public void createLabelProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList,
+    public LabelProgram createLabelProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList,
                                     String labelToDetect, double detectionDistance);
 }

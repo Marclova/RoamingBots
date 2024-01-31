@@ -21,6 +21,7 @@ public class BotTests {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
+        BotManager botManager = new BotManager();
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(360);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(0);});
@@ -45,6 +46,9 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel("");});
+
+        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(0, botList);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(1, null);});
     }
 
     @Test

@@ -1,3 +1,4 @@
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -10,16 +11,18 @@ import classes.bots.Bot;
 import classes.programs.RepeatingProgram;
 import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
+import classes.programs.ProgramManager;
 import classes.programs.TargetProgram;
 import classes.targets.Square;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianArea;
 import interfaces.bots.BotInterface;
+import interfaces.programs.ProgramManagerInterface;
 
 public class ProgramTests {
 
     @Test
-    public void illegalArgumentTests() {
+    public void programsIllegalArgumentTests() {
 
         ArrayList<CartesianArea> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
@@ -51,6 +54,41 @@ public class ProgramTests {
                                                                                 .isExpired(null, null, targetList);});
         assertThrows(IllegalArgumentException.class, () -> {targetProgram
                                                                                 .isExpired(bot, null, null);});
+    }
+
+    @Test
+    public void programManagerIllegalArgumentException() {
+
+        ProgramManagerInterface programManager = new ProgramManager();
+        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<BotCommand> taskList = new ArrayList<>();
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        BotInterface bot = new Bot(0, 0);
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(null, targetList);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(botList, null);});
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(null, botList, targetList);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, null, targetList);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, botList, null);});
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(bot, taskList, 0);});
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createInfiniteProgram(null, taskList);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createInfiniteProgram(bot, null);});
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(null, taskList, "label", 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, null, "label", 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, "", 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, null, 5);});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, "label", 0);});
+
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(null, taskList, "target");});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, null, "target");});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, taskList, "");});
+        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, taskList, null);});
     }
 
     @Test
@@ -103,5 +141,35 @@ public class ProgramTests {
         for (BotInterface bot : botList) {
             assertFalse(bot.getProgramList().get(0).getTaskList().get(0).execute(bot));
         }
+    }
+
+    @Test
+    public void programsCreationTests() {
+
+        ProgramManagerInterface programManager = new ProgramManager();
+        ArrayList<BotCommand> taskList = new ArrayList<>();
+        taskList.add((bot) -> bot.IsEmittingSignal());
+        BotInterface bot = new Bot(0, 0);
+
+        RepeatingProgram repeatingProgramToCheck = programManager.createRepeatingProgram(bot, taskList, 5);
+        assertEquals(bot.getProgramList().get(0), repeatingProgramToCheck);
+        assertEquals(taskList, repeatingProgramToCheck.getTaskList());
+        assertTrue(repeatingProgramToCheck.getCounter() == 5);
+
+        InfiniteProgram infiniteProgramToCheck = programManager.createInfiniteProgram(bot, taskList);
+        assertEquals(infiniteProgramToCheck, bot.getProgramList().get(1));
+        assertEquals(taskList, infiniteProgramToCheck.getTaskList());
+
+        LabelProgram labelProgramToCheck = programManager.createLabelProgram(bot, taskList, "label",
+                                                                                5);
+        assertEquals(labelProgramToCheck, bot.getProgramList().get(2));
+        assertEquals(taskList, labelProgramToCheck.getTaskList());
+        assertEquals(labelProgramToCheck.getLabelToDetect(), "label");
+        assertTrue(labelProgramToCheck.getDetectingDistance() == 5);
+
+        TargetProgram targetProgramToCheck = programManager.createTargetProgram(bot, taskList, "target");
+        assertEquals(targetProgramToCheck, bot.getProgramList().get(3));
+        assertEquals(taskList, labelProgramToCheck.getTaskList());
+        assertEquals(targetProgramToCheck.getTargetToReach(), "target");
     }
 }
