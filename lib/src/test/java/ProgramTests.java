@@ -28,32 +28,37 @@ public class ProgramTests {
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
-        RepeatingProgram counterProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
 
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(null, 0);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, -1);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0).setCounter(-1);});
-        assertThrows(IllegalArgumentException.class, () -> {counterProgram
-                                                                    .isExpired(null, null, null);});
 
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(null, "label", 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "", 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, null, 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "label", 0);});
         assertThrows(IllegalArgumentException.class, () -> {labelProgram
-                                                                            .isExpired(null, botList, null);});
+                                                                                .isExpired(null, botList);});
         assertThrows(IllegalArgumentException.class, () -> {labelProgram
-                                                                            .isExpired(bot, null, null);});
+                                                                                .isExpired(bot, null);});
+        // assertThrows(IllegalArgumentException.class, () -> {labelProgram
+        //                                                                         .checkLabel(null, botList);});
+        // assertThrows(IllegalArgumentException.class, () -> {labelProgram
+        //                                                                         .checkLabel(bot, null);});
 
         assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(null, "label");});
         assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(taskList, "");});
         assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(taskList, null);});
         assertThrows(IllegalArgumentException.class, () -> {targetProgram
-                                                                                .isExpired(null, null, targetList);});
+                                                                                .isExpired(null, targetList);});
         assertThrows(IllegalArgumentException.class, () -> {targetProgram
-                                                                                .isExpired(bot, null, null);});
+                                                                                .isExpired(bot, null);});
+        // assertThrows(IllegalArgumentException.class, () -> {targetProgram
+        //                                                                         .checkTarget(null, targetList);});
+        // assertThrows(IllegalArgumentException.class, () -> {targetProgram
+        //                                                                         .checkTarget(bot, null);});
     }
 
     @Test
@@ -103,21 +108,21 @@ public class ProgramTests {
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
 
-        assertFalse(counterProgram.isExpired(bot, null, null));
+        assertFalse(counterProgram.isExpired());
         counterProgram.setCounter(0);
-        assertTrue(counterProgram.isExpired(bot, null, null));
+        assertTrue(counterProgram.isExpired());
 
-        assertFalse(new InfiniteProgram(taskList).isExpired(null, null, null));
+        assertFalse(new InfiniteProgram(taskList).isExpired());
         
-        assertFalse(labelProgram.isExpired(bot, botList, null));
+        assertFalse(labelProgram.isExpired(bot, botList));
         BotInterface emittingBot = new Bot(2, 2);
         emittingBot.startEmittingSignalLabel("label");
         botList.add(emittingBot);
-        assertTrue(labelProgram.isExpired(bot, botList, null));
+        assertTrue(labelProgram.isExpired(bot, botList));
         
-        assertFalse(targetProgram.isExpired(bot, null, targetList));
+        assertFalse(targetProgram.isExpired(bot, targetList));
         targetList.add(new Square(-1, -1, 2, 2, "target"));
-        assertTrue(targetProgram.isExpired(bot, null, targetList));
+        assertTrue(targetProgram.isExpired(bot, targetList));
     }
 
     @Test

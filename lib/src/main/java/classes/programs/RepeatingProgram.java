@@ -3,13 +3,12 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianArea;
-import interfaces.bots.BotInterface;
+import interfaces.programs.ExpirationCheck;
 
 /**
  * A program able to execute its tasks a limited amount of times
  */
-public class RepeatingProgram extends AbstractProgram {
+public class RepeatingProgram extends AbstractProgram implements ExpirationCheck {
 
     private int counter;
 
@@ -28,13 +27,13 @@ public class RepeatingProgram extends AbstractProgram {
     }
 
     @Override
-    public boolean isExpired(BotInterface botToProgram, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList) {
-        return this.counter <= 0;
-    }
-
-    @Override
     public void executeTasks() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executeTasks'");
+    }
+
+    @Override
+    public boolean isExpired() {
+        return this.counter <= 0;
     }
 }
