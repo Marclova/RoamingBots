@@ -13,11 +13,11 @@ public class ProgramManager implements ProgramManagerInterface {
     public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList,
             ArrayList<CartesianArea> targetList) {
         // TODO Auto-generated method stub
+        this.executeBotProgram(null, botList, targetList);
         throw new UnsupportedOperationException("Unimplemented method 'deleteExpiredProgramsAndThenExecute'");
     }
 
-    @Override
-    public void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList,
+    private void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList,
             ArrayList<CartesianArea> targetList) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executeBotProgram'");

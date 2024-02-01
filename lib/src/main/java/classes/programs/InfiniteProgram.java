@@ -22,6 +22,6 @@ public class InfiniteProgram extends AbstractProgram implements ExpirationCheck 
 
     @Override
     public boolean isExpired() {
-        return false;
+        return this.getTaskList().isEmpty();
     }
 }

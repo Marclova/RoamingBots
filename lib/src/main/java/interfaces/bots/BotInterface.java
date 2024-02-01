@@ -47,7 +47,7 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean setMove(double x, double y, double speed);
+    public boolean setMove(double xVector, double yVector, double speed);
 
     /**
      * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
@@ -59,7 +59,7 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean setMoveRandom(double x1, double y1, double x2, double y2, double speed);
+    public boolean setMoveRandom(double xVector1, double yVector1, double xVector2, double yVector2, double speed);
 
     /**
      * Sets the bot in a direction so that following one or more bots within the given distance

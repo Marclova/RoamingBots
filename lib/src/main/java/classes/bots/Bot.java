@@ -152,13 +152,13 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public boolean setMove(double x, double y, double speed) {
+    public boolean setMove(double xVector, double yVector, double speed) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setMove'");
     }
 
     @Override
-    public boolean setMoveRandom(double x1, double y1, double x2, double y2, double speed) {
+    public boolean setMoveRandom(double xVector1, double yVector1, double xVector2, double yVector2, double speed) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setMoveRandom'");
     }

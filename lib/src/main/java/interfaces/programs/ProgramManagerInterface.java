@@ -24,14 +24,14 @@ public interface ProgramManagerInterface {
      */
     public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
 
-    /**
-     * Executes all the active Program's tasks from the given bots.
-     * 
-     * @param botToCheck The given bot containing the program to check.
-     * @param botList   Parameter used for program expiration check.
-     * @param targetList    Parameter used for program expiration check.
-     */
-    public void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
+    // /**
+    //  * Executes all the active Program's tasks from the given bots.
+    //  * 
+    //  * @param botToCheck The given bot containing the program to check.
+    //  * @param botList   Parameter used for program expiration check.
+    //  * @param targetList    Parameter used for program expiration check.
+    //  */
+    // public void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.

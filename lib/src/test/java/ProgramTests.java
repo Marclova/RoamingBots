@@ -35,6 +35,8 @@ public class ProgramTests {
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, -1);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0).setCounter(-1);});
 
+        assertThrows(IllegalArgumentException.class, () -> {new InfiniteProgram(null);});
+
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(null, "label", 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "", 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, null, 5);});
@@ -73,9 +75,9 @@ public class ProgramTests {
         assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(null, targetList);});
         assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(botList, null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(null, botList, targetList);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, null, targetList);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, botList, null);});
+        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(null, botList, targetList);});
+        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, null, targetList);});
+        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, botList, null);});
 
         assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
         assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
@@ -176,5 +178,33 @@ public class ProgramTests {
         assertEquals(targetProgramToCheck, bot.getProgramList().get(3));
         assertEquals(taskList, labelProgramToCheck.getTaskList());
         assertEquals(targetProgramToCheck.getTargetToReach(), "target");
+    }
+
+    @Test
+    public void programManagerExecutionTests() {
+
+        ProgramManagerInterface programManager = new ProgramManager();
+        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        ArrayList<BotCommand> taskList = new ArrayList<>();
+        BotInterface botToProgram = new Bot(0, 0);
+        botList.add(botToProgram);
+        taskList.add((bot) -> bot.setMove(0, 1, 1));
+        
+        programManager.createRepeatingProgram(botToProgram, taskList, 10); //sets movements for 1 second 10 times
+        
+        while (!botToProgram.getProgramList().isEmpty()) {
+            programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
+            botToProgram.proceed(1);
+        }
+        assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
+
+        taskList.add((bot) -> bot.setContinueMotion(10));
+        botToProgram = new Bot(0, 0);
+        programManager.createRepeatingProgram(botToProgram, taskList, 1); //sets movement for 10 seconds 1 time
+        programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
+        assertTrue(botToProgram.getProgramList().isEmpty());
+        botToProgram.proceed(20); //it just has 10 seconds of movement
+        assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
     }
 }
