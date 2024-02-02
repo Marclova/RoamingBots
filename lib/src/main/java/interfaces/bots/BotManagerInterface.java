@@ -8,10 +8,6 @@ import java.util.ArrayList;
  */
 public interface BotManagerInterface {
 
-    // //getters and setters
-    // public <S extends SimulationManagerInterface> S getSimulationManager();
-    // public void setSimulationManager(SimulationManagerInterface simM);
-
     /**
      * Moves the bots depending on their own orientation, speed and movementTimer.
      *      

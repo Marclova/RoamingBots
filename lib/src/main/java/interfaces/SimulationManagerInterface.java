@@ -21,22 +21,7 @@ public interface SimulationManagerInterface {
 
     //Duration of a simulation cycle expressed in seconds (getters and setters)
     public double getExecutionTimeCycle();
-    public void setExecutionTimeCycle();
-
-    /**
-     * Initialize a new botManager and sets it as parameter.
-     *      The eventual old botManager will be deleted by the garbage collector.
-     * @param botM The botManager to set.
-     */
-    public void createBotManager(BotManagerInterface botM);
-
-    /**
-     * Initialize a new programManager and sets it as parameter.
-     *      The eventual old programManager will be deleted by the garbage collector.
-     * 
-     * @param progM The programManager to set.
-     */
-    public void createProgramManager(ProgramManagerInterface progM);
+    public void setExecutionTimeCycle(double t);
 
     /**
      * Adds the given cartesian shape into the "targetList".
@@ -67,7 +52,7 @@ public interface SimulationManagerInterface {
      * Adds the given bots into the "botList"
      * 
      * @param botListToAdd The bot list to add
-     * @return True if the bots are correctly created. False otherwise.
+     * @return True if at least one the bots are correctly created. False otherwise.
      */
     public boolean createBot(ArrayList<BotInterface> botListToAdd);
 

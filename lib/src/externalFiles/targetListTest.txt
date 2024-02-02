@@ -1,0 +1,9 @@
+target Circle 2 2 3
+target NotExistingShape 1 2 3 4
+target Rectangle 0 0 2 2 useless txt
+
+Rectangle 0 0 1 1
+target Circle 0 0
+
+Just two shapes should be generated
+
