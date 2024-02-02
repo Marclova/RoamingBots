@@ -7,7 +7,7 @@ import classes.programs.LabelProgram;
 import classes.programs.RepeatingProgram;
 import classes.programs.TargetProgram;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 
 /**
@@ -22,7 +22,7 @@ public interface ProgramManagerInterface {
      * @param botList   List of bots which programs must be executed.
      * @param targetList    Parameter used for program expiration check.
      */
-    public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList, ArrayList<CartesianArea> targetList);
+    public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList, ArrayList<CartesianAreaInterface> targetList);
 
     // /**
     //  * Executes all the active Program's tasks from the given bots.

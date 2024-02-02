@@ -13,7 +13,7 @@ public interface SimulationManagerInterface {
 
     //Getters and setters
     public ArrayList<BotInterface> getBotList();
-    public ArrayList<? extends CartesianArea> getTargetList();
+    public ArrayList<? extends CartesianAreaInterface> getTargetList();
     public BotManagerInterface getBotManager();
     public ProgramManagerInterface getProgramManager();
     public void setBotManager(BotManagerInterface botM);
@@ -41,10 +41,10 @@ public interface SimulationManagerInterface {
     /**
      * Adds the given cartesian shape into the "targetList".
      * 
-     * @param target The target to add into the list.
+     * @param fileAddress The location of the file in the local file system.
      * @return True if the target has been successfully created. False otherwise.
      */
-    public <C extends CartesianArea> boolean createTarget(C target);
+    public boolean createTargetsFromTxtFile(String fileAddress);
 
     /**
      * Adds a robot with the given coordinates into the "botList"

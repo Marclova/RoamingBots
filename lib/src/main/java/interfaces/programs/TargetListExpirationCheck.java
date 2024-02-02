@@ -1,6 +1,6 @@
 package interfaces.programs;
 
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 
 import java.util.ArrayList;
@@ -14,5 +14,5 @@ public interface TargetListExpirationCheck {
      * @param targetList The list of all the target areas in the simulation plane.
      * @return True if the program results expired, False otherwise.
      */
-    public boolean isExpired(BotInterface botToCheck, ArrayList<CartesianArea> targetList);
+    public boolean isExpired(BotInterface botToCheck, ArrayList<CartesianAreaInterface> targetList);
 }

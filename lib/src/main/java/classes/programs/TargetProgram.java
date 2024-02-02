@@ -3,7 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 import interfaces.programs.TargetListExpirationCheck;
 
@@ -42,7 +42,7 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
     }
 
     @Override
-    public boolean isExpired(BotInterface botToCheck, ArrayList<CartesianArea> targetList) {
+    public boolean isExpired(BotInterface botToCheck, ArrayList<CartesianAreaInterface> targetList) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isExpired'");
     }

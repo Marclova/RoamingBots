@@ -2,7 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
@@ -17,7 +17,7 @@ public class SimulationManager implements SimulationManagerInterface {
     }
 
     @Override
-    public ArrayList<? extends CartesianArea> getTargetList() {
+    public ArrayList<? extends CartesianAreaInterface> getTargetList() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getTargetList'");
     }
@@ -71,7 +71,7 @@ public class SimulationManager implements SimulationManagerInterface {
     }
 
     @Override
-    public <C extends CartesianArea> boolean createTarget(C target) {
+    public boolean createTargetsFromTxtFile(String fileAddress) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createTarget'");
     }

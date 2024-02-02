@@ -5,7 +5,7 @@ package interfaces;
  * 
  * Parameters for the area dimension and shape are not provided.
  */
-public interface CartesianArea {
+public interface CartesianAreaInterface {
     
     //getters
     public double getXCoordinate();

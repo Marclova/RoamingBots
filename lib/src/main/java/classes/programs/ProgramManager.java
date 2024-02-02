@@ -3,7 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramManagerInterface;
 
@@ -11,14 +11,14 @@ public class ProgramManager implements ProgramManagerInterface {
 
     @Override
     public void deleteExpiredProgramsAndThenExecute(ArrayList<BotInterface> botList,
-            ArrayList<CartesianArea> targetList) {
+            ArrayList<CartesianAreaInterface> targetList) {
         // TODO Auto-generated method stub
         this.executeBotProgram(null, botList, targetList);
         throw new UnsupportedOperationException("Unimplemented method 'deleteExpiredProgramsAndThenExecute'");
     }
 
     private void executeBotProgram(BotInterface botToCheck, ArrayList<BotInterface> botList,
-            ArrayList<CartesianArea> targetList) {
+            ArrayList<CartesianAreaInterface> targetList) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executeBotProgram'");
     }

@@ -13,9 +13,9 @@ import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
 import classes.programs.ProgramManager;
 import classes.programs.TargetProgram;
-import classes.targets.Square;
+import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianArea;
+import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramManagerInterface;
 
@@ -24,7 +24,7 @@ public class ProgramTests {
     @Test
     public void programsIllegalArgumentTests() {
 
-        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
@@ -67,7 +67,7 @@ public class ProgramTests {
     public void programManagerIllegalArgumentException() {
 
         ProgramManagerInterface programManager = new ProgramManager();
-        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
@@ -101,7 +101,7 @@ public class ProgramTests {
     @Test
     public void expirationTests() {
 
-        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
@@ -123,7 +123,7 @@ public class ProgramTests {
         assertTrue(labelProgram.isExpired(bot, botList));
         
         assertFalse(targetProgram.isExpired(bot, targetList));
-        targetList.add(new Square(-1, -1, 2, 2, "target"));
+        targetList.add(new Rectangle(-1, -1, "target", 2, 2));
         assertTrue(targetProgram.isExpired(bot, targetList));
     }
 
@@ -184,7 +184,7 @@ public class ProgramTests {
     public void programManagerExecutionTests() {
 
         ProgramManagerInterface programManager = new ProgramManager();
-        ArrayList<CartesianArea> targetList = new ArrayList<>();
+        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         BotInterface botToProgram = new Bot(0, 0);
