@@ -46,9 +46,14 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel("");});
-
-        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(0, botList);});
-        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(1, null);});
+        
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((BotInterface)null);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((ArrayList<BotInterface>)null);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(0, -1, -1, 1, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, 1, -1, -1, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, -1, 1, 1, -1);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(0);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(1);});
     }
 
     @Test
@@ -87,6 +92,42 @@ public class BotTests {
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
         assertFalse(bot.proceed(1));
+    }
+
+    @Test
+    public void botCreationTests() {
+
+        ArrayList<BotInterface> botListToCheck;
+        BotInterface botToCheck;
+        BotManagerInterface botManager = new BotManager();
+        ArrayList<BotInterface> botList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            botList.add(new Bot(i, i));
+        }
+
+        botManager.createBot(botList);
+        assertEquals(botList, botManager.getBotList());
+        
+        botManager.createBot(6, 6);
+        botListToCheck = botManager.getBotList();
+        botToCheck = botListToCheck.get(botListToCheck.size()-1);
+        assertTrue(botToCheck.getXPosition() == 6 && botToCheck.getYPosition() == 6);
+
+        BotInterface botToInsert = new Bot(90, 90);
+        botManager.createBot(botToInsert);
+        assertTrue(botManager.getBotList().contains(botToInsert));
+
+        botManager = new BotManager();
+        botManager.createRandomBots(10, -10, -10, 10, 10);
+        botListToCheck = botManager.getBotList();
+        assertTrue(botListToCheck.size() == 10);
+        for (BotInterface bot : botListToCheck) {
+            assertTrue(bot.getXPosition() >= -10 && bot.getXPosition() <= 10 &&
+                        bot.getYPosition() >= -10 && bot.getYPosition() <= 10);
+        }
+        assertFalse(botListToCheck.get(0).getXPosition() == botListToCheck.get(1).getXPosition() &&
+                    botListToCheck.get(0).getXPosition() == botListToCheck.get(2).getXPosition() &&
+                    botListToCheck.get(0).getXPosition() == botListToCheck.get(3).getXPosition());  //It will happen extremely unlikely by chance in case of malfunction
     }
 
     @Test
@@ -189,7 +230,7 @@ public class BotTests {
         bot2.setMove(1, -0.6, 1);
         bot3.setMove(-0.5, -0.99, 2);
 
-        botManager.moveAllBots(1, botList);
+        botManager.moveAllBots(1);
 
         assertTrue(-1 == bot1.getXPosition() && 0 == bot1.getYPosition());
         assertTrue(0.86 == new BigDecimal(bot2.getXPosition())

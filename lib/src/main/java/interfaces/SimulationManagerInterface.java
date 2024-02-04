@@ -2,7 +2,6 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
@@ -12,7 +11,6 @@ import interfaces.programs.ProgramManagerInterface;
 public interface SimulationManagerInterface {
 
     //Getters and setters
-    public ArrayList<BotInterface> getBotList();
     public ArrayList<? extends CartesianAreaInterface> getTargetList();
     public BotManagerInterface getBotManager();
     public ProgramManagerInterface getProgramManager();
@@ -30,43 +28,6 @@ public interface SimulationManagerInterface {
      * @return True if the target has been successfully created. False otherwise.
      */
     public boolean createTargetsFromTxtFile(String fileAddress);
-
-    /**
-     * Adds a robot with the given coordinates into the "botList"
-     * 
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @return True if the bot is correctly created. False otherwise.
-     */
-    public boolean createBot(double x, double y);
-
-    /**
-     * Adds the given bot into the "botList"
-     * 
-     * @param bot The bot to add
-     * @return  True if the bot is correctly created. False otherwise.
-     */
-    public boolean createBot(BotInterface botToAdd);
-
-    /**
-     * Adds the given bots into the "botList"
-     * 
-     * @param botListToAdd The bot list to add
-     * @return True if at least one the bots are correctly created. False otherwise.
-     */
-    public boolean createBot(ArrayList<BotInterface> botListToAdd);
-
-    /**
-     * Created a given quantity of bots with random coordinates
-     * 
-     * @param quantity The amount of bots to create.
-     * @param x1 The lower x coordinate.
-     * @param y1 The lower y coordinate.
-     * @param x2 The higher x coordinate.
-     * @param y2 The higher y coordinate.
-     * @return True if all the bots are correctly created. False otherwise.
-     */
-    public boolean createRandomBots(int quantity, double x1, double y1, double x2, double y2);
 
     /**
      * Starts the simulation with the current settings for the given amount of time.
