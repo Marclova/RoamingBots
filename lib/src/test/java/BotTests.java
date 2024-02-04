@@ -11,47 +11,73 @@ import org.junit.Test;
 
 import classes.bots.Bot;
 import classes.bots.BotManager;
+import classes.containers.Coordinates;
+import classes.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 
 public class BotTests {
+
+    Coordinates positiveCoordinates = new Coordinates(1, 1);
+    Coordinates negativeCoordinates = new Coordinates(-1, -1);
+    Coordinates zeroCoordinates = new Coordinates(0, 0);
+    DirectionalVectors positiveVectors = new DirectionalVectors(1, 1);
+    DirectionalVectors negativeVectors = new DirectionalVectors(-1, -1);
+    DirectionalVectors zeroVectors = new DirectionalVectors(0, 0);
     
     @Test
-    public void illegalArgumentTests() {
+    public void botIllegalArgumentTests() {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
-        BotManager botManager = new BotManager();
+
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(360);});
+        
         assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(0);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setSpeed(-1);});
+        
         assertThrows(IllegalArgumentException.class, () -> {bot.setMovementTimer(-1);});
+
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollowingDistance(-1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(0, 0, -1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(-1, 1, 0);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(-10, 10, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(0, 0, 0, 0, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(1, 1, 1, 1, 0);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(1, 1, -1, -1, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(-10, -10, 10, 10, 1);});
+
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(zeroVectors, -1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(positiveVectors, 0);});
+        
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(zeroVectors, zeroVectors, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(negativeVectors,positiveVectors, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(positiveVectors, negativeVectors, 1);});
+        
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow(null, 1, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("", 1, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 0, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 1, 0, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 1, 1, null);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(null, "label");});
-        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "");});
+        
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(null, "label", 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "", 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, null, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "label", 0);});
+        
         assertThrows(IllegalArgumentException.class, () -> {bot.setContinueMotion(-1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
+
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel("");});
-        
+
+        // assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
+    }
+
+    @Test
+    public void botManagerIllegalArgumentException() {
+
+        BotManager botManager = new BotManager();
+
         assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((BotInterface)null);});
         assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((ArrayList<BotInterface>)null);});
-        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(0, -1, -1, 1, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, 1, -1, -1, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, -1, 1, 1, -1);});
+        
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(0, negativeCoordinates, positiveCoordinates);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, positiveCoordinates, negativeCoordinates);});
+        
         assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(0);});
         assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(1);});
     }
@@ -59,8 +85,9 @@ public class BotTests {
     @Test
     public void gettersAndSetters()
     {
+        BotManagerInterface botManager = new BotManager();
         String rightLabel = "rightLabel";
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = botManager.createBot(0, 0);
 
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
@@ -77,21 +104,26 @@ public class BotTests {
         assertTrue(3 == bot.getFollowingDistance());
         assertTrue(90 == bot.getDirectionAngle());
         assertTrue(10 == bot.getMovementTimer());
-        assertFalse(bot.proceed(1));
+        assertFalse(botManager.moveAllBots(1));
+        // assertFalse(bot.proceed(1));
         assertTrue(0.0 == bot.getXPosition() && 0.0 == bot.getYPosition());
 
         bot.setSpeed(1);
         
-        assertTrue(bot.proceed(1));
+        assertTrue(botManager.moveAllBots(1));
+        // assertTrue(bot.proceed(1));
         assertTrue(0.0 == bot.getXPosition() && 1.0 == bot.getYPosition());
-        assertTrue(bot.proceed(1));
+        assertTrue(botManager.moveAllBots(1));
+        // assertTrue(bot.proceed(1));
 
         bot.stopEmittingSignalLabel();
         bot.stopMotion();
 
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
-        assertFalse(bot.proceed(1));
+        assertFalse(botManager.moveAllBots(1));
+        // assertFalse(bot.proceed(1));
+
     }
 
     @Test
@@ -118,7 +150,7 @@ public class BotTests {
         assertTrue(botManager.getBotList().contains(botToInsert));
 
         botManager = new BotManager();
-        botManager.createRandomBots(10, -10, -10, 10, 10);
+        botManager.createRandomBots(10, negativeCoordinates, positiveCoordinates);
         botListToCheck = botManager.getBotList();
         assertTrue(botListToCheck.size() == 10);
         for (BotInterface bot : botListToCheck) {
@@ -151,21 +183,23 @@ public class BotTests {
         botList.add(emptyLabelBot);
         botList.add(notEmittingBot);
         botList.add(farAwayBot);
-        assertFalse(searchingBot.isDetectingLabel(botList, rightLabel));
+        assertFalse(searchingBot.isDetectingLabel(botList, rightLabel, searchingBot.getFollowingDistance()));
         botList.add(rightLAbelBot);
-        assertTrue(searchingBot.isDetectingLabel(botList, rightLabel));
+        assertTrue(searchingBot.isDetectingLabel(botList, rightLabel, searchingBot.getFollowingDistance()));
     }
 
     @Test
     public void movementTests() {
 
-        BotInterface movingBot = new Bot(0, 0);
+        BotManagerInterface botManager = new BotManager();
+        BotInterface movingBot = botManager.createBot(0, 0);
 
-        movingBot.setMove(-0.5, 0.7, 2);
+        movingBot.setMove(new DirectionalVectors(-0.5, 0.7), 2);
         assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
-        movingBot.proceed(1);
+        botManager.moveAllBots(1);
+        // movingBot.proceed(1);
         assertTrue(-1.16 == new BigDecimal(movingBot.getXPosition())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
@@ -186,7 +220,8 @@ public class BotTests {
         assertTrue(153.44 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
-        movingBot.proceed(1);
+        botManager.moveAllBots(1);
+        // movingBot.proceed(1);
         assertTrue(-1.79 == new BigDecimal(movingBot.getXPosition())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
@@ -205,7 +240,7 @@ public class BotTests {
         }
 
         for (BotInterface bot : botList) {
-            bot.setMoveRandom(-1, -1, 1, 1, 1);
+            bot.setMoveRandom(negativeVectors, positiveVectors, 1);
             assertTrue(bot.getXPosition() < -1 && bot.getXPosition() > 1 &&
                         bot.getYPosition() < -1 && bot.getYPosition() > 1); //It will happen extremely unlikely by chance in case of malfunction
         }
@@ -226,9 +261,9 @@ public class BotTests {
         BotInterface bot1 = botList.get(0);
         BotInterface bot2 = botList.get(1);
         BotInterface bot3 = botList.get(2);
-        bot1.setMove(-1, 0, 1);
-        bot2.setMove(1, -0.6, 1);
-        bot3.setMove(-0.5, -0.99, 2);
+        bot1.setMove(new DirectionalVectors(-1, 0), 1);
+        bot2.setMove(new DirectionalVectors(1, -0.6), 1);
+        bot3.setMove(new DirectionalVectors(-0.5, -0.99), 2);
 
         botManager.moveAllBots(1);
 

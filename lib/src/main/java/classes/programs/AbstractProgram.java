@@ -3,6 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 
 /**
@@ -22,6 +23,13 @@ public abstract class AbstractProgram implements ProgramInterface {
     }
 
     @Override
-    public abstract void executeTasks();
+    public boolean executeTasks(BotInterface bot) {
+
+        boolean flag = true;
+        for (BotCommand task : this.taskList) {
+            flag = task.execute(bot) || flag;
+        }
+        return flag;
+    }
     
 }

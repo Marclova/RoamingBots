@@ -2,6 +2,8 @@ package interfaces.bots;
 
 import java.util.ArrayList;
 
+import classes.containers.Coordinates;
+
 /**
  * The class extending this interface will have the responsibility to create and move bots
  *      within the simulation area.  
@@ -45,7 +47,7 @@ public interface BotManagerInterface {
      * @param y2 The higher y coordinate.
      * @return True if all the bots are correctly created. False otherwise.
      */
-    public boolean createRandomBots(int quantity, double x1, double y1, double x2, double y2);
+    public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2);
 
     /**
      * Moves the bots depending on their own orientation, speed and movementTimer.

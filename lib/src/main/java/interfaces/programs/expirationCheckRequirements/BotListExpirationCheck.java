@@ -1,8 +1,10 @@
-package interfaces.programs;
+package interfaces.programs.expirationCheckRequirements;
 
 import interfaces.bots.BotInterface;
 
 import java.util.ArrayList;
+
+import classes.containers.Coordinates;
 
 public interface BotListExpirationCheck {
     
@@ -13,5 +15,5 @@ public interface BotListExpirationCheck {
      * @param botList The list of all the bots in the simulation plane.
      * @return True if the program results expired, False otherwise.
      */
-    public boolean isExpired(BotInterface botToCheck, ArrayList<BotInterface> botList);
+    public boolean isExpired(Coordinates botCoordinates, ArrayList<BotInterface> botList);
 }

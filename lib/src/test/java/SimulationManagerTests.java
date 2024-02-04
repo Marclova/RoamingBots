@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import classes.SimulationManager;
 import classes.bots.BotManager;
+import classes.containers.DirectionalVectors;
 import classes.programs.ProgramManager;
 import classes.programs.RepeatingProgram;
 import classes.programs.TargetProgram;
@@ -78,7 +79,7 @@ public class SimulationManagerTests {
     targetList.add(new Rectangle(-1, 9.5, "target", 3, 1));
 
     ArrayList<BotCommand> taskList1 = new ArrayList<>();
-    taskList1.add((bot) -> bot.setMove(0, 1, 1));
+    taskList1.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));
     taskList1.add((bot) -> bot.setContinueMotion(20));
     ArrayList<BotCommand> taskList2 = new ArrayList<>();
     ArrayList<BotCommand> taskList3 = new ArrayList<>();
@@ -95,7 +96,7 @@ public class SimulationManagerTests {
     assertTrue(botToProgram2.getYPosition() == 1 && botToProgram2.getMovementTimer() == 19);
 
     simulationManager.simulate(50, 1);
-    assertTrue(tp.isExpired(botToProgram1, targetList) && rp2.isExpired()); //all bot1 tasks expired
+    assertTrue(tp.isExpired(botToProgram1.getCoordinates(), targetList) && rp2.isExpired()); //all bot1 tasks expired
     assertTrue(botToProgram1.getProgramList().isEmpty() && botToProgram2.getProgramList().isEmpty()); //all tasks removed
     assertTrue(botToProgram1.getYPosition() == 10 && botToProgram1.getMovementTimer() == 0); //Has stopped onto the target
     assertTrue(botToProgram1.getYPosition() == 20 && botToProgram1.getMovementTimer() == 0); //Has continued for 20 meters

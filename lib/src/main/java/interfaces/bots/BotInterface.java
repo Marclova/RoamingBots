@@ -2,6 +2,8 @@ package interfaces.bots;
 
 import java.util.ArrayList;
 
+import classes.containers.Coordinates;
+import classes.containers.DirectionalVectors;
 import interfaces.programs.ProgramInterface;
 
 /**
@@ -16,6 +18,7 @@ public interface BotInterface {
     //coordinates (getters and setters)
     public double getXPosition();
     public double getYPosition();
+    public Coordinates getCoordinates();
     public void setXPosition(double xCoordinate);
     public void setYPosition(double yCoordinate);
 
@@ -47,7 +50,7 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean setMove(double xVector, double yVector, double speed);
+    public boolean setMove(DirectionalVectors dirVectors, double speed);
 
     /**
      * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
@@ -59,7 +62,7 @@ public interface BotInterface {
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if the method is executed correctly. False otherwise.
      */
-    public boolean setMoveRandom(double xVector1, double yVector1, double xVector2, double yVector2, double speed);
+    public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed);
 
     /**
      * Sets the bot in a direction so that following one or more bots within the given distance
@@ -75,9 +78,12 @@ public interface BotInterface {
     /**
      * Checks if the bot is currently detecting the label that it is supposed to follow.
      * 
+     * @param botList The list of all bots
+     * @param
+     * @param
      * @return True if the "followingLabel" has been detected in range. False otherwise.
      */
-    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect);
+    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance);
 
     /**
      * Sets a time limit for the current bot's motion.
@@ -94,13 +100,13 @@ public interface BotInterface {
      */
     public boolean stopMotion();
 
-    /**
-     * Moves the bot depending on its own settings.
-     * 
-     * @param movementTime The time given to move (0 < value <= 1).
-     * @return True if the bot has moved.
-     */
-    public boolean proceed(double movementTime);
+    // /**
+    //  * Moves the bot depending on its own settings.
+    //  * 
+    //  * @param movementTime The time given to move (0 < value <= 1).
+    //  * @return True if the bot has moved.
+    //  */
+    // public boolean proceed(double movementTime);
 
     /**
      * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.

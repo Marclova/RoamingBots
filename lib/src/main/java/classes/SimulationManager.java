@@ -24,7 +24,7 @@ public class SimulationManager implements SimulationManagerInterface {
     }
 
     @Override
-    public ArrayList<? extends CartesianAreaInterface> getTargetList() {
+    public ArrayList<CartesianAreaInterface> getTargetList() {
         return this.targetList;
     }
 

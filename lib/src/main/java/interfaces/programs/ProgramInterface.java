@@ -3,6 +3,7 @@ package interfaces.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.bots.BotInterface;
 
 /**
  * Contains the list of tasks to execute in every simulation cycle and the number of repetitions.
@@ -16,7 +17,10 @@ public interface ProgramInterface {
     
     /**
      * Executes once all the tasks in the "taskList".
-     * It acts differently depending on the type of program.
+     * 
+     * @param bot The bot owning this program.
+     * @return True if every command has been executed correctly.
+     *          False if at least least one of them has caused no changes.
      */
-    public void executeTasks();
+    public boolean executeTasks(BotInterface bot);
 }

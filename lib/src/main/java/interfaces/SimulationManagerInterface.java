@@ -11,7 +11,7 @@ import interfaces.programs.ProgramManagerInterface;
 public interface SimulationManagerInterface {
 
     //Getters and setters
-    public ArrayList<? extends CartesianAreaInterface> getTargetList();
+    public ArrayList<CartesianAreaInterface> getTargetList();
     public BotManagerInterface getBotManager();
     public ProgramManagerInterface getProgramManager();
     public void setBotManager(BotManagerInterface botM);

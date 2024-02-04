@@ -3,6 +3,7 @@ package classes.bots;
 // import interfaces.SimulationManagerInterface;
 import java.util.ArrayList;
 
+import classes.containers.Coordinates;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 
@@ -34,7 +35,7 @@ public class BotManager implements BotManagerInterface {
     }
 
     @Override
-    public boolean createRandomBots(int quantity, double x1, double y1, double x2, double y2) {
+    public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createRandomBots'");
     }

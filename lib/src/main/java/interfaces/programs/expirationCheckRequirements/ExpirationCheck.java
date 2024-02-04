@@ -1,4 +1,4 @@
-package interfaces.programs;
+package interfaces.programs.expirationCheckRequirements;
 
 public interface ExpirationCheck {
 

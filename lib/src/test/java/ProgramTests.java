@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import classes.SimulationManager;
 import classes.bots.Bot;
+import classes.containers.Coordinates;
+import classes.containers.DirectionalVectors;
 import classes.programs.RepeatingProgram;
 import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
@@ -16,10 +19,19 @@ import classes.programs.TargetProgram;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
+import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
+import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
 public class ProgramTests {
+
+    Coordinates positiveCoordinates = new Coordinates(1, 1);
+    Coordinates negativeCoordinates = new Coordinates(-1, -1);
+    Coordinates zeroCoordinates = new Coordinates(0, 0);
+    DirectionalVectors positiveVectors = new DirectionalVectors(1, 1);
+    DirectionalVectors negativeVectors = new DirectionalVectors(-1, -1);
+    DirectionalVectors zeroVectors = new DirectionalVectors(0, 0);
 
     @Test
     public void programsIllegalArgumentTests() {
@@ -44,7 +56,7 @@ public class ProgramTests {
         assertThrows(IllegalArgumentException.class, () -> {labelProgram
                                                                                 .isExpired(null, botList);});
         assertThrows(IllegalArgumentException.class, () -> {labelProgram
-                                                                                .isExpired(bot, null);});
+                                                                                .isExpired(bot.getCoordinates(), null);});
         // assertThrows(IllegalArgumentException.class, () -> {labelProgram
         //                                                                         .checkLabel(null, botList);});
         // assertThrows(IllegalArgumentException.class, () -> {labelProgram
@@ -56,7 +68,7 @@ public class ProgramTests {
         assertThrows(IllegalArgumentException.class, () -> {targetProgram
                                                                                 .isExpired(null, targetList);});
         assertThrows(IllegalArgumentException.class, () -> {targetProgram
-                                                                                .isExpired(bot, null);});
+                                                                                .isExpired(bot.getCoordinates(), null);});
         // assertThrows(IllegalArgumentException.class, () -> {targetProgram
         //                                                                         .checkTarget(null, targetList);});
         // assertThrows(IllegalArgumentException.class, () -> {targetProgram
@@ -116,15 +128,15 @@ public class ProgramTests {
 
         assertFalse(new InfiniteProgram(taskList).isExpired());
         
-        assertFalse(labelProgram.isExpired(bot, botList));
+        assertFalse(labelProgram.isExpired(bot.getCoordinates(), botList));
         BotInterface emittingBot = new Bot(2, 2);
         emittingBot.startEmittingSignalLabel("label");
         botList.add(emittingBot);
-        assertTrue(labelProgram.isExpired(bot, botList));
+        assertTrue(labelProgram.isExpired(bot.getCoordinates(), botList));
         
-        assertFalse(targetProgram.isExpired(bot, targetList));
+        assertFalse(targetProgram.isExpired(bot.getCoordinates(), targetList));
         targetList.add(new Rectangle(-1, -1, "target", 2, 2));
-        assertTrue(targetProgram.isExpired(bot, targetList));
+        assertTrue(targetProgram.isExpired(bot.getCoordinates(), targetList));
     }
 
     @Test
@@ -183,19 +195,22 @@ public class ProgramTests {
     @Test
     public void programManagerExecutionTests() {
 
-        ProgramManagerInterface programManager = new ProgramManager();
-        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-        ArrayList<BotInterface> botList = new ArrayList<>();
+        SimulationManagerInterface simulationManager = new SimulationManager();
+        ArrayList<CartesianAreaInterface> targetList = simulationManager.getTargetList();
+        BotManagerInterface botManager = simulationManager.getBotManager();
+        ProgramManagerInterface programManager = simulationManager.getProgramManager();
+        ArrayList<BotInterface> botList = botManager.getBotList();
+
+        BotInterface botToProgram = botManager.createBot(0, 0);
         ArrayList<BotCommand> taskList = new ArrayList<>();
-        BotInterface botToProgram = new Bot(0, 0);
-        botList.add(botToProgram);
-        taskList.add((bot) -> bot.setMove(0, 1, 1));
+        taskList.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));
         
         programManager.createRepeatingProgram(botToProgram, taskList, 10); //sets movements for 1 second 10 times
         
         while (!botToProgram.getProgramList().isEmpty()) {
             programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
-            botToProgram.proceed(1);
+            botManager.moveAllBots(1);
+            // botToProgram.proceed(1);
         }
         assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
 
@@ -204,7 +219,8 @@ public class ProgramTests {
         programManager.createRepeatingProgram(botToProgram, taskList, 1); //sets movement for 10 seconds 1 time
         programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
         assertTrue(botToProgram.getProgramList().isEmpty());
-        botToProgram.proceed(20); //it just has 10 seconds of movement
+        botManager.moveAllBots(20); //it just has 10 seconds of movement
+        // botToProgram.proceed(20);
         assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
     }
 }

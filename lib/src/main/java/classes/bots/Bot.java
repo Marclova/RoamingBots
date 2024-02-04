@@ -2,6 +2,8 @@ package classes.bots;
 
 import java.util.ArrayList;
 
+import classes.containers.Coordinates;
+import classes.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 
@@ -56,6 +58,11 @@ public class Bot implements BotInterface {
     }
 
     @Override
+    public Coordinates getCoordinates() {
+        return new Coordinates(this.getXPosition(), this.getYPosition());
+    }
+
+    @Override
     public double getDirectionAngle() {
         return this.directionAngle;
     }
@@ -92,7 +99,7 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect) {
+    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isDetectingLabelToFollow'");
     }
@@ -152,13 +159,13 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public boolean setMove(double xVector, double yVector, double speed) {
+    public boolean setMove(DirectionalVectors dirVectors, double speed) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setMove'");
     }
 
     @Override
-    public boolean setMoveRandom(double xVector1, double yVector1, double xVector2, double yVector2, double speed) {
+    public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setMoveRandom'");
     }
@@ -181,11 +188,11 @@ public class Bot implements BotInterface {
         throw new UnsupportedOperationException("Unimplemented method 'stopMotion'");
     }
 
-    @Override
-    public boolean proceed(double movementTime) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'proceed'");
-    }
+    // @Override
+    // public boolean proceed(double movementTime) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'proceed'");
+    // }
 
     @Override
     public boolean startEmittingSignalLabel(String label) {
