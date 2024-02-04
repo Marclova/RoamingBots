@@ -17,13 +17,15 @@ public class BotManager implements BotManagerInterface {
     }
 
     @Override
-    public boolean createBot(double x, double y) {
-        return this.createBot(new Bot(x, y));
+    public BotInterface createBot(double x, double y) {
+        Bot bot = new Bot(x, y);
+        this.botList.add(bot);
+        return bot;
     }
 
     @Override
-    public boolean createBot(BotInterface botToAdd) {
-        return this.botList.add(botToAdd);
+    public void createBot(BotInterface botToAdd) {
+        this.botList.add(botToAdd);
     }
 
     @Override

@@ -16,17 +16,16 @@ public interface BotManagerInterface {
      * 
      * @param x The x coordinate.
      * @param y The y coordinate.
-     * @return True if the bot is correctly created. False otherwise.
+     * @return The bot that has been created.
      */
-    public boolean createBot(double x, double y);
+    public BotInterface createBot(double x, double y);
 
     /**
      * Adds the given bot into the "botList"
      * 
      * @param bot The bot to add
-     * @return  True if the bot is correctly created. False otherwise.
      */
-    public boolean createBot(BotInterface botToAdd);
+    public void createBot(BotInterface botToAdd);
 
     /**
      * Adds the given bots into the "botList"

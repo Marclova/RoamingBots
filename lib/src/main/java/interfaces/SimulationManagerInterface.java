@@ -22,12 +22,19 @@ public interface SimulationManagerInterface {
     public void setExecutionTimeCycle(double t);
 
     /**
+     * Adds the given target into the targetList
+     * 
+     * @param target The target to add.
+     */
+    public void createTarget(CartesianAreaInterface target);
+
+    /**
      * Adds the given cartesian shape into the "targetList".
      * 
      * @param fileAddress The location of the file in the local file system.
-     * @return True if the target has been successfully created. False otherwise.
+     * @return The number of targets that has been created.
      */
-    public boolean createTargetsFromTxtFile(String fileAddress);
+    public int createTargetsFromTxtFile(String fileAddress);
 
     /**
      * Starts the simulation with the current settings for the given amount of time.

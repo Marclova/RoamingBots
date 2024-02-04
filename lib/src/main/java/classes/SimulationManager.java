@@ -59,9 +59,15 @@ public class SimulationManager implements SimulationManagerInterface {
     }
 
     @Override
-    public boolean createTargetsFromTxtFile(String fileAddress) {
+    public void createTarget(CartesianAreaInterface target) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createTarget'");
+    }
+
+    @Override
+    public int createTargetsFromTxtFile(String fileAddress) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createTargetsFromTxtFile'");
     }
 
     @Override

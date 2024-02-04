@@ -10,8 +10,13 @@ import org.junit.Test;
 import classes.SimulationManager;
 import classes.bots.BotManager;
 import classes.programs.ProgramManager;
+import classes.programs.RepeatingProgram;
+import classes.programs.TargetProgram;
+import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
+import interfaces.CartesianAreaInterface;
 import interfaces.SimulationManagerInterface;
+import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
@@ -30,6 +35,8 @@ public class SimulationManagerTests {
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.setBotManager(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.setProgramManager(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.setExecutionTimeCycle(0);});
+
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTarget(null);});
 
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile("");});
@@ -58,18 +65,39 @@ public class SimulationManagerTests {
         assertTrue(simulationManager.getExecutionTimeCycle() == 0.1);
     }
     
-    // ProgramManagerInterface programManager = new ProgramManager();
-    // ArrayList<CartesianArea> targetList = new ArrayList<>();
-    // targetList.add(new Square(-1, 10, 3, 0, "target"));
-    // BotInterface botToProgram = new Bot(0, 0);
-    // ArrayList<BotCommand> taskList1 = new ArrayList<>();
-    // taskList1.add((bot) -> bot.setMove(0, 1, 1));
-    // taskList1.add((bot) -> bot.setContinueMotion(20));
-    // ArrayList<BotCommand> taskList2 = new ArrayList<>();
-    // ArrayList<BotCommand> taskList3 = new ArrayList<>();
-    // taskList3.add((bot) -> bot.stopMotion());
+    @Test
+    public void simulationTest() {
 
-    // programManager.createRepeatingProgram(botToProgram, taskList1, 1);  //start moving north
-    // programManager.createTargetProgram(botToProgram, taskList2, "target");  //do nothing until reaching the target
-    // programManager.createRepeatingProgram(botToProgram, taskList3, 1);  //stop moving after expiration of the previous task
+    SimulationManager simulationManager = new SimulationManager();
+    ProgramManagerInterface programManager = simulationManager.getProgramManager();
+    BotManagerInterface botManager = simulationManager.getBotManager();
+
+    BotInterface botToProgram1 = botManager.createBot(0, 0);
+    BotInterface botToProgram2 = botManager.createBot(0, 0);
+    ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
+    targetList.add(new Rectangle(-1, 9.5, "target", 3, 1));
+
+    ArrayList<BotCommand> taskList1 = new ArrayList<>();
+    taskList1.add((bot) -> bot.setMove(0, 1, 1));
+    taskList1.add((bot) -> bot.setContinueMotion(20));
+    ArrayList<BotCommand> taskList2 = new ArrayList<>();
+    ArrayList<BotCommand> taskList3 = new ArrayList<>();
+    taskList3.add((bot) -> bot.stopMotion());
+
+    RepeatingProgram rp1 = programManager.createRepeatingProgram(botToProgram1, taskList1, 1);  //start moving North for 20 seconds
+    TargetProgram tp = programManager.createTargetProgram(botToProgram1, taskList2, "target");  //do nothing until reaching the target
+    RepeatingProgram rp2 = programManager.createRepeatingProgram(botToProgram1, taskList3, 1);  //stop moving after expiration of the previous task
+    programManager.createRepeatingProgram(botToProgram2, taskList1, 1);  //the second bot will move for 20 seconds
+
+    simulationManager.simulate(1, 1);
+    assertTrue(botToProgram1.getProgramList().get(0).equals(rp1) && rp1.isExpired());
+    assertTrue(botToProgram1.getYPosition() == 1 && botToProgram1.getMovementTimer() == 19);
+    assertTrue(botToProgram2.getYPosition() == 1 && botToProgram2.getMovementTimer() == 19);
+
+    simulationManager.simulate(50, 1);
+    assertTrue(tp.isExpired(botToProgram1, targetList) && rp2.isExpired()); //all bot1 tasks expired
+    assertTrue(botToProgram1.getProgramList().isEmpty() && botToProgram2.getProgramList().isEmpty()); //all tasks removed
+    assertTrue(botToProgram1.getYPosition() == 10 && botToProgram1.getMovementTimer() == 0); //Has stopped onto the target
+    assertTrue(botToProgram1.getYPosition() == 20 && botToProgram1.getMovementTimer() == 0); //Has continued for 20 meters
+    }
 }
