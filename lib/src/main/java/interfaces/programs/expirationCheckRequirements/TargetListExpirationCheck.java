@@ -4,7 +4,7 @@ import interfaces.CartesianAreaInterface;
 
 import java.util.ArrayList;
 
-import classes.containers.Coordinates;
+import classes.services.containers.Coordinates;
 
 public interface TargetListExpirationCheck {
     

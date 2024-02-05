@@ -2,7 +2,7 @@ package interfaces.bots;
 
 import java.util.ArrayList;
 
-import classes.containers.Coordinates;
+import classes.services.containers.Coordinates;
 
 /**
  * The class extending this interface will have the responsibility to create and move bots

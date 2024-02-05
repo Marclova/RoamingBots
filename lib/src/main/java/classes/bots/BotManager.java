@@ -3,7 +3,7 @@ package classes.bots;
 // import interfaces.SimulationManagerInterface;
 import java.util.ArrayList;
 
-import classes.containers.Coordinates;
+import classes.services.containers.Coordinates;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 

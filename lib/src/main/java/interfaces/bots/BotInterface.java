@@ -2,8 +2,8 @@ package interfaces.bots;
 
 import java.util.ArrayList;
 
-import classes.containers.Coordinates;
-import classes.containers.DirectionalVectors;
+import classes.services.containers.Coordinates;
+import classes.services.containers.DirectionalVectors;
 import interfaces.programs.ProgramInterface;
 
 /**

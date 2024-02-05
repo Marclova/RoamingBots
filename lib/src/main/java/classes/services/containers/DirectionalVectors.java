@@ -1,4 +1,4 @@
-package classes.containers;
+package classes.services.containers;
 
 /**
  * Directional vectors container class with public parameters used to simplify methods' parameter requests.
