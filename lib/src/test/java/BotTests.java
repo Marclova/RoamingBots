@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import classes.bots.Bot;
 import classes.bots.BotManager;
-import classes.containers.Coordinates;
-import classes.containers.DirectionalVectors;
+import classes.services.containers.Coordinates;
+import classes.services.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 
@@ -26,7 +26,7 @@ public class BotTests {
     DirectionalVectors zeroVectors = new DirectionalVectors(0, 0);
     
     @Test
-    public void botIllegalArgumentTests() {
+    public void botExceptionTests() {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
@@ -48,32 +48,32 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(negativeVectors,positiveVectors, 0);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(positiveVectors, negativeVectors, 1);});
         
-        assertThrows(IllegalArgumentException.class, () -> {bot.setFollow(null, 1, 1, botList);});
+        assertThrows(NullPointerException.class, () -> {bot.setFollow(null, 1, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("", 1, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 0, 1, botList);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 1, 0, botList);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 1, 1, null);});
+        assertThrows(NullPointerException.class, () -> {bot.setFollow("label", 1, 1, null);});
         
-        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(null, "label", 1);});
+        assertThrows(NullPointerException.class, () -> {bot.isDetectingLabel(null, "label", 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "", 1);});
-        assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, null, 1);});
+        assertThrows(NullPointerException.class, () -> {bot.isDetectingLabel(botList, null, 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "label", 0);});
         
         assertThrows(IllegalArgumentException.class, () -> {bot.setContinueMotion(-1);});
 
-        assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel(null);});
+        assertThrows(NullPointerException.class, () -> {bot.startEmittingSignalLabel(null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel("");});
 
         // assertThrows(IllegalArgumentException.class, () -> {bot.proceed(-1);});
     }
 
     @Test
-    public void botManagerIllegalArgumentException() {
+    public void botManagerExceptionTests() {
 
         BotManager botManager = new BotManager();
 
-        assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((BotInterface)null);});
-        assertThrows(IllegalArgumentException.class, () -> {botManager.createBot((ArrayList<BotInterface>)null);});
+        assertThrows(NullPointerException.class, () -> {botManager.createBot((BotInterface)null);});
+        assertThrows(NullPointerException.class, () -> {botManager.createBot((ArrayList<BotInterface>)null);});
         
         assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(0, negativeCoordinates, positiveCoordinates);});
         assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, positiveCoordinates, negativeCoordinates);});

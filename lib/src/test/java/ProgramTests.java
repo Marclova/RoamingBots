@@ -9,13 +9,13 @@ import org.junit.Test;
 
 import classes.SimulationManager;
 import classes.bots.Bot;
-import classes.containers.Coordinates;
-import classes.containers.DirectionalVectors;
 import classes.programs.RepeatingProgram;
 import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
 import classes.programs.ProgramManager;
 import classes.programs.TargetProgram;
+import classes.services.containers.Coordinates;
+import classes.services.containers.DirectionalVectors;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
@@ -40,43 +40,33 @@ public class ProgramTests {
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
+        RepeatingProgram repeatingProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
 
-        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(null, 0);});
+        assertThrows(NullPointerException.class, () -> {new RepeatingProgram(null, 0);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, -1);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0).setCounter(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {repeatingProgram.setCounter(-1);});
 
-        assertThrows(IllegalArgumentException.class, () -> {new InfiniteProgram(null);});
+        assertThrows(NullPointerException.class, () -> {new InfiniteProgram(null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(null, "label", 5);});
+        assertThrows(NullPointerException.class, () -> {new LabelProgram(null, "label", 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "", 5);});
-        assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, null, 5);});
+        assertThrows(NullPointerException.class, () -> {new LabelProgram(taskList, null, 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "label", 0);});
-        assertThrows(IllegalArgumentException.class, () -> {labelProgram
-                                                                                .isExpired(null, botList);});
-        assertThrows(IllegalArgumentException.class, () -> {labelProgram
-                                                                                .isExpired(bot.getCoordinates(), null);});
-        // assertThrows(IllegalArgumentException.class, () -> {labelProgram
-        //                                                                         .checkLabel(null, botList);});
-        // assertThrows(IllegalArgumentException.class, () -> {labelProgram
-        //                                                                         .checkLabel(bot, null);});
+        assertThrows(NullPointerException.class, () -> {labelProgram.isExpired(null, botList);});
+        assertThrows(NullPointerException.class, () -> {labelProgram.isExpired(bot.getCoordinates(), null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(null, "label");});
+        assertThrows(NullPointerException.class, () -> {new TargetProgram(null, "label");});
         assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(taskList, "");});
-        assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(taskList, null);});
-        assertThrows(IllegalArgumentException.class, () -> {targetProgram
-                                                                                .isExpired(null, targetList);});
-        assertThrows(IllegalArgumentException.class, () -> {targetProgram
-                                                                                .isExpired(bot.getCoordinates(), null);});
-        // assertThrows(IllegalArgumentException.class, () -> {targetProgram
-        //                                                                         .checkTarget(null, targetList);});
-        // assertThrows(IllegalArgumentException.class, () -> {targetProgram
-        //                                                                         .checkTarget(bot, null);});
+        assertThrows(NullPointerException.class, () -> {new TargetProgram(taskList, null);});
+        assertThrows(NullPointerException.class, () -> {targetProgram.isExpired(null, targetList);});
+        assertThrows(NullPointerException.class, () -> {targetProgram.isExpired(bot.getCoordinates(), null);});
     }
 
     @Test
-    public void programManagerIllegalArgumentException() {
+    public void programManagerExceptionTests() {
 
         ProgramManagerInterface programManager = new ProgramManager();
         ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
@@ -84,30 +74,26 @@ public class ProgramTests {
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
 
-        assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(null, targetList);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(botList, null);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(null, targetList);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(botList, null);});
 
-        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(null, botList, targetList);});
-        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, null, targetList);});
-        // assertThrows(IllegalArgumentException.class, () -> {programManager.executeBotProgram(bot, botList, null);});
-
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
+        assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
+        assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
         assertThrows(IllegalArgumentException.class, () -> {programManager.createRepeatingProgram(bot, taskList, 0);});
 
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createInfiniteProgram(null, taskList);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createInfiniteProgram(bot, null);});
+        assertThrows(NullPointerException.class, () -> {programManager.createInfiniteProgram(null, taskList);});
+        assertThrows(NullPointerException.class, () -> {programManager.createInfiniteProgram(bot, null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(null, taskList, "label", 5);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, null, "label", 5);});
+        assertThrows(NullPointerException.class, () -> {programManager.createLabelProgram(null, taskList, "label", 5);});
+        assertThrows(NullPointerException.class, () -> {programManager.createLabelProgram(bot, null, "label", 5);});
         assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, "", 5);});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, null, 5);});
+        assertThrows(NullPointerException.class, () -> {programManager.createLabelProgram(bot, taskList, null, 5);});
         assertThrows(IllegalArgumentException.class, () -> {programManager.createLabelProgram(bot, taskList, "label", 0);});
 
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(null, taskList, "target");});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, null, "target");});
+        assertThrows(NullPointerException.class, () -> {programManager.createTargetProgram(null, taskList, "target");});
+        assertThrows(NullPointerException.class, () -> {programManager.createTargetProgram(bot, null, "target");});
         assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, taskList, "");});
-        assertThrows(IllegalArgumentException.class, () -> {programManager.createTargetProgram(bot, taskList, null);});
+        assertThrows(NullPointerException.class, () -> {programManager.createTargetProgram(bot, taskList, null);});
     }
 
     @Test
@@ -135,7 +121,7 @@ public class ProgramTests {
         assertTrue(labelProgram.isExpired(bot.getCoordinates(), botList));
         
         assertFalse(targetProgram.isExpired(bot.getCoordinates(), targetList));
-        targetList.add(new Rectangle(-1, -1, "target", 2, 2));
+        targetList.add(new Rectangle(new Coordinates(-1, -1), "target", 2, 2));
         assertTrue(targetProgram.isExpired(bot.getCoordinates(), targetList));
     }
 

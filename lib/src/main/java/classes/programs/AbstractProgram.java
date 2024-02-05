@@ -14,6 +14,11 @@ public abstract class AbstractProgram implements ProgramInterface {
     private ArrayList<BotCommand> taskList;
 
     public AbstractProgram(ArrayList<BotCommand> taskList) {
+        if(taskList == null)
+        {
+            throw new NullPointerException();
+        }
+
         this.taskList = taskList;
     }
 
@@ -24,6 +29,10 @@ public abstract class AbstractProgram implements ProgramInterface {
 
     @Override
     public boolean executeTasks(BotInterface bot) {
+        if(bot == null)
+        {
+            throw new NullPointerException();
+        }
 
         boolean flag = true;
         for (BotCommand task : this.taskList) {

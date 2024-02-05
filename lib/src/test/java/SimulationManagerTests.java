@@ -9,10 +9,11 @@ import org.junit.Test;
 
 import classes.SimulationManager;
 import classes.bots.BotManager;
-import classes.containers.DirectionalVectors;
 import classes.programs.ProgramManager;
 import classes.programs.RepeatingProgram;
 import classes.programs.TargetProgram;
+import classes.services.containers.Coordinates;
+import classes.services.containers.DirectionalVectors;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
@@ -24,22 +25,22 @@ import interfaces.programs.ProgramManagerInterface;
 public class SimulationManagerTests {
     
     @Test
-    public void simulationManagerIllegalArgumentExceptionTests() {
+    public void simulationManagerExceptionTests() {
 
         SimulationManagerInterface simulationManager = new SimulationManager();
         BotManagerInterface botM = new BotManager();
         ProgramManagerInterface progM = new ProgramManager();
 
-        assertThrows(IllegalArgumentException.class, () -> {new SimulationManager(null, progM);});
-        assertThrows(IllegalArgumentException.class, () -> {new SimulationManager(botM, null);});
+        assertThrows(NullPointerException.class, () -> {new SimulationManager(null, progM);});
+        assertThrows(NullPointerException.class, () -> {new SimulationManager(botM, null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.setBotManager(null);});
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.setProgramManager(null);});
+        assertThrows(NullPointerException.class, () -> {simulationManager.setBotManager(null);});
+        assertThrows(NullPointerException.class, () -> {simulationManager.setProgramManager(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.setExecutionTimeCycle(0);});
 
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTarget(null);});
+        assertThrows(NullPointerException.class, () -> {simulationManager.createTarget(null);});
 
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile(null);});
+        assertThrows(NullPointerException.class, () -> {simulationManager.createTargetsFromTxtFile(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile("");});
         assertThrows(FileNotFoundException.class, () -> {simulationManager.createTargetsFromTxtFile("ciao");}); //TODO controlla l'errore lanciato
 
@@ -76,7 +77,7 @@ public class SimulationManagerTests {
     BotInterface botToProgram1 = botManager.createBot(0, 0);
     BotInterface botToProgram2 = botManager.createBot(0, 0);
     ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-    targetList.add(new Rectangle(-1, 9.5, "target", 3, 1));
+    targetList.add(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
 
     ArrayList<BotCommand> taskList1 = new ArrayList<>();
     taskList1.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));

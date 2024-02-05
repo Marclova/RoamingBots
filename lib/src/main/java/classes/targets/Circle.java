@@ -1,11 +1,18 @@
 package classes.targets;
 
+import classes.services.containers.Coordinates;
+
 public class Circle extends AbstractCartesianArea {
 
     private double radius;
 
-    public Circle(double xPosition, double yPosition, String label, double radius) {
-        super(xPosition, yPosition, label);
+    public Circle(Coordinates coordinates, String label, double radius) {
+        super(coordinates, label);
+        if(radius <= 0)
+        {
+            throw new IllegalArgumentException("Radius must be grater than 0.");
+        }
+
         this.radius = radius;
     }
 
@@ -14,9 +21,8 @@ public class Circle extends AbstractCartesianArea {
     }
 
     @Override
-    public boolean checkAreaIntersection(double xToCheck, double yToCheck) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkAreaIntersection'");
+    public boolean checkAreaIntersection(Coordinates coordinatesToCheck) {
+        return (Math.abs(this.getXCoordinate() - coordinatesToCheck.x) <= this.radius &&
+                Math.abs(this.getYCoordinate() - coordinatesToCheck.y) <= this.radius);
     }
-    
 }

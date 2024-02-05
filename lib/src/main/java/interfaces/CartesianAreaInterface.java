@@ -1,5 +1,7 @@
 package interfaces;
 
+import classes.services.containers.Coordinates;
+
 /**
  * Interface to define an object that occupies an area in the cartesian plane.
  * 
@@ -14,9 +16,10 @@ public interface CartesianAreaInterface {
 
     
     /**
-     * Checks if a given coordinate is inside the area of this object.
+     * Checks if a given coordinates are inside the area of this object.
      * 
+     * @param coordinatesToCheck The coordinates of an element in the simulation panel.
      * @return True if the given coordinate is inside the area. False otherwise.
      */
-    public boolean checkAreaIntersection(double xToCheck, double yToCheck);
+    public boolean checkAreaIntersection(Coordinates coordinatesToCheck);
 }

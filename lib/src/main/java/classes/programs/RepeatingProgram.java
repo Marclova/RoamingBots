@@ -22,8 +22,11 @@ public class RepeatingProgram extends AbstractProgram implements ExpirationCheck
     }
 
     public void setCounter(int n) {
-        //TODO implement
-        throw new UnsupportedOperationException("Unimplemented method 'setCounter'");
+        if(n < 0)
+        {
+            throw new IllegalArgumentException("The counter must be 0 or grater.");
+        }
+        this.counter = n;
     }
 
     @Override

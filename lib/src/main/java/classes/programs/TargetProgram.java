@@ -2,7 +2,7 @@ package classes.programs;
 
 import java.util.ArrayList;
 
-import classes.containers.Coordinates;
+import classes.services.containers.Coordinates;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
 import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck;
@@ -25,7 +25,12 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
 
     @Override
     public boolean isExpired(Coordinates botCoordinates, ArrayList<CartesianAreaInterface> targetList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isExpired'");
+        for (CartesianAreaInterface target : targetList) {
+            if(target.checkAreaIntersection(botCoordinates))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
