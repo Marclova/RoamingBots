@@ -1,30 +1,16 @@
 package classes.services.abstractServeces;
 
-@SuppressWarnings("unused") //I hope this is not code smell. I want to avoid code repetitions and grant more readability...
 public abstract class ArgumentChecker {
     
     /**
-     * Checks if the given object is not null and throws exception if is not.
+     * Checks if the given objects are not null and throws exception if they are.
      * 
-     * @param obj The object to check.
-     * @throws NullPointerException If the given object is null.
+     * @param objects The objects to check.
+     * @throws NullPointerException If at least one of the given objects is null.
      */
-    private void checkNullObject(Object obj) throws NullPointerException {
-        if(obj == null)
-        {
-            throw new NullPointerException();
-        }
-    }
-
-    /**
-     * Checks if the given numbers are grater than zero and throws exception if they're not.
-     * 
-     * @param values The numbers to check.
-     * @throws NullPointerException If at least one of the numbers is 0 or lower.
-     */
-    private void checkPositiveValues(double... values) throws NullPointerException {
-        for (double n : values) {
-            if(n <= 0)
+    public void checkNotNullObjects(Object... objects) throws NullPointerException {
+        for (Object obj : objects) {
+            if(obj == null)
             {
                 throw new NullPointerException();
             }
@@ -32,25 +18,55 @@ public abstract class ArgumentChecker {
     }
 
     /**
-     * Checks if the given numbers are inside the defined interval (extremes included).
+     * Checks if the given numbers are grater than 0 and throws exception if they're not.
+     * 
+     * @param values The numbers to check.
+     * @throws NullPointerException If at least one of the numbers is 0 or lower.
+     */
+    public void checkGraterThanZeroValues(double... values) throws NullPointerException {
+        for (double n : values) {
+            if(n <= 0)
+            {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    /**
+     * Checks if the given numbers are inside the defined interval (extremes included) and throws exception if they're not.
      * 
      * @param v1 Lower value of the interval.
      * @param v2 Higher value of the interval.
      * @param values The numbers to check.
      * @throws IllegalArgumentException If at least one of the numbers is outside of the interval.
      */
-    private void checkInsideIntervalValues(double v1, double v2, double... values) throws IllegalArgumentException {
-        if(v2 < v1) //I'm not blocking the execution for this
-        {
-            double v = v2;
-            v2 = v1;
-            v1 = v;
-        }
+    public void checkInsideIntervalValues(double v1, double v2, double... values) throws IllegalArgumentException {
         for (double n : values) {
             if (n < v1 || n > v2)
             {
                 throw new IllegalArgumentException();
             }
+        }
+    }
+
+    /**
+     * Checks if the given strings are not empty or blank and throws exception if they are.
+     * 
+     * @param args The strings to check
+     * @throws NullPointerException If at least one of the strings is null.
+     * @throws IllegalArgumentException If at least one of the string is empty or blank.
+     */
+    public void CheckNotEmptyStrings(String... args) throws NullPointerException, IllegalArgumentException {
+        for (String s : args) {
+            if(s == null)
+            {
+                throw new NullPointerException();
+            }
+            if(s.isBlank())
+            {
+                throw new IllegalArgumentException();
+            }
+
         }
     }
 }

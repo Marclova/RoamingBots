@@ -36,13 +36,18 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public <P extends ProgramInterface> void addProgram(P program) {
+    public ProgramInterface getActiveProgram() {
+        return this.getProgramList().get(0);
+    }
+
+    @Override
+    public <P extends ProgramInterface> P addProgram(P program) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addProgram'");
     }
 
     @Override
-    public void removeFirstProgram() {
+    public boolean removeActiveProgram() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeFirstProgram'");
     }

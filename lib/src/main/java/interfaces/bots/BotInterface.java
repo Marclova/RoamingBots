@@ -11,9 +11,15 @@ import interfaces.programs.ProgramInterface;
  */
 public interface BotInterface {
 
-    public ArrayList<ProgramInterface> getProgramList(); //the first program is considered "active", while the other are in wait
-    public <P extends ProgramInterface> void addProgram(P program);
-    public void removeFirstProgram();
+    /**
+     * The first program in the bot's programList is considered "active", while the other are "in queue"
+     * 
+     * @return The first program in the bot's programList
+     */
+    public ProgramInterface getActiveProgram();
+    public ArrayList<ProgramInterface> getProgramList();
+    public <P extends ProgramInterface> P addProgram(P program);
+    public boolean removeActiveProgram();
 
     //coordinates (getters and setters)
     public double getXPosition();
@@ -99,14 +105,6 @@ public interface BotInterface {
      * @return True if the bot has been stopped. False if the bot was already stopped.
      */
     public boolean stopMotion();
-
-    // /**
-    //  * Moves the bot depending on its own settings.
-    //  * 
-    //  * @param movementTime The time given to move (0 < value <= 1).
-    //  * @return True if the bot has moved.
-    //  */
-    // public boolean proceed(double movementTime);
 
     /**
      * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.

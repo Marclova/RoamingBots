@@ -6,18 +6,17 @@ import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 
+import classes.services.abstractServeces.ArgumentChecker;
+
 /**
  * A generic program installed into a bot able to execute its own tasks
  */
-public abstract class AbstractProgram implements ProgramInterface {
+public abstract class AbstractProgram extends ArgumentChecker implements ProgramInterface {
 
     private ArrayList<BotCommand> taskList;
 
     public AbstractProgram(ArrayList<BotCommand> taskList) {
-        if(taskList == null)
-        {
-            throw new NullPointerException();
-        }
+        this.checkNotNullObjects(taskList);
 
         this.taskList = taskList;
     }
@@ -29,12 +28,9 @@ public abstract class AbstractProgram implements ProgramInterface {
 
     @Override
     public boolean executeTasks(BotInterface bot) {
-        if(bot == null)
-        {
-            throw new NullPointerException();
-        }
+        this.checkNotNullObjects(bot);
 
-        boolean flag = true;
+        boolean flag = false;
         for (BotCommand task : this.taskList) {
             flag = task.execute(bot) || flag;
         }

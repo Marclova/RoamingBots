@@ -3,17 +3,19 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
-import interfaces.programs.expirationCheckRequirements.ExpirationCheck;
+import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
 
 /**
  * A program able to execute its tasks a limited amount of times
  */
-public class RepeatingProgram extends AbstractProgram implements ExpirationCheck {
+public class RepeatingProgram extends AbstractProgram implements NoArgsExpirationCheck {
 
     private int counter;
 
     public RepeatingProgram(ArrayList<BotCommand> taskList, int counter) {
         super(taskList);
+        this.checkGraterThanZeroValues(counter);
+
         this.counter = counter;
     }
 
@@ -22,10 +24,7 @@ public class RepeatingProgram extends AbstractProgram implements ExpirationCheck
     }
 
     public void setCounter(int n) {
-        if(n < 0)
-        {
-            throw new IllegalArgumentException("The counter must be 0 or grater.");
-        }
+        this.checkGraterThanZeroValues(n+1);
         this.counter = n;
     }
 

@@ -46,7 +46,7 @@ public class ProgramTests {
 
         assertThrows(NullPointerException.class, () -> {new RepeatingProgram(null, 0);});
         assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, -1);});
-        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0).setCounter(-1);});
+        assertThrows(IllegalArgumentException.class, () -> {new RepeatingProgram(taskList, 0);});
         assertThrows(IllegalArgumentException.class, () -> {repeatingProgram.setCounter(-1);});
 
         assertThrows(NullPointerException.class, () -> {new InfiniteProgram(null);});
@@ -74,8 +74,8 @@ public class ProgramTests {
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
 
-        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(null, targetList);});
-        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredProgramsAndThenExecute(botList, null);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(null, targetList);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(botList, null);});
 
         assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
         assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
@@ -101,6 +101,7 @@ public class ProgramTests {
 
         ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
+        taskList.add((b) -> b.IsEmittingSignal());
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(0, 0);
         botList.add(bot);
@@ -194,7 +195,7 @@ public class ProgramTests {
         programManager.createRepeatingProgram(botToProgram, taskList, 10); //sets movements for 1 second 10 times
         
         while (!botToProgram.getProgramList().isEmpty()) {
-            programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
+            programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
             botManager.moveAllBots(1);
             // botToProgram.proceed(1);
         }
@@ -203,7 +204,7 @@ public class ProgramTests {
         taskList.add((bot) -> bot.setContinueMotion(10));
         botToProgram = new Bot(0, 0);
         programManager.createRepeatingProgram(botToProgram, taskList, 1); //sets movement for 10 seconds 1 time
-        programManager.deleteExpiredProgramsAndThenExecute(botList, targetList);
+        programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
         assertTrue(botToProgram.getProgramList().isEmpty());
         botManager.moveAllBots(20); //it just has 10 seconds of movement
         // botToProgram.proceed(20);

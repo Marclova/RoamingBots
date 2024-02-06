@@ -1,6 +1,6 @@
 package interfaces.programs.expirationCheckRequirements;
 
-public interface ExpirationCheck {
+public interface NoArgsExpirationCheck {
 
     /**
      * Checks if this program is expired depending on its own parameters and implementation

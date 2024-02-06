@@ -16,6 +16,8 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
 
     public TargetProgram(ArrayList<BotCommand> taskList, String target) {
         super(taskList);
+        this.CheckNotEmptyStrings(target);
+
         this.targetToReach = target;
     }
 
@@ -25,6 +27,8 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
 
     @Override
     public boolean isExpired(Coordinates botCoordinates, ArrayList<CartesianAreaInterface> targetList) {
+        this.checkNotNullObjects(botCoordinates, targetList);
+
         for (CartesianAreaInterface target : targetList) {
             if(target.checkAreaIntersection(botCoordinates))
             {
