@@ -2,11 +2,10 @@ package classes.programs;
 
 import java.util.ArrayList;
 
+import classes.services.abstractServices.ArgumentChecker;
 import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
-
-import classes.services.abstractServeces.ArgumentChecker;
 
 /**
  * A generic program installed into a bot able to execute its own tasks

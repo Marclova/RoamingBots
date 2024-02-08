@@ -1,4 +1,4 @@
-package classes.services.abstractServeces;
+package classes.services.abstractServices;
 
 public abstract class ArgumentChecker {
     
@@ -12,7 +12,7 @@ public abstract class ArgumentChecker {
         for (Object obj : objects) {
             if(obj == null)
             {
-                throw new NullPointerException();
+                throw new NullPointerException("ArgumentChecker's Exception");
             }
         }
     }
@@ -27,7 +27,7 @@ public abstract class ArgumentChecker {
         for (double n : values) {
             if(n <= 0)
             {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("ArgumentChecker's Exception");
             }
         }
     }
@@ -44,7 +44,7 @@ public abstract class ArgumentChecker {
         for (double n : values) {
             if (n < v1 || n > v2)
             {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("ArgumentChecker's Exception");
             }
         }
     }
@@ -56,15 +56,15 @@ public abstract class ArgumentChecker {
      * @throws NullPointerException If at least one of the strings is null.
      * @throws IllegalArgumentException If at least one of the string is empty or blank.
      */
-    public void CheckNotEmptyStrings(String... args) throws NullPointerException, IllegalArgumentException {
+    public void checkNotEmptyStrings(String... args) throws NullPointerException, IllegalArgumentException {
         for (String s : args) {
             if(s == null)
             {
-                throw new NullPointerException();
+                throw new NullPointerException("ArgumentChecker's Exception");
             }
             if(s.isBlank())
             {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("ArgumentChecker's Exception");
             }
 
         }

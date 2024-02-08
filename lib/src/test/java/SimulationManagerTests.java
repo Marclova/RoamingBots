@@ -24,6 +24,8 @@ import interfaces.programs.ProgramManagerInterface;
 
 public class SimulationManagerTests {
     
+    Coordinates zeroCoordinates = new Coordinates(0, 0);
+
     @Test
     public void simulationManagerExceptionTests() {
 
@@ -74,8 +76,8 @@ public class SimulationManagerTests {
     ProgramManagerInterface programManager = simulationManager.getProgramManager();
     BotManagerInterface botManager = simulationManager.getBotManager();
 
-    BotInterface botToProgram1 = botManager.createBot(0, 0);
-    BotInterface botToProgram2 = botManager.createBot(0, 0);
+    BotInterface botToProgram1 = botManager.createBot(zeroCoordinates);
+    BotInterface botToProgram2 = botManager.createBot(zeroCoordinates);
     ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
     targetList.add(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
 
@@ -93,13 +95,13 @@ public class SimulationManagerTests {
 
     simulationManager.simulate(1, 1);
     assertTrue(botToProgram1.getProgramList().get(0).equals(rp1) && rp1.isExpired());
-    assertTrue(botToProgram1.getYPosition() == 1 && botToProgram1.getMovementTimer() == 19);
-    assertTrue(botToProgram2.getYPosition() == 1 && botToProgram2.getMovementTimer() == 19);
+    assertTrue(botToProgram1.getCoordinates().y == 1 && botToProgram1.getMovementTimer() == 19);
+    assertTrue(botToProgram2.getCoordinates().y == 1 && botToProgram2.getMovementTimer() == 19);
 
     simulationManager.simulate(50, 1);
     assertTrue(tp.isExpired(botToProgram1.getCoordinates(), targetList) && rp2.isExpired()); //all bot1 tasks expired
     assertTrue(botToProgram1.getProgramList().isEmpty() && botToProgram2.getProgramList().isEmpty()); //all tasks removed
-    assertTrue(botToProgram1.getYPosition() == 10 && botToProgram1.getMovementTimer() == 0); //Has stopped onto the target
-    assertTrue(botToProgram1.getYPosition() == 20 && botToProgram1.getMovementTimer() == 0); //Has continued for 20 meters
+    assertTrue(botToProgram1.getCoordinates().y == 10 && botToProgram1.getMovementTimer() == 0); //Has stopped onto the target
+    assertTrue(botToProgram1.getCoordinates().y == 20 && botToProgram1.getMovementTimer() == 0); //Has continued for 20 meters
     }
 }

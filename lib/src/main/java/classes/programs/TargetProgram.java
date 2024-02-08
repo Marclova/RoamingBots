@@ -16,7 +16,7 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
 
     public TargetProgram(ArrayList<BotCommand> taskList, String target) {
         super(taskList);
-        this.CheckNotEmptyStrings(target);
+        this.checkNotEmptyStrings(target);
 
         this.targetToReach = target;
     }

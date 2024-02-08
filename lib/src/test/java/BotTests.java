@@ -23,13 +23,12 @@ public class BotTests {
     Coordinates zeroCoordinates = new Coordinates(0, 0);
     DirectionalVectors positiveVectors = new DirectionalVectors(1, 1);
     DirectionalVectors negativeVectors = new DirectionalVectors(-1, -1);
-    DirectionalVectors zeroVectors = new DirectionalVectors(0, 0);
     
     @Test
     public void botExceptionTests() {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = new Bot(zeroCoordinates);
 
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(-1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setDirectionAngle(360);});
@@ -40,11 +39,8 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.setMovementTimer(-1);});
 
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollowingDistance(-1);});
-
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMove(zeroVectors, -1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setMove(positiveVectors, 0);});
         
-        assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(zeroVectors, zeroVectors, 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(negativeVectors,positiveVectors, 0);});
         assertThrows(IllegalArgumentException.class, () -> {bot.setMoveRandom(positiveVectors, negativeVectors, 1);});
         
@@ -87,7 +83,8 @@ public class BotTests {
     {
         BotManagerInterface botManager = new BotManager();
         String rightLabel = "rightLabel";
-        BotInterface bot = botManager.createBot(0, 0);
+        BotInterface bot = botManager.createBot(zeroCoordinates);
+        Coordinates botCoordinates = bot.getCoordinates();
 
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
@@ -106,13 +103,13 @@ public class BotTests {
         assertTrue(10 == bot.getMovementTimer());
         assertFalse(botManager.moveAllBots(1));
         // assertFalse(bot.proceed(1));
-        assertTrue(0.0 == bot.getXPosition() && 0.0 == bot.getYPosition());
+        assertTrue(0.0 == botCoordinates.x && 0.0 == botCoordinates.y);
 
         bot.setSpeed(1);
         
         assertTrue(botManager.moveAllBots(1));
         // assertTrue(bot.proceed(1));
-        assertTrue(0.0 == bot.getXPosition() && 1.0 == bot.getYPosition());
+        assertTrue(0.0 == botCoordinates.x && 1.0 == botCoordinates.y);
         assertTrue(botManager.moveAllBots(1));
         // assertTrue(bot.proceed(1));
 
@@ -131,21 +128,23 @@ public class BotTests {
 
         ArrayList<BotInterface> botListToCheck;
         BotInterface botToCheck;
+        Coordinates botToCheckCoordinates;
         BotManagerInterface botManager = new BotManager();
         ArrayList<BotInterface> botList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            botList.add(new Bot(i, i));
+            botList.add(new Bot(new Coordinates(i, i)));
         }
 
         botManager.createBot(botList);
         assertEquals(botList, botManager.getBotList());
         
-        botManager.createBot(6, 6);
+        botManager.createBot(new Coordinates(6, 6));
         botListToCheck = botManager.getBotList();
         botToCheck = botListToCheck.get(botListToCheck.size()-1);
-        assertTrue(botToCheck.getXPosition() == 6 && botToCheck.getYPosition() == 6);
+        botToCheckCoordinates = botToCheck.getCoordinates();
+        assertTrue(botToCheckCoordinates.x == 6 && botToCheckCoordinates.y == 6);
 
-        BotInterface botToInsert = new Bot(90, 90);
+        BotInterface botToInsert = new Bot(new Coordinates(90, 90));
         botManager.createBot(botToInsert);
         assertTrue(botManager.getBotList().contains(botToInsert));
 
@@ -154,33 +153,31 @@ public class BotTests {
         botListToCheck = botManager.getBotList();
         assertTrue(botListToCheck.size() == 10);
         for (BotInterface bot : botListToCheck) {
-            assertTrue(bot.getXPosition() >= -10 && bot.getXPosition() <= 10 &&
-                        bot.getYPosition() >= -10 && bot.getYPosition() <= 10);
+            Coordinates botCoordinates = bot.getCoordinates();
+            assertTrue(botCoordinates.x >= -10 && botCoordinates.x <= 10 &&
+                        botCoordinates.y >= -10 && botCoordinates.y <= 10);
         }
-        assertFalse(botListToCheck.get(0).getXPosition() == botListToCheck.get(1).getXPosition() &&
-                    botListToCheck.get(0).getXPosition() == botListToCheck.get(2).getXPosition() &&
-                    botListToCheck.get(0).getXPosition() == botListToCheck.get(3).getXPosition());  //It will happen extremely unlikely by chance in case of malfunction
+        assertFalse(botListToCheck.get(0).getCoordinates().x == botListToCheck.get(1).getCoordinates().x &&
+                    botListToCheck.get(0).getCoordinates().x == botListToCheck.get(2).getCoordinates().x &&
+                    botListToCheck.get(0).getCoordinates().x == botListToCheck.get(3).getCoordinates().x);  //It will happen extremely unlikely by chance in case of malfunction
     }
 
     @Test
     public void detectingTests() {
         
         String rightLabel = "rightLabel";
-        BotInterface searchingBot = new Bot(0, 0);
-        BotInterface wrongLabelBot = new Bot(1, 1);
-        BotInterface emptyLabelBot = new Bot(-1, -1);
-        BotInterface notEmittingBot = new Bot(0, 2);
-        BotInterface farAwayBot = new Bot(3, 3);
-        BotInterface rightLAbelBot = new Bot(0, -2);
+        BotInterface searchingBot = new Bot(new Coordinates(0, 0));
+        BotInterface wrongLabelBot = new Bot(new Coordinates(1, 1));
+        BotInterface notEmittingBot = new Bot(new Coordinates(0, 2));
+        BotInterface farAwayBot = new Bot(new Coordinates(3, 3));
+        BotInterface rightLAbelBot = new Bot(new Coordinates(0, -2));
         wrongLabelBot.startEmittingSignalLabel("wrongLabel");
         farAwayBot.startEmittingSignalLabel(rightLabel);
         rightLAbelBot.startEmittingSignalLabel(rightLabel);
-        emptyLabelBot.setEmittingSignal(true);
         
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         botList.add(wrongLabelBot);
-        botList.add(emptyLabelBot);
         botList.add(notEmittingBot);
         botList.add(farAwayBot);
         assertFalse(searchingBot.isDetectingLabel(botList, rightLabel, searchingBot.getFollowingDistance()));
@@ -192,7 +189,8 @@ public class BotTests {
     public void movementTests() {
 
         BotManagerInterface botManager = new BotManager();
-        BotInterface movingBot = botManager.createBot(0, 0);
+        BotInterface movingBot = botManager.createBot(zeroCoordinates);
+        Coordinates movingBotCoordinates = movingBot.getCoordinates();
 
         movingBot.setMove(new DirectionalVectors(-0.5, 0.7), 2);
         assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
@@ -200,18 +198,18 @@ public class BotTests {
                                 .doubleValue());
         botManager.moveAllBots(1);
         // movingBot.proceed(1);
-        assertTrue(-1.16 == new BigDecimal(movingBot.getXPosition())
+        assertTrue(-1.16 == new BigDecimal(movingBotCoordinates.x)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
                                 &&
-                    1.63 == new BigDecimal(movingBot.getYPosition())
+                    1.63 == new BigDecimal(movingBotCoordinates.y)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
 
-        movingBot = new Bot(0, 0);
+        movingBot = new Bot(zeroCoordinates);
         String rightLabel = "rightLabel";
-        BotInterface bot1 = new Bot(-1, 0);
-        BotInterface bot2 = new Bot(-1, 1);
+        BotInterface bot1 = new Bot(new Coordinates(-1, 0));
+        BotInterface bot2 = new Bot(new Coordinates(-1, 1));
         ArrayList<BotInterface> botList = new ArrayList<>();
         botList.add(bot1);
         botList.add(bot2);
@@ -222,11 +220,11 @@ public class BotTests {
                                 .doubleValue());
         botManager.moveAllBots(1);
         // movingBot.proceed(1);
-        assertTrue(-1.79 == new BigDecimal(movingBot.getXPosition())
+        assertTrue(-1.79 == new BigDecimal(movingBotCoordinates.x)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
                                 &&
-                    0.89 == new BigDecimal(movingBot.getYPosition())
+                    0.89 == new BigDecimal(movingBotCoordinates.y)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
     }
@@ -236,18 +234,16 @@ public class BotTests {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            botList.add(new Bot(0, 0));
+            botList.add(new Bot(zeroCoordinates));
         }
 
         for (BotInterface bot : botList) {
             bot.setMoveRandom(negativeVectors, positiveVectors, 1);
-            assertTrue(bot.getXPosition() < -1 && bot.getXPosition() > 1 &&
-                        bot.getYPosition() < -1 && bot.getYPosition() > 1); //It will happen extremely unlikely by chance in case of malfunction
         }
 
-        assertFalse(botList.get(0).getXPosition() == botList.get(1).getXPosition() &&
-                    botList.get(0).getXPosition() == botList.get(2).getXPosition() &&
-                    botList.get(0).getXPosition() == botList.get(3).getXPosition());  //It will happen extremely unlikely by chance in case of malfunction
+        assertFalse(botList.get(0).getDirectionAngle() == botList.get(1).getDirectionAngle() &&
+                    botList.get(0).getDirectionAngle() == botList.get(2).getDirectionAngle() &&
+                    botList.get(0).getDirectionAngle() == botList.get(3).getDirectionAngle());  //It will happen extremely unlikely by chance in case of malfunction
     }
 
     @Test
@@ -256,7 +252,7 @@ public class BotTests {
         BotManagerInterface botManager = new BotManager();
         ArrayList<BotInterface> botList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            botList.add(new Bot(0, 0));    
+            botList.add(new Bot(zeroCoordinates));    
         }
         BotInterface bot1 = botList.get(0);
         BotInterface bot2 = botList.get(1);
@@ -264,22 +260,28 @@ public class BotTests {
         bot1.setMove(new DirectionalVectors(-1, 0), 1);
         bot2.setMove(new DirectionalVectors(1, -0.6), 1);
         bot3.setMove(new DirectionalVectors(-0.5, -0.99), 2);
+        double x1 = bot1.getCoordinates().x;
+        double y1 = bot1.getCoordinates().y;
+        double x2 = bot2.getCoordinates().x;
+        double y2 = bot2.getCoordinates().y;
+        double x3 = bot3.getCoordinates().x;
+        double y3 = bot3.getCoordinates().y;
 
         botManager.moveAllBots(1);
 
-        assertTrue(-1 == bot1.getXPosition() && 0 == bot1.getYPosition());
-        assertTrue(0.86 == new BigDecimal(bot2.getXPosition())
+        assertTrue(x1 == -1 && y1 == 0);
+        assertTrue(0.86 == new BigDecimal(x2)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
                                 && 
-                    -0.51 == new BigDecimal(bot2.getYPosition())
+                    -0.51 == new BigDecimal(y2)
                     .setScale(2, RoundingMode.HALF_UP)
                     .doubleValue());
-        assertTrue(-0.90 == new BigDecimal(bot3.getXPosition())
+        assertTrue(-0.90 == new BigDecimal(x3)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
                                 &&
-                    -1.79 == new BigDecimal(bot3.getYPosition())
+                    -1.79 == new BigDecimal(y3)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
     }

@@ -3,6 +3,7 @@ package classes.programs;
 import java.util.ArrayList;
 
 import functionalInterfaces.BotCommand;
+import interfaces.bots.BotInterface;
 import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
 
 /**
@@ -26,6 +27,25 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
     public void setCounter(int n) {
         this.checkGraterThanZeroValues(n+1);
         this.counter = n;
+    }
+
+    /**
+     * Executes once all the tasks in the "taskList" and then decreases the program's counter.
+     * 
+     * @param bot The bot owning this program.
+     * @return True if every command has been executed correctly.
+     *          False if at least least one of them has caused no changes.
+     */
+    @Override
+    public boolean executeTasks(BotInterface bot) {
+        this.checkNotNullObjects(bot);
+
+        boolean flag = false;
+        for (BotCommand task : this.getTaskList()) {
+            flag = task.execute(bot) || flag;
+        }
+        this.setCounter(this.counter - 1);
+        return flag;
     }
 
     @Override

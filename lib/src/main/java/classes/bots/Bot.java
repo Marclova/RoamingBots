@@ -1,19 +1,20 @@
 package classes.bots;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 
-public class Bot implements BotInterface {
+public class Bot extends ArgumentChecker implements BotInterface {
 
     private ArrayList<ProgramInterface> programList = new ArrayList<>();
 
     //position
-    private double xPosition;
-    private double yPosition;
+    private Coordinates coordinates;
 
     //movement
     private double directionAngle = 0;
@@ -26,8 +27,10 @@ public class Bot implements BotInterface {
     boolean IsEmittingSignal = false;
     String labelToEmit = "";
 
-    public Bot(double xCoordinate, double yCoordinate) {
+    public Bot(Coordinates coordinates) {
+        this.checkNotNullObjects(coordinates);
 
+        this.coordinates = coordinates;
     }
 
     @Override
@@ -37,34 +40,35 @@ public class Bot implements BotInterface {
 
     @Override
     public ProgramInterface getActiveProgram() {
-        return this.getProgramList().get(0);
+        if(this.programList.isEmpty())
+        {
+            return null;
+        }
+        return this.programList.get(0);
     }
 
     @Override
     public <P extends ProgramInterface> P addProgram(P program) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addProgram'");
+        if(this.programList.add(program))
+        {
+            return program;
+        }
+        return null;
     }
 
     @Override
     public boolean removeActiveProgram() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFirstProgram'");
-    }
-
-    @Override
-    public double getXPosition() {
-        return this.xPosition;
-    }
-
-    @Override
-    public double getYPosition() {
-        return this.yPosition;
+        if(this.programList.isEmpty())
+        {
+            return false;
+        }
+        this.programList.remove(0);
+        return true;
     }
 
     @Override
     public Coordinates getCoordinates() {
-        return new Coordinates(this.getXPosition(), this.getYPosition());
+        return this.coordinates;
     }
 
     @Override
@@ -99,115 +103,251 @@ public class Bot implements BotInterface {
 
     @Override
     public boolean IsEmittingSignal() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'IsEmittingSignal'");
+        return this.IsEmittingSignal;
     }
 
     @Override
     public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isDetectingLabelToFollow'");
+        this.checkNotNullObjects(botList);
+        this.checkNotEmptyStrings(labelToDetect);
+        this.checkGraterThanZeroValues(detectingDistance);
+
+        for (BotInterface bot : botList) {
+            if(bot == this)
+            {
+                continue;
+            }
+
+            if(bot.IsEmittingSignal() && bot.getLabelToEmit().equals(labelToDetect) &&
+                bot.getCoordinates().calculateDistanceFrom(this.coordinates) <= detectingDistance)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void setXPosition(double xCoordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setXPosition'");
+    public void setCoordinates(Coordinates coordinates) {
+        this.checkNotNullObjects(coordinates);
+
+        this.coordinates = coordinates;
     }
 
     @Override
-    public void setYPosition(double yCoordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setYPosition'");
+    public Coordinates incrementCoordinates(Coordinates relativeCoordinatesToSum) {
+        this.checkNotNullObjects(relativeCoordinatesToSum);
+
+        this.setCoordinates(new Coordinates(this.coordinates.x + relativeCoordinatesToSum.x,
+                                            this.coordinates.y + relativeCoordinatesToSum.y));
+        return this.coordinates;
     }
 
     @Override
     public void setDirectionAngle(double degrees) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setDirectionAngle'");
+        this.checkInsideIntervalValues(0, (360 - Double.MIN_VALUE), degrees);
+
+        this.directionAngle = degrees;
     }
 
     @Override
     public void setSpeed(double speed) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSpeed'");
+        this.checkGraterThanZeroValues(speed);
+
+        this.speed = speed;
     }
 
     @Override
     public void setMovementTimer(double seconds) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setMovementTimer'");
+        this.checkGraterThanZeroValues(seconds+1);
+
+        this.movementTimer = seconds;
     }
 
     @Override
     public void setLabelToFollow(String labelToFollow) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFollowingLabel'");
+        this.checkNotEmptyStrings(labelToFollow);
+
+        this.labelToFollow = labelToFollow;
     }
 
     @Override
     public void setFollowingDistance(double followingDistance) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFollowingDistance'");
+        this.checkGraterThanZeroValues(followingDistance);
+
+        this.followingDistance = followingDistance;
     }
 
-    @Override
-    public void setLabelToEmit(String labelToEmit) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSignalLabel'");
-    }
+    // @Override
+    // public void setLabelToEmit(String labelToEmit) {
+    //     this.checkNotEmptyStrings(labelToFollow);
 
-    @Override
-    public void setEmittingSignal(boolean isEmitting) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEmittingSignal'");
-    }
+    //     this.labelToEmit = labelToEmit;
+    // }
+
+    // @Override
+    // public void setEmittingSignal(boolean isEmitting) {
+    //     if(isEmitting) //bot can't emit an empty label.
+    //     {
+    //         this.checkNotEmptyStrings(this.labelToEmit);
+    //     }
+    //     this.IsEmittingSignal = isEmitting;
+    // }
 
     @Override
     public boolean setMove(DirectionalVectors dirVectors, double speed) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setMove'");
+        this.checkNotNullObjects(dirVectors);
+        this.checkGraterThanZeroValues(speed);
+
+        double newAngle = dirVectors.getDirectionalDegrees();
+        if(newAngle == this.directionAngle && speed == this.speed && this.movementTimer >= 1) //TODO consider to make movementTimer variable
+        {
+            return false;
+        }
+        this.setDirectionAngle(newAngle);
+        this.setSpeed(speed);
+        this.setMovementTimer(1); //TODO consider to make it variable
+        return true;
     }
 
     @Override
     public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setMoveRandom'");
+        this.checkNotNullObjects(dirVectors1,dirVectors2);
+        this.checkGraterThanZeroValues(speed);
+
+        double randomXVector = 0;
+        double randomYVector = 0;
+        while( randomXVector == 0 && randomYVector == 0 ) //The couple (0,0) must not be generated
+        {
+            randomXVector = Math.random() * (dirVectors2.xVector - dirVectors1.xVector + 1) + dirVectors1.xVector;
+            randomYVector = Math.random() * (dirVectors2.yVector - dirVectors1.yVector + 1) + dirVectors1.yVector;
+        }
+        return this.setMove(new DirectionalVectors(randomXVector, randomYVector), speed);
     }
 
     @Override
-    public boolean setFollow(String Label, double dist, double speed, ArrayList<BotInterface> botList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFollow'");
+    public boolean setFollow(String label, double dist, double speed, ArrayList<BotInterface> botList) {
+        this.checkNotEmptyStrings(label);
+        this.checkGraterThanZeroValues(dist, speed);
+        this.checkNotNullObjects(botList);
+
+        boolean flag = !(this.labelToFollow.equals(label) && this.followingDistance == dist && this.speed == speed);
+
+        this.setLabelToFollow(label);
+        this.setFollowingDistance(dist);
+        this.setSpeed(speed);
+        ArrayList<BotInterface> botToFollowList = this.getBotsToFollow(botList);
+        Coordinates botToFollowAverageCoordinates = this.calculateAverageBotsCoordinates(botToFollowList);
+        
+        double oldAngle = this.directionAngle;
+        this.directionAngle = this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates);
+        
+        return ( flag || (oldAngle != this.directionAngle) );
     }
 
     @Override
     public boolean setContinueMotion(double seconds) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setContinueMotion'");
+        this.checkGraterThanZeroValues(seconds);
+
+        if(this.speed == 0 || this.movementTimer == seconds)
+        {
+            return false;
+        }
+        this.movementTimer = seconds;
+        return true;
     }
 
     @Override
     public boolean stopMotion() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stopMotion'");
+        if(this.speed == 0 && movementTimer == 0)
+        {
+            return false;
+        }
+        this.speed = 0;
+        this.movementTimer = 0;
+        return true;
     }
-
-    // @Override
-    // public boolean proceed(double movementTime) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'proceed'");
-    // }
 
     @Override
     public boolean startEmittingSignalLabel(String label) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'startEmittingSignalLabel'");
+        this.checkNotEmptyStrings(label);
+
+        if(this.labelToEmit.equals(label) && this.IsEmittingSignal == true)
+        {
+            return false;
+        }
+        this.labelToEmit = label;
+        this.IsEmittingSignal = true;
+        return true;
     }
 
     @Override
     public boolean stopEmittingSignalLabel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stopEmittingSignalLabel'");
+        if(this.labelToEmit.isEmpty() && this.IsEmittingSignal == true)
+        {
+            return false;
+        }
+        this.labelToEmit = "";
+        this.IsEmittingSignal = false;
+        return true;
+    }
+
+    /**
+     * Checks all the detected bots within the following distance with the right emitting label.
+     * 
+     * @return A list of bots that this bot may follow.
+     */
+    private ArrayList<BotInterface> getBotsToFollow(ArrayList<BotInterface> botList) {
+        this.checkNotNullObjects(botList);
+
+        ArrayList<BotInterface> listToReturn = new ArrayList<>();
+        for (BotInterface bot : botList) {
+            if(this.isDetectingLabel(new ArrayList<>(Arrays.asList(bot)), this.labelToFollow, this.followingDistance))
+            {
+                listToReturn.add(bot);
+            }
+        }
+        return listToReturn;
+    }
+
+    /**
+     * Calculates the average coordinates between all the given bots. 
+     * 
+     * @param botList The bots to consider.
+     * @return The average coordinates.
+     */
+    private Coordinates calculateAverageBotsCoordinates(ArrayList<BotInterface> botList) {
+        this.checkNotNullObjects(botList);
+
+        int n = botList.size();
+        double averageX = 0;
+        double averageY = 0;
+        for (BotInterface bot : botList) {
+            Coordinates botCoordinates = bot.getCoordinates();
+            averageX += botCoordinates.x;
+            averageY += botCoordinates.y;
+        }
+        averageX /= n;
+        averageY /= n;
+        
+        return new Coordinates(averageX, averageY);
+    }
+
+    /**
+     * Sets the bot's direction angle so that it's pointing towards the given coordinates
+     * 
+     * @param coordinatesToPoint The coordinates to point to
+     */
+    private double calculateDirectionAngleTowardsCoordinates(Coordinates coordinatesToPoint) {
+        this.checkNotNullObjects(coordinatesToPoint);
+
+        double xVector = this.coordinates.x - coordinatesToPoint.x;
+        double yVector = this.coordinates.y - coordinatesToPoint.y;
+        while (Math.abs(xVector) > 1 || Math.abs(yVector) > 1) //directional vectors must be between 1 and -1
+        {
+            xVector /= 2;
+            yVector /=2;
+        }
+        return (new DirectionalVectors(xVector, yVector).getDirectionalDegrees());
     }
 }

@@ -20,7 +20,7 @@ public interface BotManagerInterface {
      * @param y The y coordinate.
      * @return The bot that has been created.
      */
-    public BotInterface createBot(double x, double y);
+    public BotInterface createBot(Coordinates coordinates);
 
     /**
      * Adds the given bot into the "botList"

@@ -2,7 +2,7 @@ package classes.programs;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServeces.ArgumentChecker;
+import classes.services.abstractServices.ArgumentChecker;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
@@ -20,14 +20,19 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
         this.checkNotNullObjects(botList, targetList);
 
         for (BotInterface bot : botList) {
-            if(bot.getProgramList().isEmpty())
+            int botProgramsCount = bot.getProgramList().size();
+
+            if(botProgramsCount == 0) //no elements to operate on
             {
                 continue;
             }
-
             if(this.botActiveProgramIsExpired(bot, botList, targetList))
             {
                 bot.removeActiveProgram();
+                if(botProgramsCount == 1) //no more elements left
+                {
+                    continue;
+                }
             }
             bot.getActiveProgram().executeTasks(bot);
         }
@@ -52,7 +57,7 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
     public TargetProgram createTargetProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList,
                                                 String targetLabelToReach) {
         this.checkNotNullObjects(botToProgram,taskList);
-        this.CheckNotEmptyStrings(targetLabelToReach);
+        this.checkNotEmptyStrings(targetLabelToReach);
 
         return ( botToProgram.addProgram(new TargetProgram(taskList, targetLabelToReach)) );
     }
@@ -61,7 +66,7 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
     public LabelProgram createLabelProgram(BotInterface botToProgram, ArrayList<BotCommand> taskList, String labelToDetect,
                                             double detectionDistance) {
         this.checkNotNullObjects(botToProgram,taskList);
-        this.CheckNotEmptyStrings(labelToDetect);
+        this.checkNotEmptyStrings(labelToDetect);
         this.checkGraterThanZeroValues(detectionDistance);
 
         return ( botToProgram.addProgram(new LabelProgram(taskList, labelToDetect, detectionDistance)) );

@@ -31,7 +31,6 @@ public class ProgramTests {
     Coordinates zeroCoordinates = new Coordinates(0, 0);
     DirectionalVectors positiveVectors = new DirectionalVectors(1, 1);
     DirectionalVectors negativeVectors = new DirectionalVectors(-1, -1);
-    DirectionalVectors zeroVectors = new DirectionalVectors(0, 0);
 
     @Test
     public void programsIllegalArgumentTests() {
@@ -39,7 +38,7 @@ public class ProgramTests {
         ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = new Bot(zeroCoordinates);
         RepeatingProgram repeatingProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
         TargetProgram targetProgram = new TargetProgram(taskList, "target");
@@ -72,7 +71,7 @@ public class ProgramTests {
         ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         ArrayList<BotInterface> botList = new ArrayList<>();
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = new Bot(zeroCoordinates);
 
         assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(null, targetList);});
         assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(botList, null);});
@@ -103,7 +102,7 @@ public class ProgramTests {
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((b) -> b.IsEmittingSignal());
         ArrayList<BotInterface> botList = new ArrayList<>();
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = new Bot(zeroCoordinates);
         botList.add(bot);
         RepeatingProgram counterProgram = new RepeatingProgram(taskList, 1);
         LabelProgram labelProgram = new LabelProgram(taskList, "label", 5);
@@ -116,7 +115,7 @@ public class ProgramTests {
         assertFalse(new InfiniteProgram(taskList).isExpired());
         
         assertFalse(labelProgram.isExpired(bot.getCoordinates(), botList));
-        BotInterface emittingBot = new Bot(2, 2);
+        BotInterface emittingBot = new Bot(new Coordinates(2, 2));
         emittingBot.startEmittingSignalLabel("label");
         botList.add(emittingBot);
         assertTrue(labelProgram.isExpired(bot.getCoordinates(), botList));
@@ -131,7 +130,7 @@ public class ProgramTests {
 
         ArrayList<BotInterface> botList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            botList.add(new Bot(0, 0));
+            botList.add(new Bot(zeroCoordinates));
         }
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((bot) -> bot.IsEmittingSignal());
@@ -155,7 +154,7 @@ public class ProgramTests {
         ProgramManagerInterface programManager = new ProgramManager();
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((bot) -> bot.IsEmittingSignal());
-        BotInterface bot = new Bot(0, 0);
+        BotInterface bot = new Bot(zeroCoordinates);
 
         RepeatingProgram repeatingProgramToCheck = programManager.createRepeatingProgram(bot, taskList, 5);
         assertEquals(bot.getProgramList().get(0), repeatingProgramToCheck);
@@ -188,7 +187,7 @@ public class ProgramTests {
         ProgramManagerInterface programManager = simulationManager.getProgramManager();
         ArrayList<BotInterface> botList = botManager.getBotList();
 
-        BotInterface botToProgram = botManager.createBot(0, 0);
+        BotInterface botToProgram = botManager.createBot(zeroCoordinates);
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));
         
@@ -197,17 +196,19 @@ public class ProgramTests {
         while (!botToProgram.getProgramList().isEmpty()) {
             programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
             botManager.moveAllBots(1);
-            // botToProgram.proceed(1);
         }
-        assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
+        assertTrue(botToProgram.getCoordinates().x == 0.0 && botToProgram.getCoordinates().y == 10.0);
 
         taskList.add((bot) -> bot.setContinueMotion(10));
-        botToProgram = new Bot(0, 0);
+        botToProgram = new Bot(zeroCoordinates);
+        botList.clear();
+        botList.add(botToProgram);
         programManager.createRepeatingProgram(botToProgram, taskList, 1); //sets movement for 10 seconds 1 time
         programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
+        programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
+
         assertTrue(botToProgram.getProgramList().isEmpty());
         botManager.moveAllBots(20); //it just has 10 seconds of movement
-        // botToProgram.proceed(20);
-        assertTrue(botToProgram.getXPosition() == 0 && botToProgram.getYPosition() == 10);
+        assertTrue(botToProgram.getCoordinates().x == 0 && botToProgram.getCoordinates().y == 10);
     }
 }

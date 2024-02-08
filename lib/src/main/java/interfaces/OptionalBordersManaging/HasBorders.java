@@ -22,7 +22,7 @@ public interface HasBorders {
 
 
     /**
-     * Resolves the problem concerning the bots exiting from the simulation's borders.
+     * Resolves the problem concerning the bots exiting from the object's borders.
      * 
      * @param botList The botList in which bots may be going too far.
      * @return A modified disposition where the borders problem is solved.
