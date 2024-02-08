@@ -45,6 +45,11 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
     public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2) {
         this.checkGraterThanZeroValues(quantity);
         this.checkNotNullObjects(coordinates1, coordinates2);
+        if(coordinates1.x > coordinates2.x ||
+            coordinates1.y > coordinates2.y)
+        {
+            throw new IllegalArgumentException();
+        }
 
         ArrayList<BotInterface> botsToAdd = new ArrayList<>();
 
@@ -81,7 +86,7 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
             botDeltaY = new BigDecimal(botDeltaY)
                             .setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-            flag = flag || (botDeltaX != 0 && botDeltaY != 0); //true if something has changed
+            flag = flag || !(botDeltaX == 0 && botDeltaY == 0); //true if something has changed
             bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
         }
         return flag;

@@ -32,6 +32,15 @@ public abstract class ArgumentChecker {
         }
     }
 
+    public void checkZeroOrHigherValues(double... values) {
+        for (double n : values) {
+            if(n < 0)
+            {
+                throw new IllegalArgumentException("ArgumentChecker's Exception");
+            }
+        }
+    }
+
     /**
      * Checks if the given numbers are inside the defined interval (extremes included) and throws exception if they're not.
      * 

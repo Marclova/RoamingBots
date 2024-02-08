@@ -145,21 +145,21 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public void setDirectionAngle(double degrees) {
-        this.checkInsideIntervalValues(0, (360 - Double.MIN_VALUE), degrees);
+        this.checkInsideIntervalValues(0, (360 - 0.00000001), degrees); //accuracy of 10^-8
 
         this.directionAngle = degrees;
     }
 
     @Override
     public void setSpeed(double speed) {
-        this.checkGraterThanZeroValues(speed);
+        this.checkZeroOrHigherValues(speed);
 
         this.speed = speed;
     }
 
     @Override
     public void setMovementTimer(double seconds) {
-        this.checkGraterThanZeroValues(seconds+1);
+        this.checkZeroOrHigherValues(seconds);
 
         this.movementTimer = seconds;
     }
@@ -200,7 +200,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkGraterThanZeroValues(speed);
 
         double newAngle = dirVectors.getDirectionalDegrees();
-        if(newAngle == this.directionAngle && speed == this.speed && this.movementTimer >= 1) //TODO consider to make movementTimer variable
+        if(newAngle == this.directionAngle && speed == this.speed && this.movementTimer == 1) //TODO consider to make movementTimer variable
         {
             return false;
         }
@@ -214,13 +214,18 @@ public class Bot extends ArgumentChecker implements BotInterface {
     public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed) {
         this.checkNotNullObjects(dirVectors1,dirVectors2);
         this.checkGraterThanZeroValues(speed);
+        if(dirVectors1.xVector > dirVectors2.xVector ||
+            dirVectors1.yVector > dirVectors2.yVector)
+        {
+            throw new IllegalArgumentException();
+        }
 
         double randomXVector = 0;
         double randomYVector = 0;
         while( randomXVector == 0 && randomYVector == 0 ) //The couple (0,0) must not be generated
         {
-            randomXVector = Math.random() * (dirVectors2.xVector - dirVectors1.xVector + 1) + dirVectors1.xVector;
-            randomYVector = Math.random() * (dirVectors2.yVector - dirVectors1.yVector + 1) + dirVectors1.yVector;
+            randomXVector = Math.random() * (dirVectors2.xVector - dirVectors1.xVector) + dirVectors1.xVector;
+            randomYVector = Math.random() * (dirVectors2.yVector - dirVectors1.yVector) + dirVectors1.yVector;
         }
         return this.setMove(new DirectionalVectors(randomXVector, randomYVector), speed);
     }
@@ -231,18 +236,23 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkGraterThanZeroValues(dist, speed);
         this.checkNotNullObjects(botList);
 
-        boolean flag = !(this.labelToFollow.equals(label) && this.followingDistance == dist && this.speed == speed);
+        boolean flag = !(this.labelToFollow.equals(label) && this.followingDistance == dist &&
+                        this.speed == speed && this.movementTimer == 1);  //Todo consider to make movementTimer variable
 
         this.setLabelToFollow(label);
         this.setFollowingDistance(dist);
         this.setSpeed(speed);
+        this.movementTimer = 1; //Todo consider to make it variable
         ArrayList<BotInterface> botToFollowList = this.getBotsToFollow(botList);
         Coordinates botToFollowAverageCoordinates = this.calculateAverageBotsCoordinates(botToFollowList);
         
-        double oldAngle = this.directionAngle;
-        this.directionAngle = this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates);
-        
-        return ( flag || (oldAngle != this.directionAngle) );
+        if(botToFollowAverageCoordinates != null)
+        {
+            double oldAngle = this.directionAngle;
+            this.directionAngle = this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates);
+            return ( flag || (oldAngle != this.directionAngle) );
+        }
+        return flag;
     }
 
     @Override
@@ -319,6 +329,11 @@ public class Bot extends ArgumentChecker implements BotInterface {
     private Coordinates calculateAverageBotsCoordinates(ArrayList<BotInterface> botList) {
         this.checkNotNullObjects(botList);
 
+        if(botList.isEmpty())
+        {
+            return null;
+        }
+
         int n = botList.size();
         double averageX = 0;
         double averageY = 0;
@@ -341,8 +356,8 @@ public class Bot extends ArgumentChecker implements BotInterface {
     private double calculateDirectionAngleTowardsCoordinates(Coordinates coordinatesToPoint) {
         this.checkNotNullObjects(coordinatesToPoint);
 
-        double xVector = this.coordinates.x - coordinatesToPoint.x;
-        double yVector = this.coordinates.y - coordinatesToPoint.y;
+        double xVector = coordinatesToPoint.x - this.coordinates.x;
+        double yVector = coordinatesToPoint.y - this.coordinates.y;
         while (Math.abs(xVector) > 1 || Math.abs(yVector) > 1) //directional vectors must be between 1 and -1
         {
             xVector /= 2;
