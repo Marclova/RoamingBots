@@ -101,9 +101,30 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     }
 
     @Override
-    public void simulate(double progressionTime, double coolDownTime, double executionDuration) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'simulate'");
+    public void simulate(double progressionTime, double executionDuration, double coolDownTime) {
+        this.checkGraterThanZeroValues(progressionTime, executionDuration);
+        this.checkZeroOrHigherValues(coolDownTime);
+
+        while (progressionTime > 0) {
+            if(executionDuration <= progressionTime)
+            {
+                progressionTime -= executionDuration;
+            }
+            else
+            {
+                executionDuration = progressionTime;
+                progressionTime = 0;
+            }
+
+            this.programManager.deleteExpiredAndThenExecuteAllPrograms(this.botManager.getBotList(), this.targetList);
+            this.botManager.moveAllBots(executionDuration);
+            try {
+                Thread.sleep((long)(coolDownTime * 1000));
+                // this.wait((long)(coolDownTime * 1000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

@@ -67,16 +67,17 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
         boolean flag = false;
         for (BotInterface bot : botList) {
-            if(movementTime <= bot.getMovementTimer()) //bot makes full movement
+            double actualMovementTime = movementTime;
+            if(actualMovementTime <= bot.getMovementTimer()) //bot makes full movement
             {
-                bot.setMovementTimer(bot.getMovementTimer() - movementTime);
+                bot.setMovementTimer(bot.getMovementTimer() - actualMovementTime);
             }
             else //bot moves as much as it can
             {
-                movementTime = bot.getMovementTimer();
+                actualMovementTime = bot.getMovementTimer();
                 bot.setMovementTimer(0);
             }
-            double botDistanceMovement = bot.getSpeed() * movementTime;
+            double botDistanceMovement = bot.getSpeed() * actualMovementTime;
             double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );
 
             double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
@@ -86,8 +87,12 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
             botDeltaY = new BigDecimal(botDeltaY)
                             .setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-            flag = flag || !(botDeltaX == 0 && botDeltaY == 0); //true if something has changed
-            bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
+            boolean relevantDeltas = !(botDeltaX == 0 && botDeltaY == 0);
+            flag = flag || relevantDeltas; //true if something has changed
+            if(relevantDeltas)
+            {
+                bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
+            }
         }
         return flag;
     }

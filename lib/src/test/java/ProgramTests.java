@@ -190,6 +190,7 @@ public class ProgramTests {
         BotInterface botToProgram = botManager.createBot(zeroCoordinates);
         ArrayList<BotCommand> taskList = new ArrayList<>();
         taskList.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));
+        taskList.add((bot) -> bot.setContinueMotion(1));
         
         programManager.createRepeatingProgram(botToProgram, taskList, 10); //sets movements for 1 second 10 times
         

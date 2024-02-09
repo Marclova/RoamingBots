@@ -48,8 +48,9 @@ public class SimulationManagerTests {
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile("");});
         assertThrows(FileNotFoundException.class, () -> {simulationManager.createTargetsFromTxtFile("ciao");}); //TODO controlla l'errore lanciato
 
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(0, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 0);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(0, 1, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 0, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 1, -0.001);});
     }
 
     @Test
@@ -110,10 +111,11 @@ public class SimulationManagerTests {
     ProgramManagerInterface programManager = simulationManager.getProgramManager();
     BotManagerInterface botManager = simulationManager.getBotManager();
 
+    simulationManager.createTarget(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
     BotInterface botToProgram1 = botManager.createBot(zeroCoordinates);
     BotInterface botToProgram2 = botManager.createBot(zeroCoordinates);
-    ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-    targetList.add(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
+    // ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
+    // targetList.add(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
 
     ArrayList<BotCommand> taskList1 = new ArrayList<>();
     taskList1.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));
@@ -125,17 +127,18 @@ public class SimulationManagerTests {
     RepeatingProgram rp1 = programManager.createRepeatingProgram(botToProgram1, taskList1, 1);  //start moving North for 20 seconds
     TargetProgram tp = programManager.createTargetProgram(botToProgram1, taskList2, "target");  //do nothing until reaching the target
     RepeatingProgram rp2 = programManager.createRepeatingProgram(botToProgram1, taskList3, 1);  //stop moving after expiration of the previous task
-    programManager.createRepeatingProgram(botToProgram2, taskList1, 1);  //the second bot will move for 20 seconds
+    RepeatingProgram rp3 = programManager.createRepeatingProgram(botToProgram2, taskList1, 1);  //the second bot will move for 20 seconds
 
-    simulationManager.simulate(1, 1);
+    simulationManager.simulate(1, 1, 0);
     assertTrue(botToProgram1.getProgramList().get(0).equals(rp1) && rp1.isExpired());
     assertTrue(botToProgram1.getCoordinates().y == 1 && botToProgram1.getMovementTimer() == 19);
     assertTrue(botToProgram2.getCoordinates().y == 1 && botToProgram2.getMovementTimer() == 19);
 
-    simulationManager.simulate(50, 1);
-    assertTrue(tp.isExpired(botToProgram1.getCoordinates(), targetList) && rp2.isExpired()); //all bot1 tasks expired
+    simulationManager.simulate(50, 1, 0);
+    assertTrue(tp.isExpired(botToProgram1.getCoordinates(), simulationManager.getTargetList()) && rp2.isExpired()); //all bot1 tasks expired
+    assertTrue(rp3.isExpired());
     assertTrue(botToProgram1.getProgramList().isEmpty() && botToProgram2.getProgramList().isEmpty()); //all tasks removed
     assertTrue(botToProgram1.getCoordinates().y == 10 && botToProgram1.getMovementTimer() == 0); //Has stopped onto the target
-    assertTrue(botToProgram1.getCoordinates().y == 20 && botToProgram1.getMovementTimer() == 0); //Has continued for 20 meters
+    assertTrue(botToProgram2.getCoordinates().y == 20 && botToProgram2.getMovementTimer() == 0); //Has continued for 20 meters
     }
 }

@@ -204,6 +204,7 @@ public class BotTests {
         BotInterface movingBot = botManager.createBot(zeroCoordinates);
 
         movingBot.setMove(new DirectionalVectors(-0.5, 0.7), 2);
+        movingBot.setContinueMotion(1);
         assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
@@ -229,6 +230,7 @@ public class BotTests {
         botList.add(bot2);
 
         movingBot.setFollow(rightLabel, 3, 2, botList);
+        movingBot.setContinueMotion(1);
         assertTrue(153.43 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
@@ -268,8 +270,11 @@ public class BotTests {
         BotInterface bot2 = botManager.createBot(zeroCoordinates);
         BotInterface bot3 = botManager.createBot(zeroCoordinates);
         bot1.setMove(new DirectionalVectors(-1, 0), 1);
+        bot1.setContinueMotion(1);
         bot2.setMove(new DirectionalVectors(1, -0.6), 1);
+        bot2.setContinueMotion(1);
         bot3.setMove(new DirectionalVectors(-0.5, -0.99), 2);
+        bot3.setContinueMotion(1);
 
         botManager.moveAllBots(1);
         double x1 = bot1.getCoordinates().x;

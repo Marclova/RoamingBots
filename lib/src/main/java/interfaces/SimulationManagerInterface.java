@@ -41,8 +41,10 @@ public interface SimulationManagerInterface {
      * Starts the simulation with the current settings for the given amount of time.
      * 
      * @param progressionTime The time in seconds in witch
-     * @param coolDownTime The time in seconds of pause between every new status update.
      * @param executionDuration The time required for any execution to get complied.
+     *                          The lower is this value, the higher will be the execution accuracy.
+     * @param coolDownTime The time in seconds of pause between every new status update.
+     *                      The lower is this value, the faster will be the simulation.
      */
-    public void simulate(double progressionTime, double coolDownTime, double executionDuration);
+    public void simulate(double progressionTime, double executionDuration, double coolDownTime);
 }

@@ -200,13 +200,12 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkGraterThanZeroValues(speed);
 
         double newAngle = dirVectors.getDirectionalDegrees();
-        if(newAngle == this.directionAngle && speed == this.speed && this.movementTimer == 1) //TODO consider to make movementTimer variable
+        if(newAngle == this.directionAngle && speed == this.speed)
         {
             return false;
         }
         this.setDirectionAngle(newAngle);
         this.setSpeed(speed);
-        this.setMovementTimer(1); //TODO consider to make it variable
         return true;
     }
 
@@ -237,12 +236,11 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkNotNullObjects(botList);
 
         boolean flag = !(this.labelToFollow.equals(label) && this.followingDistance == dist &&
-                        this.speed == speed && this.movementTimer == 1);  //Todo consider to make movementTimer variable
+                        this.speed == speed);
 
         this.setLabelToFollow(label);
         this.setFollowingDistance(dist);
         this.setSpeed(speed);
-        this.movementTimer = 1; //Todo consider to make it variable
         ArrayList<BotInterface> botToFollowList = this.getBotsToFollow(botList);
         Coordinates botToFollowAverageCoordinates = this.calculateAverageBotsCoordinates(botToFollowList);
         
