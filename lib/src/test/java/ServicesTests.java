@@ -33,6 +33,9 @@ public class ServicesTests {
         assertThrows(NullPointerException.class, () -> {argumentChecker.checkGraterThanZeroValues(null);});
         assertThrows(IllegalArgumentException.class, () -> {argumentChecker.checkGraterThanZeroValues(0);});
 
+        assertThrows(NullPointerException.class, () -> {argumentChecker.checkZeroOrHigherValues(null);});
+        assertThrows(IllegalArgumentException.class, () -> {argumentChecker.checkZeroOrHigherValues(-1);});
+
         assertThrows(NullPointerException.class, () -> {argumentChecker.checkInsideIntervalValues(-1, 1, null);});
         assertThrows(IllegalArgumentException.class, () -> {argumentChecker.checkInsideIntervalValues(1, -1, 0.5);}); //wrong interval definition
         assertThrows(IllegalArgumentException.class, () -> {argumentChecker.checkInsideIntervalValues(-1, 1, 2);});

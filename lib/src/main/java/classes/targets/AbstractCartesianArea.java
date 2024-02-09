@@ -5,8 +5,7 @@ import interfaces.CartesianAreaInterface;
 
 public abstract class AbstractCartesianArea implements CartesianAreaInterface {
     
-    private double xPosition;
-    private double yPosition;
+    private Coordinates coordinates;
     private String label;
 
     public AbstractCartesianArea(Coordinates coordinates, String label) {
@@ -19,19 +18,13 @@ public abstract class AbstractCartesianArea implements CartesianAreaInterface {
             throw new IllegalArgumentException("Label must contain at least one character.");
         }
 
-        this.xPosition = coordinates.x;
-        this.yPosition = coordinates.y;
+        this.coordinates = coordinates;
         this.label = label;
     }
 
     @Override
-    public double getXCoordinate() {
-        return this.xPosition;
-    }
-
-    @Override
-    public double getYCoordinate() {
-        return this.yPosition;
+    public Coordinates getCoordinates() {
+        return this.coordinates;
     }
 
     @Override

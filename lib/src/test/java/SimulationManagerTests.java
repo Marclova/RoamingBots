@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import classes.programs.RepeatingProgram;
 import classes.programs.TargetProgram;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
+import classes.targets.Circle;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
@@ -69,6 +71,38 @@ public class SimulationManagerTests {
         assertTrue(simulationManager.getExecutionTimeCycle() == 0.1);
     }
     
+    @Test
+    public void targetCreationTests() {
+
+        SimulationManager simulationManager = new SimulationManager();
+        ArrayList<CartesianAreaInterface> targetList = simulationManager.getTargetList();
+        simulationManager.createTarget(new Circle(zeroCoordinates, "circleLabel", 3));
+        simulationManager.createTarget(new Rectangle(zeroCoordinates, "rectangleLabel", 5, 6));
+
+        assertTrue(targetList.size() == 2);
+        Circle circle = (Circle)simulationManager.getTargetList().get(0);
+        Rectangle rectangle = (Rectangle)simulationManager.getTargetList().get(1);
+
+        assertTrue(circle.getCoordinates().equals(zeroCoordinates) && circle.getLabel().equals("circleLabel") &&
+                    circle.getRadius() == 3);
+        assertTrue(rectangle.getCoordinates() == zeroCoordinates && rectangle.getLabel().equals("rectangleLabel") &&
+                    rectangle.getWidth() == 5 && rectangle.getHeight() == 6);
+
+        try {
+            simulationManager.createTargetsFromTxtFile("targetListInput.txt");
+        } catch (FileNotFoundException e) {
+            fail(e.getMessage());
+        }
+
+        assertTrue(targetList.size() == 4);
+        Circle txtCircle = (Circle)targetList.get(2);
+        Rectangle txtRectangle = (Rectangle)targetList.get(3);
+        assertTrue(txtCircle.getCoordinates().equals(new Coordinates(2, 2)) && txtCircle.getLabel().equals("t4rget!|") &&
+                    txtCircle.getRadius() == 3);
+        assertTrue(txtRectangle.getCoordinates().equals(zeroCoordinates) && txtRectangle.getLabel().equals("tar-get_") &&
+                    txtRectangle.getWidth() == 2 && txtRectangle.getHeight() == 1);
+    }
+
     @Test
     public void simulationTest() {
 

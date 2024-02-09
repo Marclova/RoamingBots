@@ -22,7 +22,7 @@ public class Circle extends AbstractCartesianArea {
 
     @Override
     public boolean checkAreaIntersection(Coordinates coordinatesToCheck) {
-        return (Math.abs(this.getXCoordinate() - coordinatesToCheck.x) <= this.radius &&
-                Math.abs(this.getYCoordinate() - coordinatesToCheck.y) <= this.radius);
+        return (Math.abs(this.getCoordinates().x - coordinatesToCheck.x) <= this.radius &&
+                Math.abs(this.getCoordinates().y - coordinatesToCheck.y) <= this.radius);
     }
 }

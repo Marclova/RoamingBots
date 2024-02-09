@@ -38,12 +38,12 @@ public class TargetTests {
         targetList.add(rectangle);
 
         for (CartesianAreaInterface c : targetList) {
-            assertTrue(c.getXCoordinate() == 0 && c.getYCoordinate() == 0);
+            assertTrue(c.getCoordinates().x == 0 && c.getCoordinates().y == 0);
             assertEquals("target", c.getLabel());
             assertTrue(c.checkAreaIntersection(new Coordinates(5, 5)));
         }
 
         assertTrue(circle.getRadius() == 10);
-        assertTrue(rectangle.getHeight() == 10 && rectangle.getWidth() == 20);
+        assertTrue(rectangle.getWidth() == 10 && rectangle.getHeight() == 20);
     }
 }

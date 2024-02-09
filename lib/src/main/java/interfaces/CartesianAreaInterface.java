@@ -10,8 +10,7 @@ import classes.services.containers.Coordinates;
 public interface CartesianAreaInterface {
     
     //getters
-    public double getXCoordinate();
-    public double getYCoordinate();
+    public Coordinates getCoordinates();
     public String getLabel();
 
     

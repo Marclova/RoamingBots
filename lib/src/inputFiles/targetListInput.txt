@@ -1,0 +1,10 @@
+t4rget!| Circle 2 2 3                                 (oggetto corretto)
+target NotExistingShape 1 2 3 4
+
+tar-get_ Rectangle 0 0 2 1 not-annoying useless txt   (oggetto corretto)
+Rectangle 0 0 1 1
+target Circle 0 0
+tar get Circle 0 0 1
+
+Just two shapes should be generated
+

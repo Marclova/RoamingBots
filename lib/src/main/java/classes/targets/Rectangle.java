@@ -31,7 +31,7 @@ public class Rectangle extends AbstractCartesianArea {
     public boolean checkAreaIntersection(Coordinates coordinatesToCheck) {
         double xToCheck = coordinatesToCheck.x;
         double yToCheck = coordinatesToCheck.y;
-        return ( this.getXCoordinate() <= xToCheck ) && ( (this.getXCoordinate() + this.height) >= xToCheck ) &&
-                ( this.getYCoordinate() <= yToCheck ) && ( (this.getYCoordinate() + this.width) >= yToCheck );
+        return ( this.getCoordinates().x <= xToCheck ) && ( (this.getCoordinates().x + this.width) >= xToCheck ) &&
+                ( this.getCoordinates().y <= yToCheck ) && ( (this.getCoordinates().y + this.height) >= yToCheck );
     }
 }

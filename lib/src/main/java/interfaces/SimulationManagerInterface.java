@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import interfaces.bots.BotManagerInterface;
@@ -31,16 +32,17 @@ public interface SimulationManagerInterface {
     /**
      * Adds the given cartesian shape into the "targetList".
      * 
-     * @param fileAddress The location of the file in the local file system.
-     * @return The number of targets that has been created.
+     * @param fileAddress The name of the file in the local file system to read.
+     * @return The list of targets that has been created.
      */
-    public int createTargetsFromTxtFile(String fileAddress);
+    public ArrayList<CartesianAreaInterface> createTargetsFromTxtFile(String fileName) throws FileNotFoundException;
 
     /**
      * Starts the simulation with the current settings for the given amount of time.
      * 
      * @param progressionTime The time in seconds in witch
      * @param coolDownTime The time in seconds of pause between every new status update.
+     * @param executionDuration The time required for any execution to get complied.
      */
-    public void simulate(double progressionTime, double coolDownTime);
+    public void simulate(double progressionTime, double coolDownTime, double executionDuration);
 }
