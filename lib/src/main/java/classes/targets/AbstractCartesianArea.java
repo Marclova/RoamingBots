@@ -1,22 +1,20 @@
 package classes.targets;
 
+import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
 import interfaces.CartesianAreaInterface;
 
-public abstract class AbstractCartesianArea implements CartesianAreaInterface {
+/**
+ * Abstract class containing all the common instances and methods between the various types of targets.
+ */
+public abstract class AbstractCartesianArea extends ArgumentChecker implements CartesianAreaInterface {
     
     private Coordinates coordinates;
     private String label;
 
     public AbstractCartesianArea(Coordinates coordinates, String label) {
-        if(coordinates == null || label == null)
-        {
-            throw new NullPointerException();
-        }
-        if(label.isEmpty())
-        {
-            throw new IllegalArgumentException("Label must contain at least one character.");
-        }
+        this.checkNotNullObjects(coordinates);
+        this.checkNotEmptyStrings(label);
 
         this.coordinates = coordinates;
         this.label = label;

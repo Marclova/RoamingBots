@@ -7,7 +7,7 @@ import interfaces.bots.BotInterface;
 import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
 
 /**
- * A program able to execute its tasks a limited amount of times
+ * A program able to execute its tasks a limited amount of times.
  */
 public class RepeatingProgram extends AbstractProgram implements NoArgsExpirationCheck {
 
@@ -26,6 +26,7 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
 
     public void setCounter(int n) {
         this.checkGraterThanZeroValues(n+1);
+
         this.counter = n;
     }
 
@@ -39,7 +40,11 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
     @Override
     public boolean executeTasks(BotInterface bot) {
         this.checkNotNullObjects(bot);
-
+        if(this.counter == 0)
+        {
+            return false;
+        }
+        
         boolean flag = false;
         for (BotCommand task : this.getTaskList()) {
             flag = task.execute(bot) || flag;

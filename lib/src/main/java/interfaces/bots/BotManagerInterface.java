@@ -6,7 +6,7 @@ import classes.services.containers.Coordinates;
 
 /**
  * The class extending this interface will have the responsibility to create and move bots
- *      within the simulation area.  
+ *      through the simulation area.
  */
 public interface BotManagerInterface {
 
@@ -14,37 +14,34 @@ public interface BotManagerInterface {
     public ArrayList<BotInterface> getBotList();
 
     /**
-     * Adds a robot with the given coordinates into the "botList"
+     * Creates and inserts a robot with the given coordinates into the "botList".
      * 
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param coordinates The new bot's coordinates.
      * @return The bot that has been created.
      */
     public BotInterface createBot(Coordinates coordinates);
 
     /**
-     * Adds the given bot into the "botList"
+     * Inserts the given bot into the "botList".
      * 
-     * @param bot The bot to add
+     * @param bot The bot to add.
      */
-    public void createBot(BotInterface botToAdd);
+    public boolean createBot(BotInterface botToAdd);
 
     /**
-     * Adds the given bots into the "botList"
+     * Inserts the given bots into the "botList".
      * 
-     * @param botListToAdd The bot list to add
+     * @param botListToAdd The bot list to add.
      * @return True if at least one the bots are correctly created. False otherwise.
      */
     public boolean createBot(ArrayList<BotInterface> botListToAdd);
 
     /**
-     * Created a given quantity of bots with random coordinates
+     * Creates a given quantity of bots with random coordinates.
      * 
      * @param quantity The amount of bots to create.
-     * @param x1 The lower x coordinate.
-     * @param y1 The lower y coordinate.
-     * @param x2 The higher x coordinate.
-     * @param y2 The higher y coordinate.
+     * @param coordinates1 The lower coordinates.
+     * @param coordinates2 The higher coordinates.
      * @return True if all the bots are correctly created. False otherwise.
      */
     public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2);
@@ -52,8 +49,8 @@ public interface BotManagerInterface {
     /**
      * Moves the bots depending on their own orientation, speed and movementTimer.
      *      
-     * @param movementTime The time given to every bot to move. (max. 1 second)
-     * @return True if the bots' disposition has been changed. False if no bot has moved.
+     * @param movementTime The time given to every bot to move.
+     * @return True if any of the bots' disposition has been changed. False if no bot has moved.
      */
     public boolean moveAllBots(double movementTime);
 }

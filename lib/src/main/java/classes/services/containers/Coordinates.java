@@ -32,6 +32,10 @@ public class Coordinates extends ArgumentChecker {
 
     @Override
     public boolean equals(Object obj) {
+        if(obj == null)
+        {
+            return false;
+        }
         Coordinates other = (Coordinates)obj;
         return ( this.x == other.x &&
                     this.y == other.y );

@@ -9,6 +9,10 @@ import classes.services.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 
+/**
+ * A bot moving around the simulation plane.
+ *  It's behavior is highly programmable by adding programs into it.
+ */
 public class Bot extends ArgumentChecker implements BotInterface {
 
     private ArrayList<ProgramInterface> programList = new ArrayList<>();
@@ -49,6 +53,8 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public <P extends ProgramInterface> P addProgram(P program) {
+        this.checkNotNullObjects(program);
+
         if(this.programList.add(program))
         {
             return program;
@@ -178,22 +184,6 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.followingDistance = followingDistance;
     }
 
-    // @Override
-    // public void setLabelToEmit(String labelToEmit) {
-    //     this.checkNotEmptyStrings(labelToFollow);
-
-    //     this.labelToEmit = labelToEmit;
-    // }
-
-    // @Override
-    // public void setEmittingSignal(boolean isEmitting) {
-    //     if(isEmitting) //bot can't emit an empty label.
-    //     {
-    //         this.checkNotEmptyStrings(this.labelToEmit);
-    //     }
-    //     this.IsEmittingSignal = isEmitting;
-    // }
-
     @Override
     public boolean setMove(DirectionalVectors dirVectors, double speed) {
         this.checkNotNullObjects(dirVectors);
@@ -247,7 +237,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
         if(botToFollowAverageCoordinates != null)
         {
             double oldAngle = this.directionAngle;
-            this.directionAngle = this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates);
+            this.setDirectionAngle(this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates));
             return ( flag || (oldAngle != this.directionAngle) );
         }
         return flag;
@@ -257,7 +247,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
     public boolean setContinueMotion(double seconds) {
         this.checkGraterThanZeroValues(seconds);
 
-        if(this.speed == 0 || this.movementTimer == seconds)
+        if(this.movementTimer == seconds)
         {
             return false;
         }
@@ -291,7 +281,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean stopEmittingSignalLabel() {
-        if(this.labelToEmit.isEmpty() && this.IsEmittingSignal == true)
+        if(this.labelToEmit.isEmpty() && this.IsEmittingSignal == false)
         {
             return false;
         }
@@ -301,15 +291,19 @@ public class Bot extends ArgumentChecker implements BotInterface {
     }
 
     /**
-     * Checks all the detected bots within the following distance with the right emitting label.
+     * Looks for all the detectable bots within the following distance with the right emitting label.
      * 
-     * @return A list of bots that this bot may follow.
+     * @return A list of detected bots that this bot may follow.
      */
     private ArrayList<BotInterface> getBotsToFollow(ArrayList<BotInterface> botList) {
         this.checkNotNullObjects(botList);
 
         ArrayList<BotInterface> listToReturn = new ArrayList<>();
         for (BotInterface bot : botList) {
+            if(bot.equals(this))
+            {
+                continue;
+            }
             if(this.isDetectingLabel(new ArrayList<>(Arrays.asList(bot)), this.labelToFollow, this.followingDistance))
             {
                 listToReturn.add(bot);
@@ -321,12 +315,11 @@ public class Bot extends ArgumentChecker implements BotInterface {
     /**
      * Calculates the average coordinates between all the given bots. 
      * 
-     * @param botList The bots to consider.
+     * @param botList The list of bots to consider.
      * @return The average coordinates.
      */
     private Coordinates calculateAverageBotsCoordinates(ArrayList<BotInterface> botList) {
         this.checkNotNullObjects(botList);
-
         if(botList.isEmpty())
         {
             return null;
@@ -347,9 +340,11 @@ public class Bot extends ArgumentChecker implements BotInterface {
     }
 
     /**
-     * Sets the bot's direction angle so that it's pointing towards the given coordinates
+     * calculates the direction angle expressed in degrees which will consent the bot's
+     *  to point towards the given coordinates position.
      * 
-     * @param coordinatesToPoint The coordinates to point to
+     * @param coordinatesToPoint The coordinates to point to.
+     * @return The angle with which the bot can point to the given coordinates.
      */
     private double calculateDirectionAngleTowardsCoordinates(Coordinates coordinatesToPoint) {
         this.checkNotNullObjects(coordinatesToPoint);
@@ -359,7 +354,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
         while (Math.abs(xVector) > 1 || Math.abs(yVector) > 1) //directional vectors must be between 1 and -1
         {
             xVector /= 2;
-            yVector /=2;
+            yVector /= 2;
         }
         return (new DirectionalVectors(xVector, yVector).getDirectionalDegrees());
     }

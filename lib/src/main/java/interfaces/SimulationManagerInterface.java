@@ -18,19 +18,15 @@ public interface SimulationManagerInterface {
     public void setBotManager(BotManagerInterface botM);
     public void setProgramManager(ProgramManagerInterface progM);
 
-    //Duration of a simulation cycle expressed in seconds (getters and setters)
-    public double getExecutionTimeCycle();
-    public void setExecutionTimeCycle(double t);
-
     /**
-     * Adds the given target into the targetList
+     * Adds the given target into the targetList.
      * 
      * @param target The target to add.
      */
     public void createTarget(CartesianAreaInterface target);
 
     /**
-     * Adds the given cartesian shape into the "targetList".
+     * Adds the given cartesian shape into the "targetList" reading a txt file.
      * 
      * @param fileAddress The name of the file in the local file system to read.
      * @return The list of targets that has been created.
@@ -38,9 +34,9 @@ public interface SimulationManagerInterface {
     public ArrayList<CartesianAreaInterface> createTargetsFromTxtFile(String fileName) throws FileNotFoundException;
 
     /**
-     * Starts the simulation with the current settings for the given amount of time.
+     * Runs the simulation with the current settings for the given amount of time.
      * 
-     * @param progressionTime The time in seconds in witch
+     * @param progressionTime The time in seconds that the simulation will run.
      * @param executionDuration The time required for any execution to get complied.
      *                          The lower is this value, the higher will be the execution accuracy.
      * @param coolDownTime The time in seconds of pause between every new status update.

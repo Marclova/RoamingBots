@@ -56,6 +56,7 @@ public class BotTests {
         assertThrows(NullPointerException.class, () -> {bot.isDetectingLabel(botList, null, 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "label", 0);});
         
+        assertThrows(NullPointerException.class, () -> {bot.addProgram(null);});
 
         assertThrows(NullPointerException.class, () -> {bot.startEmittingSignalLabel(null);});
         assertThrows(IllegalArgumentException.class, () -> {bot.startEmittingSignalLabel("");});
@@ -103,7 +104,7 @@ public class BotTests {
         assertTrue(90 == bot.getDirectionAngle());
 
         bot.setContinueMotion(10);
-        assertTrue(0 == bot.getMovementTimer());
+        assertTrue(10 == bot.getMovementTimer());
         bot.setSpeed(0.5);
         assertTrue(0.5 == bot.getSpeed());
         bot.setContinueMotion(10);

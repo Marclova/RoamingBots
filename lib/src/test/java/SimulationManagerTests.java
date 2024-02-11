@@ -40,7 +40,6 @@ public class SimulationManagerTests {
 
         assertThrows(NullPointerException.class, () -> {simulationManager.setBotManager(null);});
         assertThrows(NullPointerException.class, () -> {simulationManager.setProgramManager(null);});
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.setExecutionTimeCycle(0);});
 
         assertThrows(NullPointerException.class, () -> {simulationManager.createTarget(null);});
 
@@ -66,10 +65,8 @@ public class SimulationManagerTests {
         ProgramManagerInterface programManager2 = new ProgramManager();
         simulationManager.setBotManager(botManager2);
         simulationManager.setProgramManager(programManager2);
-        simulationManager.setExecutionTimeCycle(0.1);
         assertEquals(botManager2, simulationManager.getBotManager());
         assertEquals(programManager2, simulationManager.getProgramManager());
-        assertTrue(simulationManager.getExecutionTimeCycle() == 0.1);
     }
     
     @Test

@@ -12,6 +12,9 @@ import interfaces.programs.expirationCheckRequirements.BotListExpirationCheck;
 import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
 import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck;
 
+/**
+ * Class responsible to create and insert program into bots, execute them and delete them.
+ */
 public class ProgramManager extends ArgumentChecker implements ProgramManagerInterface {    
 
     @Override
@@ -83,7 +86,7 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
     private boolean botActiveProgramIsExpired(BotInterface bot,
                                             ArrayList<BotInterface> botList,
                                             ArrayList<CartesianAreaInterface> targetList) { //code smell which lowers slightly the code's extendibility
-        this.checkNotNullObjects(bot);
+        this.checkNotNullObjects(bot, botList, targetList);
 
         ProgramInterface activeProgram = bot.getActiveProgram();
         if(activeProgram instanceof NoArgsExpirationCheck)

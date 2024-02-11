@@ -7,14 +7,14 @@ import classes.services.containers.DirectionalVectors;
 import interfaces.programs.ProgramInterface;
 
 /**
- * Interface for bots' base behavior
+ * Interface for bots' essential behavior.
  */
 public interface BotInterface {
 
     /**
-     * The first program in the bot's programList is considered "active", while the other are "in queue"
+     * The first program in the bot's programList is considered "active", while the other are "in queue".
      * 
-     * @return The first program in the bot's programList
+     * @return The first program in the bot's programList.
      */
     public ProgramInterface getActiveProgram();
     public ArrayList<ProgramInterface> getProgramList();
@@ -47,60 +47,55 @@ public interface BotInterface {
     //signal emission
     public String getLabelToEmit();
     public boolean IsEmittingSignal();
-    // public void setLabelToEmit(String labelToEmit);
-    // public void setEmittingSignal(boolean isEmitting);
     
 
     /**
-     * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
-     * At least one of the two parameters x and y must be different from 0.
+     * Sets the bot's speed and angleDirection.
      * 
-     * @param x The x vector for movement direction (value between -1 and 1)
-     * @param y The y vector for movement direction (value between -1 and 1)
+     * @param dirVectors The directional vectors defining the direction.
      * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
      * @return True if any bot's setting has changed. False otherwise.
      */
     public boolean setMove(DirectionalVectors dirVectors, double speed);
 
     /**
-     * Sets the bot speed and angleDirection. Also the movementTimer is set to 1.
+     * Sets the bot's speed and angleDirection.
      * 
-     * @param x1 The lower value of the x vector's for the interval (value between -1 and 1)
-     * @param y1 The lower value of the y vector's for the interval (value between -1 and 1)
-     * @param x2 The higher value of the x vector's for the interval (value between "x1" and 1)
-     * @param y2 The higher value of the y vector's for the interval (value between "y1" and 1)
-     * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
+     * @param dirVectors1 Lower directional vectors.
+     * @param dirVectors2 Higher directional vectors.
+     * @param speed The bot's velocity expressed in m/s.
      * @return True if any bot's setting has changed. False otherwise.
      */
     public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed);
 
     /**
-     * Sets the bot in a direction so that following one or more bots within the given distance
-     *      which is emitting the corresponding label for one simulation cycle.
+     * Sets the bot's speed and angleDirection so that it can follow one or more bots within the given distance
+     *      and which is emitting the corresponding label for one simulation cycle.
+     *      If more bots are detected, then an average will be taken as coordinates to follow.
      * 
-     * @param Label The label identifier to find.
+     * @param Label The label identifier to detect.
      * @param dist The distance within research.
-     * @param speed Sets the robot velocity expressed in m/s (a coordinate unit corresponds to a metre)
+     * @param speed The bot's velocity expressed in m/s.
      * @param botList The list of all bots in the simulation plane.
-     * @return True if any bot's setting has changed. False otherwise.
+     * @return True if any of the bot's setting has been changed. False otherwise.
      */
     public boolean setFollow(String label, double dist, double speed, ArrayList<BotInterface> botList);
 
     /**
-     * Checks if this bot is currently detecting the label that it is supposed to follow.
+     * Checks if there are any bots emitting the given label within the given distance from this bot.
      * 
-     * @param botList The list of all bots
-     * @param labelToDetect The label that this bot has to detect from other bots
-     * @param detectingDistance The distance within this bot detects the other bot during this specific scanning.
-     * @return True if the label to detect has been detected by this bot from other bots in range. False otherwise.
+     * @param botList The list of all bots.
+     * @param labelToDetect The label that this bot has to detect from other bots.
+     * @param detectingDistance The scanning distance.
+     * @return True if the label to detect has been detected by this bot. False otherwise.
      */
     public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance);
 
     /**
      * Sets a time limit for the current bot's motion.
      * 
-     * @param seconds In-simulation time before the bot stops.
-     * @return True if the time limit has been set or updated. False if the bot is already stopped.
+     * @param seconds Time in seconds that the bot his going to move.
+     * @return True if the time limit has been set. False if it's unchanged.
      */
     public boolean setContinueMotion(double seconds);
 
@@ -115,14 +110,15 @@ public interface BotInterface {
      * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.
      * 
      * @param label The label identifier to set.
-     * @return True if the signal has been started or changed. False if there are no changes.
+     * @return True if the signal emission has been started or changed. False if there are no changes.
      */
     public boolean startEmittingSignalLabel(String label);
 
     /**
-     * Sets the bot's "emitSignal" flag to false.
+     * Sets the bot's "emitSignal" flag to false and erases the bot's "signalToEmit".
      * 
-     * @return True if the "emitSignal" flag has been changed. False if it was already set on false.
+     * @return True if the "emitSignal" flag has been changed or if the "signalToEmit" has been erased.
+     *          False if nothing has changed.
      */
     public boolean stopEmittingSignalLabel();
 }

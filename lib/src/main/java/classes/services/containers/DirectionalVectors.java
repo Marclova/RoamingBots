@@ -1,5 +1,8 @@
 package classes.services.containers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import classes.services.abstractServices.ArgumentChecker;
 
 /**
@@ -12,6 +15,7 @@ public class DirectionalVectors extends ArgumentChecker {
 
     public DirectionalVectors(double xVector, double yVector) {
         this.checkInsideIntervalValues(-1, 1, xVector, yVector);
+        
         if(xVector == 0 && yVector == 0)
         {
             throw new IllegalArgumentException();
@@ -22,7 +26,7 @@ public class DirectionalVectors extends ArgumentChecker {
     }
 
     /**
-     * Gets the equivalent value of this vector couple expressed in degrees (0° means facing right).
+     * Gets the equivalent value of this vector couple expressed in degrees (0° means facing rightwards).
      * 
      * @return The vectors' direction expressed in degrees
      */
@@ -40,6 +44,7 @@ public class DirectionalVectors extends ArgumentChecker {
         {
             degrees = 360 - degrees; //value included between 180 and 359,9_
         }
-        return degrees;
+        return ( new BigDecimal(degrees)
+                        .setScale(8, RoundingMode.HALF_UP).doubleValue() );
     }
 }

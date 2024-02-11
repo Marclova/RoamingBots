@@ -11,12 +11,13 @@ import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 
 /**
- * Creates and manages all the bot's programs.
+ * Creates, manages and executes all the bot's programs.
  */
 public interface ProgramManagerInterface {
 
     /**
      * Removes the first program in the given bot's programList if this results expired.
+     *  Then executes the first program in the bot's programList.
      * 
      * @param bot   The given bot which program must be checked.
      * @param botList   List of bots which programs must be executed.

@@ -16,12 +16,14 @@ import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
+/**
+ * Responsible to save the simulation's status and to call all the main methods.
+ */
 public class SimulationManager extends ArgumentChecker implements SimulationManagerInterface {
 
     private ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
     private BotManagerInterface botManager = new BotManager();
     private ProgramManagerInterface programManager = new ProgramManager();
-    private double executionTimeCycle = 1.0;  //cooldown between every bot and program execution
 
     public SimulationManager() {}
 
@@ -48,11 +50,6 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     }
 
     @Override
-    public double getExecutionTimeCycle() {
-        return this.executionTimeCycle;
-    }
-
-    @Override
     public void setBotManager(BotManagerInterface botM) {
         this.checkNotNullObjects(botM);
 
@@ -64,13 +61,6 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
         this.checkNotNullObjects(progM);
 
         this.programManager = progM;
-    }
-
-    @Override
-    public void setExecutionTimeCycle(double t) {
-        this.checkGraterThanZeroValues(t);
-
-        this.executionTimeCycle = t;
     }
 
     @Override
@@ -89,7 +79,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
         Scanner scanner = new Scanner(file);
         while (scanner.hasNextLine()) {
             String[] resultArray = scanner.nextLine().split(" ");
-            CartesianAreaInterface target = this.createSpecificCartesianArea(resultArray);
+            CartesianAreaInterface target = this.createSpecificCartesianAreaFromText(resultArray);
             if (target != null)
             {
                 listToReturn.add(target);
@@ -120,7 +110,6 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
             this.botManager.moveAllBots(executionDuration);
             try {
                 Thread.sleep((long)(coolDownTime * 1000));
-                // this.wait((long)(coolDownTime * 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -128,13 +117,13 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     }
 
     /**
-     * Accepts the result of the reading of a file.
+     * Accepts a line from the read file.
      *  If the string stream respects the format, a new cartesian area is created.
      * 
      * @param stringArray The string array containing the words in one of the read file's line.
      * @return The created object as interface type. Null if any error has been caught.
      */
-    public CartesianAreaInterface createSpecificCartesianArea(String[] stringArray) {
+    public CartesianAreaInterface createSpecificCartesianAreaFromText(String[] stringArray) {
         try {
             String label = stringArray[0];
             double x = Double.valueOf(stringArray[2]);
@@ -157,18 +146,4 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
             return null;
         }
     }
-
-    // @SuppressWarnings("unchecked")
-    // private Class<? extends CartesianAreaInterface> extractClassFromString(String className) {
-    //     switch (className) {
-    //         case "Circle":
-    //             return Circle.class;
-        
-    //         case "Rectangle":
-    //             return Rectangle.class;
-
-    //         default:
-    //             return null;
-    //     }
-    // }
 }

@@ -31,7 +31,12 @@ public abstract class ArgumentChecker {
             }
         }
     }
-
+    /**
+     * Checks if the given values are equal to 0 or higher.
+     * 
+     * @param values The numbers to check.
+     * @throws IllegalArgumentException If at least one of the numbers is lower than 0.
+     */
     public void checkZeroOrHigherValues(double... values) {
         for (double n : values) {
             if(n < 0)

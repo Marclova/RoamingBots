@@ -8,7 +8,7 @@ import interfaces.CartesianAreaInterface;
 import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck;
 
 /**
- * A program that executes its tasks until the bot has reached the given target
+ * A program that executes its tasks until its bot has reached the given target.
  */
 public class TargetProgram extends AbstractProgram implements TargetListExpirationCheck {
 

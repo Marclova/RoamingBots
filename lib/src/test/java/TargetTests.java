@@ -18,6 +18,9 @@ public class TargetTests {
     @Test
     public void targetExceptionTests() {
         
+        Circle circle = new Circle(zeroCoordinates, "label", 1);
+        Rectangle rectangle = new Rectangle(zeroCoordinates, "label", 1, 1);
+
         assertThrows(NullPointerException.class, () -> {new Rectangle(zeroCoordinates, null, 1, 1);});
         assertThrows(IllegalArgumentException.class, () -> {new Rectangle(zeroCoordinates, "", 1, 1);});
         assertThrows(IllegalArgumentException.class, () -> {new Rectangle(zeroCoordinates, "target", 0, 1);});
@@ -26,6 +29,10 @@ public class TargetTests {
         assertThrows(NullPointerException.class, () -> {new Circle(zeroCoordinates, null, 1);});
         assertThrows(IllegalArgumentException.class, () -> {new Circle(zeroCoordinates, "", 1);});
         assertThrows(IllegalArgumentException.class, () -> {new Circle(zeroCoordinates, "target", 0);});
+
+        assertThrows(NullPointerException.class, () -> {circle.checkAreaIntersection(null);});
+
+        assertThrows(NullPointerException.class, () -> {rectangle.checkAreaIntersection(null);});
     }
 
     @Test

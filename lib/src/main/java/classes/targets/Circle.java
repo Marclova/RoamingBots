@@ -2,16 +2,16 @@ package classes.targets;
 
 import classes.services.containers.Coordinates;
 
+/**
+ * A circle-shaped target with custom position, dimensions and label.
+ */
 public class Circle extends AbstractCartesianArea {
 
     private double radius;
 
     public Circle(Coordinates coordinates, String label, double radius) {
         super(coordinates, label);
-        if(radius <= 0)
-        {
-            throw new IllegalArgumentException("Radius must be grater than 0.");
-        }
+        this.checkGraterThanZeroValues(radius);
 
         this.radius = radius;
     }
@@ -22,6 +22,8 @@ public class Circle extends AbstractCartesianArea {
 
     @Override
     public boolean checkAreaIntersection(Coordinates coordinatesToCheck) {
+        this.checkNotNullObjects(coordinatesToCheck);
+
         return (Math.abs(this.getCoordinates().x - coordinatesToCheck.x) <= this.radius &&
                 Math.abs(this.getCoordinates().y - coordinatesToCheck.y) <= this.radius);
     }

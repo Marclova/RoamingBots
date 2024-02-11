@@ -9,6 +9,9 @@ import classes.services.containers.Coordinates;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 
+/**
+ * Class responsible to contain, create and move bots.
+ */
 public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
     ArrayList<BotInterface> botList = new ArrayList<>();
@@ -28,10 +31,10 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
     }
 
     @Override
-    public void createBot(BotInterface botToAdd) {
+    public boolean createBot(BotInterface botToAdd) {
         this.checkNotNullObjects(botToAdd);
 
-        this.botList.add(botToAdd);
+        return this.botList.add(botToAdd);
     }
 
     @Override
@@ -65,35 +68,55 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
     public boolean moveAllBots(double movementTime) {
         this.checkGraterThanZeroValues(movementTime);
 
-        boolean flag = false;
+        boolean flag = false; //true if something has changed
         for (BotInterface bot : botList) {
-            double actualMovementTime = movementTime;
-            if(actualMovementTime <= bot.getMovementTimer()) //bot makes full movement
+            double botMovementTimer = bot.getMovementTimer();
+            if(botMovementTimer == 0 || bot.getSpeed() == 0) //The bot is not going to move.
             {
-                bot.setMovementTimer(bot.getMovementTimer() - actualMovementTime);
+                continue;
+            }
+
+            double actualMovementTime = movementTime;
+            if(actualMovementTime <= botMovementTimer) //bot makes full movement
+            {
+                bot.setMovementTimer(botMovementTimer - actualMovementTime);
             }
             else //bot moves as much as it can
             {
-                actualMovementTime = bot.getMovementTimer();
+                actualMovementTime = botMovementTimer;
                 bot.setMovementTimer(0);
             }
-            double botDistanceMovement = bot.getSpeed() * actualMovementTime;
-            double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );
-
-            double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
-            botDeltaX = new BigDecimal(botDeltaX)
-                            .setScale(2, RoundingMode.HALF_UP).doubleValue();
-            double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
-            botDeltaY = new BigDecimal(botDeltaY)
-                            .setScale(2, RoundingMode.HALF_UP).doubleValue();
-
-            boolean relevantDeltas = !(botDeltaX == 0 && botDeltaY == 0);
-            flag = flag || relevantDeltas; //true if something has changed
-            if(relevantDeltas)
-            {
-                bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
-            }
+            flag = this.actuallyMoveSpecificBot(bot, actualMovementTime) || flag;
         }
         return flag;
+    }
+
+    /**
+     * Effectively updates the bot's coordinates so that it can move.
+     * 
+     * @param bot The bot to move.
+     * @param movementTime The amount of time which the bot's going to move.
+     * @return True if the bot has moved. False otherwise.
+     */
+    private boolean actuallyMoveSpecificBot(BotInterface bot, double movementTime) {
+        this.checkNotNullObjects(bot);
+        this.checkZeroOrHigherValues(movementTime);
+
+        double botDistanceMovement = bot.getSpeed() * movementTime;
+        double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );
+
+        double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
+        botDeltaX = new BigDecimal(botDeltaX)
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+        double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
+        botDeltaY = new BigDecimal(botDeltaY)
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+        boolean relevantDeltas = !(botDeltaX == 0 && botDeltaY == 0);
+        if(relevantDeltas)
+        {
+            bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
+        }
+        return relevantDeltas;
     }
 }

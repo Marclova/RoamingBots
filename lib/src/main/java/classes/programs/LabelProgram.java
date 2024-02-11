@@ -37,7 +37,6 @@ public class LabelProgram extends AbstractProgram implements BotListExpirationCh
     public boolean isExpired(Coordinates botCoordinates, ArrayList<BotInterface> botList) {
         this.checkNotNullObjects(botCoordinates, botList);
 
-        BotInterface dummyBot = new Bot(botCoordinates);
-        return dummyBot.isDetectingLabel(botList, this.labelToDetect, this.detectingDistance);
+        return ( new Bot(botCoordinates).isDetectingLabel(botList, this.labelToDetect, this.detectingDistance) );
     }
 }

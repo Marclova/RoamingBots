@@ -6,9 +6,7 @@ import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 
 /**
- * Contains the list of tasks to execute in every simulation cycle and the number of repetitions.
- * 
- * A program's "taskList" can contain other objects commands. //TODO Rewrite this documentation
+ * Contains the list of tasks to execute in every simulation cycle.
  */
 public interface ProgramInterface {
 
@@ -19,8 +17,8 @@ public interface ProgramInterface {
      * Executes once all the tasks in the "taskList".
      * 
      * @param bot The bot owning this program.
-     * @return True if every command has been executed correctly.
-     *          False if at least least one of them has caused no changes.
+     * @return True if at least one command caused any variations to the bot.
+     *          False if no commands has caused any changes.
      */
     public boolean executeTasks(BotInterface bot);
 }
