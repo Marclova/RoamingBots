@@ -290,6 +290,8 @@ public class Bot extends ArgumentChecker implements BotInterface {
         return true;
     }
 
+    //Private methods
+
     /**
      * Looks for all the detectable bots within the following distance with the right emitting label.
      * 

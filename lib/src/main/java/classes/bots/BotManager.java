@@ -91,6 +91,8 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
         return flag;
     }
 
+    //Public methods
+
     /**
      * Effectively updates the bot's coordinates so that it can move.
      * 

@@ -74,6 +74,8 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
 
         return ( botToProgram.addProgram(new LabelProgram(taskList, labelToDetect, detectionDistance)) );
     }
+
+    //Private methods
     
     /**
      * Checks if the given bot's active program is expired.
