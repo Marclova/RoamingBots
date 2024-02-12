@@ -11,15 +11,27 @@ import classes.targets.Rectangle;
 import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 
-public class ConsoleGraphic extends ArgumentChecker {
+/**
+ * This class prints on console the current simulation status rounding every coordinates in whole numbers.
+ */
+public class ConsoleGraphicService extends ArgumentChecker {
 
     //contains all the points to draw bots and target areas.
-    Map<Coordinates, PointOfInterest> pointMap = new HashMap<>();
+    Map<Coordinates, PointOfInterest> pointMap;
     //defines the extension of the used simulation plane.
-    LimitCoordinates limitCoordinates = new LimitCoordinates();
+    LimitCoordinates limitCoordinates;
     
+    /**
+     * Prints on console the current simulation status.
+     * 
+     * @param targetList The cartesian areas to represent.
+     * @param botList The bots to represent.
+     */
     public void printSimulationPlane(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList) {
         this.checkNotNullObjects(targetList, botList);
+
+        pointMap = new HashMap<>();
+        limitCoordinates = new LimitCoordinates();
 
         for (CartesianAreaInterface target : targetList) {
             this.extractInterestingCoordinates(target);
@@ -29,7 +41,7 @@ public class ConsoleGraphic extends ArgumentChecker {
             this.extractInterestingCoordinates(bot);
         }
 
-        this.actuallyPrintSimulationplane();
+        this.actuallyPrintSimulationPlane();
     }
 
     //private methods
@@ -146,14 +158,14 @@ public class ConsoleGraphic extends ArgumentChecker {
         }
     }
 
-    private void actuallyPrintSimulationplane() {
+    private void actuallyPrintSimulationPlane() {
 
         long lowerX = Math.round(this.limitCoordinates.getLowestX());
         long higherX = Math.round(this.limitCoordinates.getHighestX());
         long lowerY = Math.round(this.limitCoordinates.getLowestY());
         long higherY = Math.round(this.limitCoordinates.getHighestY());
 
-        //la mappa verrà stampata una riga alla volta da sinistra verso destra e dall'alto verso il basso
+        //The map will print one line at a time from left to right and top to bottom
         for (long y = higherY; y >= lowerY; y--) {
             for (long x = lowerX; x <= higherX; x++) {
                 PointOfInterest flagToPrint = this.pointMap.get(new Coordinates(x, y));
@@ -185,8 +197,24 @@ public class ConsoleGraphic extends ArgumentChecker {
                             System.out.print("  ");
                     }
                 }
-                System.out.println();
             }
+            System.out.println();
         }
+        this.drawMarkline(higherX-lowerX);
+    }
+
+    /**
+     * Prints a separating mark onto the console.
+     * 
+     * @param length The length of the trait.
+     */
+    private void drawMarkline(long length) {
+        this.checkGraterThanZeroValues(length);
+
+        System.out.println();
+        for (long i = 0; i < length; i++) {
+            System.out.print("===");
+        }
+        System.out.println();
     }
 }

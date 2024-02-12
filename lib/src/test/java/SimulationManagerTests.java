@@ -111,8 +111,6 @@ public class SimulationManagerTests {
     simulationManager.createTarget(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
     BotInterface botToProgram1 = botManager.createBot(zeroCoordinates);
     BotInterface botToProgram2 = botManager.createBot(zeroCoordinates);
-    // ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-    // targetList.add(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
 
     ArrayList<BotCommand> taskList1 = new ArrayList<>();
     taskList1.add((bot) -> bot.setMove(new DirectionalVectors(0, 1), 1));

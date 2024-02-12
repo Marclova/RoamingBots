@@ -9,6 +9,7 @@ import classes.bots.BotManager;
 import classes.programs.ProgramManager;
 import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
+import classes.services.graphic.GraphicServiceManager;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
 import interfaces.CartesianAreaInterface;
@@ -20,6 +21,8 @@ import interfaces.programs.ProgramManagerInterface;
  * Responsible to save the simulation's status and to call all the main methods.
  */
 public class SimulationManager extends ArgumentChecker implements SimulationManagerInterface {
+
+    GraphicServiceManager graphicServiceManager = new GraphicServiceManager();
 
     private ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
     private BotManagerInterface botManager = new BotManager();
@@ -75,7 +78,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
         this.checkNotEmptyStrings(fileName);
 
         ArrayList<CartesianAreaInterface> listToReturn = new ArrayList<>();
-        File file = new File("C:\\Users\\PC\\source\\repos\\RoamingBots\\lib\\src\\inputFiles\\"+fileName);
+        File file = new File("C:\\Users\\PC\\source\\repos\\RoamingBots\\lib\\src\\main\\inputFiles\\"+fileName);
         Scanner scanner = new Scanner(file);
         while (scanner.hasNextLine()) {
             String[] resultArray = scanner.nextLine().split(" ");
@@ -113,6 +116,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            this.graphicServiceManager.projectConsoleFrame(this.targetList, this.botManager.getBotList());
         }
     }
 

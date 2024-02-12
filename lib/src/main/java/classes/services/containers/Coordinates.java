@@ -1,5 +1,7 @@
 package classes.services.containers;
 
+import com.google.common.base.Objects;
+
 import classes.services.abstractServices.ArgumentChecker;
 
 /**
@@ -31,13 +33,21 @@ public class Coordinates extends ArgumentChecker {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null)
+    public boolean equals(Object o) {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
-        Coordinates other = (Coordinates)obj;
-        return ( this.x == other.x &&
-                    this.y == other.y );
+        Coordinates other = (Coordinates) o;
+        return x == other.x && y == other.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.x * this.y); //I'm aware of the lack of security
     }
 }
