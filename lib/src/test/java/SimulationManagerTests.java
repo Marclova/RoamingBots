@@ -45,7 +45,7 @@ public class SimulationManagerTests {
 
         assertThrows(NullPointerException.class, () -> {simulationManager.createTargetsFromTxtFile(null);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile("");});
-        assertThrows(FileNotFoundException.class, () -> {simulationManager.createTargetsFromTxtFile("ciao");}); //TODO controlla l'errore lanciato
+        assertThrows(FileNotFoundException.class, () -> {simulationManager.createTargetsFromTxtFile("ciao");});
 
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(0, 1, 1);});
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 0, 1);});

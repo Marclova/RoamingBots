@@ -172,7 +172,6 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public void setLabelToFollow(String labelToFollow) {
-        this.checkNotEmptyStrings(labelToFollow);
 
         this.labelToFollow = labelToFollow;
     }
@@ -190,12 +189,13 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkGraterThanZeroValues(speed);
 
         double newAngle = dirVectors.getDirectionalDegrees();
-        if(newAngle == this.directionAngle && speed == this.speed)
+        if(newAngle == this.directionAngle && speed == this.speed && this.labelToFollow != "")
         {
             return false;
         }
         this.setDirectionAngle(newAngle);
         this.setSpeed(speed);
+        this.setLabelToFollow("");
         return true;
     }
 
