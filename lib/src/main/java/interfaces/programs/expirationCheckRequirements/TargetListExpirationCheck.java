@@ -18,5 +18,5 @@ public interface TargetListExpirationCheck {
      * @param targetList The list of all the target areas in the simulation plane.
      * @return True if this program results expired. False otherwise.
      */
-    public boolean isExpired(Coordinates botCoordinates, ArrayList<CartesianAreaInterface> targetList);
+    public boolean isExpired(Coordinates coordinatesToCheck, ArrayList<CartesianAreaInterface> targetList);
 }

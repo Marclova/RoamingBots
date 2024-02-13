@@ -26,11 +26,11 @@ public class TargetProgram extends AbstractProgram implements TargetListExpirati
     }
 
     @Override
-    public boolean isExpired(Coordinates botCoordinates, ArrayList<CartesianAreaInterface> targetList) {
-        this.checkNotNullObjects(botCoordinates, targetList);
+    public boolean isExpired(Coordinates coordinatesToCheck, ArrayList<CartesianAreaInterface> targetList) {
+        this.checkNotNullObjects(coordinatesToCheck, targetList);
 
         for (CartesianAreaInterface target : targetList) {
-            if(target.checkAreaIntersection(botCoordinates))
+            if(target.getLabel().equals(this.targetToReach) && target.checkAreaIntersection(coordinatesToCheck))
             {
                 return true;
             }
