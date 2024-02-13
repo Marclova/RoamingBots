@@ -94,9 +94,10 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     }
 
     @Override
-    public void simulate(double progressionTime, double executionDuration, double coolDownTime) {
+    public void simulate(double progressionTime, double executionDuration, double coolDownTime, double zoom) {
         this.checkGraterThanZeroValues(progressionTime, executionDuration);
         this.checkZeroOrHigherValues(coolDownTime);
+        this.checkGraterThanZeroValues(zoom);
 
         while (progressionTime > 0) {
             if(executionDuration <= progressionTime)
@@ -116,7 +117,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            this.graphicServiceManager.projectConsoleFrame(this.targetList, this.botManager.getBotList());
+            this.graphicServiceManager.projectConsoleFrame(this.targetList, this.botManager.getBotList(), zoom);
         }
     }
 

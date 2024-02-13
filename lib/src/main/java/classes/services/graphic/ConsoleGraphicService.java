@@ -26,19 +26,21 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * 
      * @param targetList The cartesian areas to represent.
      * @param botList The bots to represent.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    public void printSimulationPlane(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList) {
+    public void printSimulationPlane(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList, double zoom) {
         this.checkNotNullObjects(targetList, botList);
+        this.checkGraterThanZeroValues(zoom);
 
         pointMap = new HashMap<>();
         limitCoordinates = new LimitCoordinates();
 
         for (CartesianAreaInterface target : targetList) {
-            this.extractInterestingCoordinates(target);
+            this.extractInterestingCoordinates(target, zoom);
         }
         //bots will be printed with priority if they'll have the same coordinates of the area's borders.
         for (BotInterface bot : botList) {
-            this.extractInterestingCoordinates(bot);
+            this.extractInterestingCoordinates(bot, zoom);
         }
 
         this.actuallyPrintSimulationPlane();
@@ -51,12 +53,14 @@ public class ConsoleGraphicService extends ArgumentChecker {
      *  and puts the bot's coordinates into the "pointMap" with the flag "BOT".
      * 
      * @param bot The bot to extract the coordinates from.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinates(BotInterface bot) {
+    private void extractInterestingCoordinates(BotInterface bot, double zoom) {
         this.checkNotNullObjects(bot);
+        this.checkGraterThanZeroValues(zoom);
         
-        long botX = Math.round(bot.getCoordinates().x);
-        long botY = Math.round(bot.getCoordinates().y);
+        long botX = Math.round(bot.getCoordinates().x * zoom);
+        long botY = Math.round(bot.getCoordinates().y * zoom);
         Coordinates botCoordinates = new Coordinates(botX, botY);
 
         this.limitCoordinates.updateLimitCoordinates(botCoordinates);
@@ -69,21 +73,23 @@ public class ConsoleGraphicService extends ArgumentChecker {
      *      with the flags "ANGLE_BORDER","VERTICAL_BORDER" AND "HORIZONTAL_BORDER".
      * 
      * @param target The target to extract the coordinates from.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinates(CartesianAreaInterface target) {
+    private void extractInterestingCoordinates(CartesianAreaInterface target, double zoom) {
         this.checkNotNullObjects(target);
+        this.checkGraterThanZeroValues(zoom);
         boolean targetRecognized = false;
 
         if(target instanceof Circle)
         {
             targetRecognized = true;
-            this.extractInterestingCoordinatesFromCircle((Circle)target);
+            this.extractInterestingCoordinatesFromCircle((Circle)target, zoom);
         }
 
         if (target instanceof Rectangle)
         {
             targetRecognized = true;
-            this.extractInterestingCoordinatesFromRectangle((Rectangle)target);
+            this.extractInterestingCoordinatesFromRectangle((Rectangle)target, zoom);
         }
         if(!targetRecognized) {throw new ClassCastException();}
     }
@@ -94,13 +100,15 @@ public class ConsoleGraphicService extends ArgumentChecker {
      *      with the flags "ANGLE_BORDER","VERTICAL_BORDER" AND "HORIZONTAL_BORDER".
      * 
      * @param circle The circle to extract the coordinates from.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinatesFromCircle(Circle circle) {
+    private void extractInterestingCoordinatesFromCircle(Circle circle, double zoom) {
         this.checkNotNullObjects(circle);
+        this.checkGraterThanZeroValues(zoom);
 
-        long cordX = Math.round(circle.getCoordinates().x);
-        long cordY = Math.round(circle.getCoordinates().y);
-        long radius = Math.round( ((Circle)circle).getRadius() );
+        long cordX = Math.round(circle.getCoordinates().x * zoom);
+        long cordY = Math.round(circle.getCoordinates().y * zoom);
+        long radius = Math.round( ((Circle)circle).getRadius() * zoom );
 
         this.pointMap.put(new Coordinates(cordX, cordY), PointOfInterest.ANGLE_BORDER);
         this.pointMap.put(new Coordinates(cordX+radius, cordY), PointOfInterest.VERTICAL_BORDER);
@@ -119,14 +127,16 @@ public class ConsoleGraphicService extends ArgumentChecker {
      *      with the flags "ANGLE_BORDER","VERTICAL_BORDER" AND "HORIZONTAL_BORDER".
      * 
      * @param rectangle The rectangle to extract the coordinates from.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinatesFromRectangle(Rectangle rectangle) {
+    private void extractInterestingCoordinatesFromRectangle(Rectangle rectangle, double zoom) {
         this.checkNotNullObjects(rectangle);
+        this.checkGraterThanZeroValues(zoom);
 
-        long cordX = Math.round(rectangle.getCoordinates().x);
-        long cordY = Math.round(rectangle.getCoordinates().y);
-        long width = Math.round( (rectangle).getWidth() );
-        long height = Math.round( (rectangle).getHeight() );
+        long cordX = Math.round(rectangle.getCoordinates().x * zoom);
+        long cordY = Math.round(rectangle.getCoordinates().y * zoom);
+        long width = Math.round( (rectangle).getWidth() * zoom );
+        long height = Math.round( (rectangle).getHeight() * zoom );
         long xLimit = cordX+width;
         long yLimit = cordY+height;
 
@@ -200,7 +210,7 @@ public class ConsoleGraphicService extends ArgumentChecker {
             }
             System.out.println();
         }
-        this.drawMarkline(higherX-lowerX);
+        this.drawMarkLine(higherX-lowerX);
     }
 
     /**
@@ -208,7 +218,7 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * 
      * @param length The length of the trait.
      */
-    private void drawMarkline(long length) {
+    private void drawMarkLine(long length) {
         this.checkGraterThanZeroValues(length);
 
         System.out.println();

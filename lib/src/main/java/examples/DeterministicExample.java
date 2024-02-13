@@ -93,6 +93,6 @@ public class DeterministicExample {
         programManager.createLabelProgram(botToRetrieve2, doNothing, "storm2", 4.95); //waits for the stormBot2
         programManager.createInfiniteProgram(botToRetrieve2, followStorm2); //follows forever
 
-        simulationManager.simulate(50, 0.6, 0.3);
+        simulationManager.simulate(50, 0.6, 0.3, 1.5);
     }
 }

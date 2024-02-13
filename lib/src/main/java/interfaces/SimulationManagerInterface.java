@@ -41,6 +41,7 @@ public interface SimulationManagerInterface {
      *                          The lower is this value, the higher will be the execution accuracy.
      * @param coolDownTime The time in seconds of pause between every new status update.
      *                      The lower is this value, the faster will be the simulation.
+     * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    public void simulate(double progressionTime, double executionDuration, double coolDownTime);
+    public void simulate(double progressionTime, double executionDuration, double coolDownTime, double zoom);
 }

@@ -47,9 +47,10 @@ public class SimulationManagerTests {
         assertThrows(IllegalArgumentException.class, () -> {simulationManager.createTargetsFromTxtFile("");});
         assertThrows(FileNotFoundException.class, () -> {simulationManager.createTargetsFromTxtFile("ciao");});
 
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(0, 1, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 0, 1);});
-        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 1, -0.001);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(0, 1, 1, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 0, 1, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 1, -0.001, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {simulationManager.simulate(1, 1, 1, 0);});
     }
 
     @Test
@@ -124,12 +125,12 @@ public class SimulationManagerTests {
     RepeatingProgram rp2 = programManager.createRepeatingProgram(botToProgram1, taskList3, 1);  //stop moving after expiration of the previous task
     RepeatingProgram rp3 = programManager.createRepeatingProgram(botToProgram2, taskList1, 1);  //the second bot will move for 20 seconds
 
-    simulationManager.simulate(1, 1, 0);
+    simulationManager.simulate(1, 1, 0, 1);
     assertTrue(botToProgram1.getProgramList().get(0).equals(rp1) && rp1.isExpired());
     assertTrue(botToProgram1.getCoordinates().y == 1 && botToProgram1.getMovementTimer() == 19);
     assertTrue(botToProgram2.getCoordinates().y == 1 && botToProgram2.getMovementTimer() == 19);
 
-    simulationManager.simulate(50, 1, 0);
+    simulationManager.simulate(50, 1, 0, 1);
     assertTrue(tp.isExpired(botToProgram1.getCoordinates(), simulationManager.getTargetList()) && rp2.isExpired()); //all bot1 tasks expired
     assertTrue(rp3.isExpired());
     assertTrue(botToProgram1.getProgramList().isEmpty() && botToProgram2.getProgramList().isEmpty()); //all tasks removed
