@@ -119,7 +119,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
         this.checkGraterThanZeroValues(detectingDistance);
 
         for (BotInterface bot : botList) {
-            if(bot == this)
+            if(bot.equals(this))
             {
                 continue;
             }

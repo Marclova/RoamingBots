@@ -20,22 +20,28 @@ public class DeterministicExample {
         BotManagerInterface botManager = simulationManager.getBotManager();
         ArrayList<BotInterface> botList = botManager.getBotList();
 
-        //settings for movement directions
+        //values
+        double simulationDuration = 27;
+        double executionDuration = 0.5;
+        double coolDownTime = 0.35;
+        double zoom = 1.51;
+
+        //configurations for movement directions
         DirectionalVectors leftSlightlyUp = new DirectionalVectors(-1, 0.2);
         DirectionalVectors left = new DirectionalVectors(-1, 0);
 
 
-        //settings for programs
+        //configurations for programs
         ArrayList<BotCommand> doNothing = new ArrayList<>();
 
         ArrayList<BotCommand> beacon = new ArrayList<>();
         beacon.add((bot) -> bot.startEmittingSignalLabel("destination"));
 
+        ArrayList<BotCommand> readyToDepart = new ArrayList<>();
+        readyToDepart.add((bot) -> bot.setContinueMotion(simulationDuration));
+
         ArrayList<BotCommand> stop = new ArrayList<>();
         stop.add((bot) -> bot.stopMotion());
-        
-        ArrayList<BotCommand> readyToDepart = new ArrayList<>();
-        readyToDepart.add((bot) -> bot.setContinueMotion(50));
         
         ArrayList<BotCommand> proceedStorm1 = new ArrayList<>();  //moves slightly upwards
         proceedStorm1.add((bot) -> bot.setMove(leftSlightlyUp, 1.1));
@@ -93,6 +99,8 @@ public class DeterministicExample {
         programManager.createLabelProgram(botToRetrieve2, doNothing, "storm2", 4.95); //waits for the stormBot2
         programManager.createInfiniteProgram(botToRetrieve2, followStorm2); //follows forever
 
-        simulationManager.simulate(50, 0.6, 0.3, 1.5);
+
+
+        simulationManager.simulate(simulationDuration, executionDuration, coolDownTime, zoom);
     }
 }

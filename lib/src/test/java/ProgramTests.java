@@ -55,7 +55,7 @@ public class ProgramTests {
         assertThrows(NullPointerException.class, () -> {new LabelProgram(taskList, null, 5);});
         assertThrows(IllegalArgumentException.class, () -> {new LabelProgram(taskList, "label", 0);});
         assertThrows(NullPointerException.class, () -> {labelProgram.isExpired(null, botList);});
-        assertThrows(NullPointerException.class, () -> {labelProgram.isExpired(bot.getCoordinates(), null);});
+        assertThrows(NullPointerException.class, () -> {labelProgram.isExpired(bot, null);});
 
         assertThrows(NullPointerException.class, () -> {new TargetProgram(null, "label");});
         assertThrows(IllegalArgumentException.class, () -> {new TargetProgram(taskList, "");});
@@ -114,11 +114,11 @@ public class ProgramTests {
 
         assertFalse(new InfiniteProgram(taskList).isExpired());
         
-        assertFalse(labelProgram.isExpired(bot.getCoordinates(), botList));
+        assertFalse(labelProgram.isExpired(bot, botList));
         BotInterface emittingBot = new Bot(new Coordinates(2, 2));
         emittingBot.startEmittingSignalLabel("label");
         botList.add(emittingBot);
-        assertTrue(labelProgram.isExpired(bot.getCoordinates(), botList));
+        assertTrue(labelProgram.isExpired(bot, botList));
         
         assertFalse(targetProgram.isExpired(bot.getCoordinates(), targetList));
         targetList.add(new Rectangle(new Coordinates(-1, -1), "target", 2, 2));

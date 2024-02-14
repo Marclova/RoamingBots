@@ -2,8 +2,6 @@ package classes.programs;
 
 import java.util.ArrayList;
 
-import classes.bots.Bot;
-import classes.services.containers.Coordinates;
 import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.expirationCheckRequirements.BotListExpirationCheck;
@@ -34,9 +32,9 @@ public class LabelProgram extends AbstractProgram implements BotListExpirationCh
     }
 
     @Override
-    public boolean isExpired(Coordinates botCoordinates, ArrayList<BotInterface> botList) {
-        this.checkNotNullObjects(botCoordinates, botList);
+    public boolean isExpired(BotInterface bot, ArrayList<BotInterface> botList) {
+        this.checkNotNullObjects(bot, botList);
 
-        return ( new Bot(botCoordinates).isDetectingLabel(botList, this.labelToDetect, this.detectingDistance) );
+        return ( bot.isDetectingLabel(botList, this.labelToDetect, this.detectingDistance) );
     }
 }

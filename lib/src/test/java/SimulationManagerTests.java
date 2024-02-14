@@ -88,7 +88,7 @@ public class SimulationManagerTests {
                     rectangle.getWidth() == 5 && rectangle.getHeight() == 6);
 
         try {
-            simulationManager.createTargetsFromTxtFile("targetListInput.txt");
+            simulationManager.createTargetsFromTxtFile("testTargetInput.txt");
         } catch (FileNotFoundException e) {
             fail(e.getMessage());
         }

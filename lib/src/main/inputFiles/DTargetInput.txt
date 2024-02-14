@@ -1,0 +1,3 @@
+goal Circle -11 -0.2 3.55
+
+line Rectangle -5.7 -9 1.1 18

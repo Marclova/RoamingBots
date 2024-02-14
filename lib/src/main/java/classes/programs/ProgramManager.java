@@ -97,7 +97,7 @@ public class ProgramManager extends ArgumentChecker implements ProgramManagerInt
         }
         else if(activeProgram instanceof BotListExpirationCheck)
         {
-            return ((BotListExpirationCheck)activeProgram).isExpired(bot.getCoordinates(), botList);
+            return ((BotListExpirationCheck)activeProgram).isExpired(bot, botList);
         }
         else if(activeProgram instanceof TargetListExpirationCheck)
         {
