@@ -31,7 +31,7 @@ public class RandomExample {
         double simulationDuration = 50;
         double executionDuration = 0.5;
         double coolDownTime = 0.5;
-        double zoom = 1.05;
+        double zoom = 1.45;
 
 
         //configurations for programs
@@ -69,7 +69,7 @@ public class RandomExample {
 
 
         //assigning programs
-        double minimalLength = 1 / zoom; // minimal length needed by an area to be seen in the simulation.
+        double minimalLength = 1 / zoom; //minimal length needed by an area to be seen in the simulation.
         programManager.createRepeatingProgram(centralBot, isTheCenter, 1);
         simulationManager.createTarget(new Circle(centralBot.getCoordinates(), "null", minimalLength)); //mark the center
 
