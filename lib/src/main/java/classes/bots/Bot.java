@@ -28,8 +28,8 @@ public class Bot extends ArgumentChecker implements BotInterface {
     private double followingDistance = 0;
 
     //signal emission
-    boolean IsEmittingSignal = false;
-    String labelToEmit = "";
+    private boolean IsEmittingSignal = false;
+    private String labelToEmit = "";
 
     public Bot(Coordinates coordinates) {
         this.checkNotNullObjects(coordinates);

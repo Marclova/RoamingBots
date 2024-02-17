@@ -14,7 +14,7 @@ import interfaces.bots.BotManagerInterface;
  */
 public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
-    ArrayList<BotInterface> botList = new ArrayList<>();
+    private ArrayList<BotInterface> botList = new ArrayList<>();
 
     @Override
     public ArrayList<BotInterface> getBotList() {
