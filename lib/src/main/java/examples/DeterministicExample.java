@@ -12,6 +12,13 @@ import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
+/**
+ *  In this example two bots are moving towards left emitting a signal.
+ *      The upper one is slightly facing upwards while the lower one is going straight left.
+ *          Those two bots will keep moving left until they reach a line, then they'll go towards the target.
+ *  In addition to the two bots that move from the start, there are also bots that wait halfway.
+ *      Both of them will begin to follow the bot that approach them emitting the right label.
+ */
 public class DeterministicExample {
     public static void main(String[] args) {
 
@@ -21,7 +28,7 @@ public class DeterministicExample {
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values
-        double simulationDuration = 27;
+        double simulationDuration = 28.5;
         double executionDuration = 0.5;
         double coolDownTime = 0.35;
         double zoom = 1.51;
@@ -62,7 +69,7 @@ public class DeterministicExample {
 
 
         //creating targets
-        simulationManager.createTarget(new Circle(new Coordinates(-11, -0.2), "goal", 3.55));  //the bot's goal
+        simulationManager.createTarget(new Circle(new Coordinates(-11, -0.2), "goal", 3));  //the bot's goal
         simulationManager.createTarget(new Rectangle(new Coordinates(-5.7, -9), "line", 1.1, 18));
         
 

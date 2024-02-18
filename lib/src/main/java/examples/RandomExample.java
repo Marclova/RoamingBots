@@ -12,6 +12,16 @@ import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
+/**
+ *  In this example there is a center to reach and two kind of bots named "leaders" and "searching".
+ *      The leader bots, starting in square spaces, are the only ones able to lead towards the center,
+ *          so they wait to have at least one bot to lead in order to depart for the center.
+ *      The searching bot instead move randomly towards the plane looking for a leader bot to follow.
+ *          Once a searching bot is following a leader, it will start emitting a "follow me" label as well,
+ *              increasing the chance to create a bigger fleet.
+ *      Once reached the center the bots will not stop emitting the "follow me" label in order to
+ *          make the center to eventual searching bots passing nearby.
+ */
 public class RandomExample {
     public static void main(String[] args) {
         

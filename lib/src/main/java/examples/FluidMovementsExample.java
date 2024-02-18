@@ -11,6 +11,10 @@ import functionalInterfaces.BotCommand;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
+/**
+ * In this example the bot is just moving in random directions,
+ *  moving each time just enough to have a detectable movement.
+ */
 public class FluidMovementsExample {
     public static void main(String[] args) throws FileNotFoundException {
         
