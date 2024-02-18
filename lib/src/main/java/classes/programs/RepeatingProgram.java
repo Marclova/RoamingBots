@@ -2,6 +2,7 @@ package classes.programs;
 
 import java.util.ArrayList;
 
+import classes.services.ArgumentCheckerService;
 import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
@@ -10,12 +11,13 @@ import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
  * A program able to execute its tasks a limited amount of times.
  */
 public class RepeatingProgram extends AbstractProgram implements NoArgsExpirationCheck {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     private int counter;
 
     public RepeatingProgram(ArrayList<BotCommand> taskList, int counter) {
         super(taskList);
-        this.checkGraterThanZeroValues(counter);
+        argumentCheckerService.checkGraterThanZeroValues(counter);
 
         this.counter = counter;
     }
@@ -25,7 +27,7 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
     }
 
     public void setCounter(int n) {
-        this.checkGraterThanZeroValues(n+1);
+        argumentCheckerService.checkGraterThanZeroValues(n+1);
 
         this.counter = n;
     }
@@ -39,7 +41,7 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
      */
     @Override
     public boolean executeTasks(BotInterface bot) {
-        this.checkNotNullObjects(bot);
+        argumentCheckerService.checkNotNullObjects(bot);
         if(this.counter == 0)
         {
             return false;

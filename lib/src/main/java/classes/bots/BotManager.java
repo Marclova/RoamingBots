@@ -2,7 +2,7 @@ package classes.bots;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
@@ -10,7 +10,8 @@ import interfaces.bots.BotManagerInterface;
 /**
  * Class responsible to contain, create and move bots.
  */
-public class BotManager extends ArgumentChecker implements BotManagerInterface {
+public class BotManager implements BotManagerInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     private ArrayList<BotInterface> botList = new ArrayList<>();
 
@@ -21,7 +22,7 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
     @Override
     public BotInterface createBot(Coordinates coordinates) {
-        this.checkNotNullObjects(coordinates);
+        argumentCheckerService.checkNotNullObjects(coordinates);
         
         Bot bot = new Bot(coordinates);
         this.botList.add(bot);
@@ -30,22 +31,22 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
     @Override
     public boolean createBot(BotInterface botToAdd) {
-        this.checkNotNullObjects(botToAdd);
+        argumentCheckerService.checkNotNullObjects(botToAdd);
 
         return this.botList.add(botToAdd);
     }
 
     @Override
     public boolean createBot(ArrayList<BotInterface> botListToAdd) {
-        this.checkNotNullObjects(botListToAdd);
+        argumentCheckerService.checkNotNullObjects(botListToAdd);
 
         return this.botList.addAll(botListToAdd);
     }
 
     @Override
     public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2) {
-        this.checkGraterThanZeroValues(quantity);
-        this.checkNotNullObjects(coordinates1, coordinates2);
+        argumentCheckerService.checkGraterThanZeroValues(quantity);
+        argumentCheckerService.checkNotNullObjects(coordinates1, coordinates2);
         if(coordinates1.x > coordinates2.x ||
             coordinates1.y > coordinates2.y)
         {
@@ -64,8 +65,8 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
 
     @Override
     public boolean moveBot(BotInterface botToMove, double movementTime) {
-        this.checkNotNullObjects(botToMove);
-        this.checkGraterThanZeroValues(movementTime);
+        argumentCheckerService.checkNotNullObjects(botToMove);
+        argumentCheckerService.checkGraterThanZeroValues(movementTime);
 
         double botMovementTimer = botToMove.getMovementTimer();
         if(botMovementTimer == 0 || botToMove.getSpeed() == 0) //The bot is not going to move.
@@ -97,8 +98,8 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
     //  * @return True if the bot has moved. False otherwise.
     //  */
     // private boolean actuallyMoveBot(BotInterface bot, double movementTime) {
-    //     this.checkNotNullObjects(bot);
-    //     this.checkZeroOrHigherValues(movementTime);
+    //     argumentCheckerService.checkNotNullObjects(bot);
+    //     argumentCheckerService.checkZeroOrHigherValues(movementTime);
 
     //     double botDistanceMovement = bot.getSpeed() * movementTime;
     //     double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );

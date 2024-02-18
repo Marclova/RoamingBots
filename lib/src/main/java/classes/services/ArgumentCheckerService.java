@@ -1,6 +1,6 @@
-package classes.services.abstractServices;
+package classes.services;
 
-public abstract class ArgumentChecker {
+public class ArgumentCheckerService {
     
     /**
      * Checks if the given objects are not null and throws exception if they are.

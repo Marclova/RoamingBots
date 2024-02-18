@@ -3,18 +3,19 @@ package classes.services.containers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 
 /**
  * Directional vectors container class with public parameters used to simplify methods' parameter requests.
  */
-public class DirectionalVectors extends ArgumentChecker {
+public class DirectionalVectors {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
     
     public final double xVector;
     public final double yVector;
 
     public DirectionalVectors(double xVector, double yVector) {
-        this.checkInsideIntervalValues(-1, 1, xVector, yVector);
+        argumentCheckerService.checkInsideIntervalValues(-1, 1, xVector, yVector);
         if(xVector == 0 && yVector == 0)
         {
             throw new IllegalArgumentException();

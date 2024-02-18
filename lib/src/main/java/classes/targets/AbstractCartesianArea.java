@@ -1,20 +1,21 @@
 package classes.targets;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import interfaces.targets.CartesianAreaInterface;
 
 /**
  * Abstract class containing all the common instances and methods between the various types of targets.
  */
-public abstract class AbstractCartesianArea extends ArgumentChecker implements CartesianAreaInterface {
+public abstract class AbstractCartesianArea implements CartesianAreaInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
     
     private Coordinates coordinates;
     private String label;
 
     public AbstractCartesianArea(Coordinates coordinates, String label) {
-        this.checkNotNullObjects(coordinates);
-        this.checkNotEmptyStrings(label);
+        argumentCheckerService.checkNotNullObjects(coordinates);
+        argumentCheckerService.checkNotEmptyStrings(label);
 
         this.coordinates = coordinates;
         this.label = label;

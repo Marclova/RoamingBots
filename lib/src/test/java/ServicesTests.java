@@ -2,7 +2,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 
@@ -26,7 +26,7 @@ public class ServicesTests {
 
     @Test
     public void argumentCheckerExceptionTests() {
-        ArgumentChecker argumentChecker = new ArgumentChecker() {};
+        ArgumentCheckerService argumentChecker = new ArgumentCheckerService() {};
 
         assertThrows(NullPointerException.class, () -> {argumentChecker.checkNotNullObjects((Object)null);});
 

@@ -3,7 +3,7 @@ package classes.bots;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 import interfaces.bots.BotInterface;
@@ -13,8 +13,9 @@ import interfaces.programs.ProgramInterface;
  * A bot moving around the simulation plane.
  *  It's behavior is highly programmable by adding programs into it.
  */
-public class Bot extends ArgumentChecker implements BotInterface {
-
+public class Bot implements BotInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
+    
     private ArrayList<ProgramInterface> programList = new ArrayList<>();
 
     //position
@@ -32,7 +33,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
     private String labelToEmit = "";
 
     public Bot(Coordinates coordinates) {
-        this.checkNotNullObjects(coordinates);
+        argumentCheckerService.checkNotNullObjects(coordinates);
 
         this.coordinates = coordinates;
     }
@@ -53,7 +54,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public <P extends ProgramInterface> P addProgram(P program) {
-        this.checkNotNullObjects(program);
+        argumentCheckerService.checkNotNullObjects(program);
 
         if(this.programList.add(program))
         {
@@ -114,9 +115,9 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance) {
-        this.checkNotNullObjects(botList);
-        this.checkNotEmptyStrings(labelToDetect);
-        this.checkGraterThanZeroValues(detectingDistance);
+        argumentCheckerService.checkNotNullObjects(botList);
+        argumentCheckerService.checkNotEmptyStrings(labelToDetect);
+        argumentCheckerService.checkGraterThanZeroValues(detectingDistance);
 
         for (BotInterface bot : botList) {
             if(bot.equals(this))
@@ -135,14 +136,14 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public void setCoordinates(Coordinates coordinates) {
-        this.checkNotNullObjects(coordinates);
+        argumentCheckerService.checkNotNullObjects(coordinates);
 
         this.coordinates = coordinates;
     }
 
     @Override
     public Coordinates incrementCoordinates(Coordinates relativeCoordinatesToSum) {
-        this.checkNotNullObjects(relativeCoordinatesToSum);
+        argumentCheckerService.checkNotNullObjects(relativeCoordinatesToSum);
 
         this.setCoordinates(new Coordinates(this.coordinates.x + relativeCoordinatesToSum.x,
                                             this.coordinates.y + relativeCoordinatesToSum.y));
@@ -151,21 +152,21 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public void setDirectionAngle(double degrees) {
-        this.checkInsideIntervalValues(0, (360 - 0.00000001), degrees); //accuracy of 10^-8
+        argumentCheckerService.checkInsideIntervalValues(0, (360 - 0.00000001), degrees); //accuracy of 10^-8
 
         this.directionAngle = degrees;
     }
 
     @Override
     public void setSpeed(double speed) {
-        this.checkZeroOrHigherValues(speed);
+        argumentCheckerService.checkZeroOrHigherValues(speed);
 
         this.speed = speed;
     }
 
     @Override
     public void setMovementTimer(double seconds) {
-        this.checkZeroOrHigherValues(seconds);
+        argumentCheckerService.checkZeroOrHigherValues(seconds);
 
         this.movementTimer = seconds;
     }
@@ -178,15 +179,15 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public void setFollowingDistance(double followingDistance) {
-        this.checkGraterThanZeroValues(followingDistance);
+        argumentCheckerService.checkGraterThanZeroValues(followingDistance);
 
         this.followingDistance = followingDistance;
     }
 
     @Override
     public boolean setMove(DirectionalVectors dirVectors, double speed) {
-        this.checkNotNullObjects(dirVectors);
-        this.checkGraterThanZeroValues(speed);
+        argumentCheckerService.checkNotNullObjects(dirVectors);
+        argumentCheckerService.checkGraterThanZeroValues(speed);
 
         double newAngle = dirVectors.getDirectionalDegrees();
         if(newAngle == this.directionAngle && speed == this.speed && this.labelToFollow != "")
@@ -201,8 +202,8 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean setMoveRandom(DirectionalVectors dirVectors1, DirectionalVectors dirVectors2, double speed) {
-        this.checkNotNullObjects(dirVectors1,dirVectors2);
-        this.checkGraterThanZeroValues(speed);
+        argumentCheckerService.checkNotNullObjects(dirVectors1,dirVectors2);
+        argumentCheckerService.checkGraterThanZeroValues(speed);
         if(dirVectors1.xVector > dirVectors2.xVector ||
             dirVectors1.yVector > dirVectors2.yVector)
         {
@@ -221,9 +222,9 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean setFollow(String label, double dist, double speed, ArrayList<BotInterface> botList) {
-        this.checkNotEmptyStrings(label);
-        this.checkGraterThanZeroValues(dist, speed);
-        this.checkNotNullObjects(botList);
+        argumentCheckerService.checkNotEmptyStrings(label);
+        argumentCheckerService.checkGraterThanZeroValues(dist, speed);
+        argumentCheckerService.checkNotNullObjects(botList);
 
         boolean flag = !(this.labelToFollow.equals(label) && this.followingDistance == dist &&
                         this.speed == speed);
@@ -245,7 +246,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean setContinueMotion(double seconds) {
-        this.checkGraterThanZeroValues(seconds);
+        argumentCheckerService.checkGraterThanZeroValues(seconds);
 
         if(this.movementTimer == seconds)
         {
@@ -268,7 +269,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public Coordinates proceed(double timeToProceed) {
-        this.checkGraterThanZeroValues(timeToProceed);
+        argumentCheckerService.checkGraterThanZeroValues(timeToProceed);
             
         double botDistanceMovement = this.getSpeed() * timeToProceed;
         double botRadiantDirectionAngle = Math.toRadians( this.getDirectionAngle() );
@@ -284,7 +285,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
     @Override
     public boolean startEmittingSignalLabel(String label) {
-        this.checkNotEmptyStrings(label);
+        argumentCheckerService.checkNotEmptyStrings(label);
 
         if(this.labelToEmit.equals(label) && this.IsEmittingSignal == true)
         {
@@ -314,7 +315,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
      * @return A list of detected bots that this bot may follow.
      */
     private ArrayList<BotInterface> getBotsToFollow(ArrayList<BotInterface> botList) {
-        this.checkNotNullObjects(botList);
+        argumentCheckerService.checkNotNullObjects(botList);
 
         ArrayList<BotInterface> listToReturn = new ArrayList<>();
         for (BotInterface bot : botList) {
@@ -337,7 +338,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
      * @return The average coordinates.
      */
     private Coordinates calculateAverageBotsCoordinates(ArrayList<BotInterface> botList) {
-        this.checkNotNullObjects(botList);
+        argumentCheckerService.checkNotNullObjects(botList);
         if(botList.isEmpty())
         {
             return null;
@@ -365,7 +366,7 @@ public class Bot extends ArgumentChecker implements BotInterface {
      * @return The angle with which the bot can point to the given coordinates.
      */
     private double calculateDirectionAngleTowardsCoordinates(Coordinates coordinatesToPoint) {
-        this.checkNotNullObjects(coordinatesToPoint);
+        argumentCheckerService.checkNotNullObjects(coordinatesToPoint);
 
         double xVector = coordinatesToPoint.x - this.coordinates.x;
         double yVector = coordinatesToPoint.y - this.coordinates.y;

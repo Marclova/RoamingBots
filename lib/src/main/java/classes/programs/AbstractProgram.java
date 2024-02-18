@@ -2,7 +2,7 @@ package classes.programs;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
@@ -10,12 +10,13 @@ import interfaces.programs.ProgramInterface;
 /**
  * A generic program installed into a bot able to execute its own tasks
  */
-public abstract class AbstractProgram extends ArgumentChecker implements ProgramInterface {
+public abstract class AbstractProgram implements ProgramInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     private ArrayList<BotCommand> taskList;
 
     public AbstractProgram(ArrayList<BotCommand> taskList) {
-        this.checkNotNullObjects(taskList);
+        argumentCheckerService.checkNotNullObjects(taskList);
 
         this.taskList = taskList;
     }
@@ -27,7 +28,7 @@ public abstract class AbstractProgram extends ArgumentChecker implements Program
 
     @Override
     public boolean executeTasks(BotInterface bot) {
-        this.checkNotNullObjects(bot);
+        argumentCheckerService.checkNotNullObjects(bot);
 
         boolean flag = false;
         for (BotCommand task : this.taskList) {

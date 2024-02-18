@@ -2,11 +2,12 @@ package classes.services.graphic;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import interfaces.bots.BotInterface;
 import interfaces.targets.CartesianAreaInterface;
 
-public class GraphicServiceManager extends ArgumentChecker {
+public class GraphicServiceManager {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     ConsoleGraphicService consoleGraphicService = new ConsoleGraphicService();
     
@@ -18,8 +19,8 @@ public class GraphicServiceManager extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     public void projectConsoleFrame(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList, double zoom) {
-        this.checkNotNullObjects(targetList, botList);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(targetList, botList);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
 
         this.consoleGraphicService.printSimulationPlane(targetList, botList, zoom);
     }

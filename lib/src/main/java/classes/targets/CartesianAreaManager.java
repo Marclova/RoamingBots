@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import interfaces.targets.CartesianAreaInterface;
 import interfaces.targets.CartesianAreaManagerInterface;
 
-public class CartesianAreaManager extends ArgumentChecker implements CartesianAreaManagerInterface {
+public class CartesianAreaManager implements CartesianAreaManagerInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     private ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
 
@@ -21,14 +22,14 @@ public class CartesianAreaManager extends ArgumentChecker implements CartesianAr
 
     @Override
     public void createTarget(CartesianAreaInterface target) {
-        this.checkNotNullObjects(target);
+        argumentCheckerService.checkNotNullObjects(target);
 
         this.targetList.add(target);
     }
 
     @Override
     public ArrayList<CartesianAreaInterface> createTargetsFromTxtFile(String fileName) throws FileNotFoundException {
-        this.checkNotEmptyStrings(fileName);
+        argumentCheckerService.checkNotEmptyStrings(fileName);
 
         ArrayList<CartesianAreaInterface> listToReturn = new ArrayList<>();
         File file = new File("C:\\Users\\PC\\source\\repos\\RoamingBots\\lib\\src\\main\\inputFiles\\"+fileName);

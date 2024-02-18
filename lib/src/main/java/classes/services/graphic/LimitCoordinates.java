@@ -1,18 +1,13 @@
 package classes.services.graphic;
 
-// import java.util.ArrayList;
-// import java.util.HashMap;
-// import java.util.Map;
-
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
-// import interfaces.CartesianAreaInterface;
-// import interfaces.bots.BotInterface;
 
 /**
  * Contains the simulation plane's angle borders within everything exists.
  */
-public class LimitCoordinates extends ArgumentChecker {
+public class LimitCoordinates {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
     
     private double lowestX = Double.MAX_VALUE;
     private double lowestY = Double.MAX_VALUE;
@@ -35,25 +30,8 @@ public class LimitCoordinates extends ArgumentChecker {
         return this.highestY;
     }
 
-    // public void updateLimitCoordinates(ArrayList<BotInterface> botList,
-    //                                 ArrayList<CartesianAreaInterface> targetList) {
-    //     this.checkNotNullObjects(botList, targetList);
-
-    //     Map<Coordinates, PointOfInterest> mapToReturn = new HashMap<>();
-
-    //     for (BotInterface bot : botList) {
-    //         this.actuallyUpdateLimitCoordinates(bot.getCoordinates());
-    //         mapToReturn.put(bot.getCoordinates(), PointOfInterest.BOT);
-    //     }
-    //     for (CartesianAreaInterface target : targetList) {
-    //         this.
-    //     }
-    // }
-
-    // //Private methods
-
     public void updateLimitCoordinates(Coordinates coordinates) {
-        this.checkNotNullObjects(coordinates);
+        argumentCheckerService.checkNotNullObjects(coordinates);
 
         double cordX = coordinates.x;
         double cordY = coordinates.y;

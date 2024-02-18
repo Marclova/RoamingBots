@@ -2,7 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.graphic.GraphicServiceManager;
 import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
@@ -14,7 +14,8 @@ import interfaces.targets.CartesianAreaManagerInterface;
 /**
  * Responsible to save the simulation's status and to call all the main methods.
  */
-public class SimulationManager extends ArgumentChecker implements SimulationManagerInterface {
+public class SimulationManager implements SimulationManagerInterface {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     GraphicServiceManager graphicServiceManager = new GraphicServiceManager();
 
@@ -23,7 +24,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     private CartesianAreaManagerInterface cartesianAreaManager;
 
     public SimulationManager(BotManagerInterface botM, ProgramManagerInterface progM, CartesianAreaManagerInterface cartAreaM) {
-        this.checkNotNullObjects(botM, progM, cartAreaM);
+        argumentCheckerService.checkNotNullObjects(botM, progM, cartAreaM);
 
         this.botManager = botM;
         this.programManager = progM;
@@ -47,30 +48,30 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
 
     @Override
     public void setBotManager(BotManagerInterface botM) {
-        this.checkNotNullObjects(botM);
+        argumentCheckerService.checkNotNullObjects(botM);
 
         this.botManager = botM;
     }
 
     @Override
     public void setProgramManager(ProgramManagerInterface progM) {
-        this.checkNotNullObjects(progM);
+        argumentCheckerService.checkNotNullObjects(progM);
 
         this.programManager = progM;
     }
 
     @Override
     public void setCartesianAreaManager(CartesianAreaManagerInterface cartAreaM) {
-        this.checkNotNullObjects(cartAreaM);
+        argumentCheckerService.checkNotNullObjects(cartAreaM);
 
         this.cartesianAreaManager = cartAreaM;
     }
 
     @Override
     public void simulate(double progressionTime, double executionDuration, double coolDownTime, double zoom) {
-        this.checkGraterThanZeroValues(progressionTime, executionDuration);
-        this.checkZeroOrHigherValues(coolDownTime);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkGraterThanZeroValues(progressionTime, executionDuration);
+        argumentCheckerService.checkZeroOrHigherValues(coolDownTime);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
 
         ArrayList<BotInterface> botList = this.botManager.getBotList();
         ArrayList<CartesianAreaInterface> targetList = this.cartesianAreaManager.getTargetList();

@@ -2,7 +2,7 @@ package classes.programs;
 
 import java.util.ArrayList;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import functionalInterfaces.BotCommand;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
@@ -15,7 +15,7 @@ import interfaces.targets.CartesianAreaInterface;
 /**
  * Class responsible to create and insert program into bots, execute them and delete them.
  */
-public class ProgramManager extends ArgumentChecker implements ProgramManagerInterface {    
+public class ProgramManager extends ArgumentCheckerService implements ProgramManagerInterface {    
 
     @Override
     public void deleteExpiredAndThenExecuteProgram(BotInterface bot, ArrayList<BotInterface> botList,

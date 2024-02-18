@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
@@ -14,7 +14,8 @@ import interfaces.targets.CartesianAreaInterface;
 /**
  * This class prints on console the current simulation status rounding every coordinates in whole numbers.
  */
-public class ConsoleGraphicService extends ArgumentChecker {
+public class ConsoleGraphicService {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     //contains all the points to draw bots and target areas.
     Map<Coordinates, PointOfInterest> pointMap;
@@ -29,8 +30,8 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     public void printSimulationPlane(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList, double zoom) {
-        this.checkNotNullObjects(targetList, botList);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(targetList, botList);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
 
         pointMap = new HashMap<>();
         limitCoordinates = new LimitCoordinates();
@@ -56,8 +57,8 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     private void extractInterestingCoordinates(BotInterface bot, double zoom) {
-        this.checkNotNullObjects(bot);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(bot);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
         
         long botX = Math.round(bot.getCoordinates().x * zoom);
         long botY = Math.round(bot.getCoordinates().y * zoom);
@@ -76,8 +77,8 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     private void extractInterestingCoordinates(CartesianAreaInterface target, double zoom) {
-        this.checkNotNullObjects(target);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(target);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
         boolean targetRecognized = false;
 
         if(target instanceof Circle)
@@ -103,8 +104,8 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     private void extractInterestingCoordinatesFromCircle(Circle circle, double zoom) {
-        this.checkNotNullObjects(circle);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(circle);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
 
         long cordX = Math.round(circle.getCoordinates().x * zoom);
         long cordY = Math.round(circle.getCoordinates().y * zoom);
@@ -130,8 +131,8 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
     private void extractInterestingCoordinatesFromRectangle(Rectangle rectangle, double zoom) {
-        this.checkNotNullObjects(rectangle);
-        this.checkGraterThanZeroValues(zoom);
+        argumentCheckerService.checkNotNullObjects(rectangle);
+        argumentCheckerService.checkGraterThanZeroValues(zoom);
 
         long cordX = Math.round(rectangle.getCoordinates().x * zoom);
         long cordY = Math.round(rectangle.getCoordinates().y * zoom);
@@ -219,7 +220,7 @@ public class ConsoleGraphicService extends ArgumentChecker {
      * @param length The length of the trait.
      */
     private void drawMarkLine(long length) {
-        this.checkGraterThanZeroValues(length);
+        argumentCheckerService.checkGraterThanZeroValues(length);
 
         System.out.println();
         for (long i = 0; i < length; i++) {

@@ -5,13 +5,14 @@ import java.math.RoundingMode;
 
 import com.google.common.base.Objects;
 
-import classes.services.abstractServices.ArgumentChecker;
+import classes.services.ArgumentCheckerService;
 
 /**
  * Coordinates container class with public parameters used to simplify methods' parameter requests.
  *  Coordinates don't get modified, but substituted.
  */
-public class Coordinates extends ArgumentChecker {
+public class Coordinates {
+    private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
     
     public final double x;
     public final double y;
@@ -33,7 +34,7 @@ public class Coordinates extends ArgumentChecker {
      * @return The distance from this coordinates and the other coordinate.
      */
     public double calculateDistanceFrom(Coordinates otherCoordinates) {
-        this.checkNotNullObjects(otherCoordinates);
+        argumentCheckerService.checkNotNullObjects(otherCoordinates);
 
         double deltaX = Math.abs( this.x - otherCoordinates.x );
         double deltaY = Math.abs( this.y - otherCoordinates.y );
