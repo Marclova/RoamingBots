@@ -1,8 +1,6 @@
 package classes.bots;
 
 import java.util.ArrayList;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
@@ -84,37 +82,39 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
             movementTime = botMovementTimer;
             botToMove.setMovementTimer(0);
         }
-        return this.actuallyMoveBot(botToMove, movementTime);
+        Coordinates oldCoordinates = botToMove.getCoordinates();
+        // return this.actuallyMoveBot(botToMove, movementTime);
+        return !( oldCoordinates.equals(botToMove.proceed(movementTime)) );
     }
 
-    //Public methods
+    //Private methods
 
-    /**
-     * Effectively updates the bot's coordinates so that it can move.
-     * 
-     * @param bot The bot to move.
-     * @param movementTime The amount of time which the bot's going to move.
-     * @return True if the bot has moved. False otherwise.
-     */
-    private boolean actuallyMoveBot(BotInterface bot, double movementTime) {
-        this.checkNotNullObjects(bot);
-        this.checkZeroOrHigherValues(movementTime);
+    // /**
+    //  * Effectively updates the bot's coordinates so that it can move.
+    //  * 
+    //  * @param bot The bot to move.
+    //  * @param movementTime The amount of time which the bot's going to move.
+    //  * @return True if the bot has moved. False otherwise.
+    //  */
+    // private boolean actuallyMoveBot(BotInterface bot, double movementTime) {
+    //     this.checkNotNullObjects(bot);
+    //     this.checkZeroOrHigherValues(movementTime);
 
-        double botDistanceMovement = bot.getSpeed() * movementTime;
-        double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );
+    //     double botDistanceMovement = bot.getSpeed() * movementTime;
+    //     double botRadiantDirectionAngle = Math.toRadians( bot.getDirectionAngle() );
 
-        double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
-        botDeltaX = new BigDecimal(botDeltaX)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
-        double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
-        botDeltaY = new BigDecimal(botDeltaY)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+    //     double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
+    //     botDeltaX = new BigDecimal(botDeltaX)
+    //                     .setScale(2, RoundingMode.HALF_UP).doubleValue();
+    //     double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
+    //     botDeltaY = new BigDecimal(botDeltaY)
+    //                     .setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-        boolean relevantDeltas = !(botDeltaX == 0 && botDeltaY == 0);
-        if(relevantDeltas)
-        {
-            bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
-        }
-        return relevantDeltas;
-    }
+    //     boolean relevantDeltas = !(botDeltaX == 0 && botDeltaY == 0);
+    //     if(relevantDeltas)
+    //     {
+    //         bot.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
+    //     }
+    //     return relevantDeltas;
+    // }
 }

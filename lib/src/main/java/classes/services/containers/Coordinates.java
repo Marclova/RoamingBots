@@ -6,6 +6,7 @@ import classes.services.abstractServices.ArgumentChecker;
 
 /**
  * Coordinates container class with public parameters used to simplify methods' parameter requests.
+ *  Coordinates don't get modified, but substituted.
  */
 public class Coordinates extends ArgumentChecker {
     

@@ -51,6 +51,8 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {bot.setFollow("label", 1, 0, botList);});
         assertThrows(NullPointerException.class, () -> {bot.setFollow("label", 1, 1, null);});
         
+        assertThrows(IllegalArgumentException.class, () -> {bot.proceed(0);});
+
         assertThrows(NullPointerException.class, () -> {bot.isDetectingLabel(null, "label", 1);});
         assertThrows(IllegalArgumentException.class, () -> {bot.isDetectingLabel(botList, "", 1);});
         assertThrows(NullPointerException.class, () -> {bot.isDetectingLabel(botList, null, 1);});
@@ -122,10 +124,8 @@ public class BotTests {
         bot.setSpeed(1);
         
         assertTrue(botManager.moveBot(bot,1));
-        // assertTrue(bot.proceed(1));
         assertTrue(0.0 == bot.getCoordinates().x && 1.0 == bot.getCoordinates().y);
         assertTrue(botManager.moveBot(bot,1));
-        // assertTrue(bot.proceed(1));
 
         bot.stopEmittingSignalLabel();
         bot.stopMotion();
@@ -133,7 +133,6 @@ public class BotTests {
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
         assertFalse(botManager.moveBot(bot,1));
-        // assertFalse(bot.proceed(1));
 
     }
 

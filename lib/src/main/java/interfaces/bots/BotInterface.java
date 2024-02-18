@@ -107,6 +107,14 @@ public interface BotInterface {
     public boolean stopMotion();
 
     /**
+     * The bot moves through the simulation plane depending on it's own "direction", "speed" and "movementTimer" 
+     * 
+     * @param timeToProceed The time given to this bot to proceed.
+     * @return The new coordinates.
+     */
+    public Coordinates proceed(double timeToProceed);
+
+    /**
      * Sets the bot's "signalLabel" and sets its "emitSignal" flag to true.
      * 
      * @param label The label identifier to set.
