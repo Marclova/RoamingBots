@@ -31,9 +31,9 @@ public class SimulationManagerTests {
     @Test
     public void simulationManagerExceptionTests() {
 
-        SimulationManagerInterface simulationManager = new SimulationManager();
-        BotManagerInterface botM = new BotManager();
         ProgramManagerInterface progM = new ProgramManager();
+        BotManagerInterface botM = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botM, progM);
 
         assertThrows(NullPointerException.class, () -> {new SimulationManager(null, progM);});
         assertThrows(NullPointerException.class, () -> {new SimulationManager(botM, null);});
@@ -73,7 +73,7 @@ public class SimulationManagerTests {
     @Test
     public void targetCreationTests() {
 
-        SimulationManager simulationManager = new SimulationManager();
+        SimulationManager simulationManager = new SimulationManager(new BotManager(), new ProgramManager());
         ArrayList<CartesianAreaInterface> targetList = simulationManager.getTargetList();
         simulationManager.createTarget(new Circle(zeroCoordinates, "circleLabel", 3));
         simulationManager.createTarget(new Rectangle(zeroCoordinates, "rectangleLabel", 5, 6));
@@ -105,9 +105,9 @@ public class SimulationManagerTests {
     @Test
     public void simulationTest() {
 
-    SimulationManager simulationManager = new SimulationManager();
-    ProgramManagerInterface programManager = simulationManager.getProgramManager();
-    BotManagerInterface botManager = simulationManager.getBotManager();
+        ProgramManagerInterface programManager = new ProgramManager();
+        BotManagerInterface botManager = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
 
     simulationManager.createTarget(new Rectangle(new Coordinates(-1, 9.5), "target", 3, 1));
     BotInterface botToProgram1 = botManager.createBot(zeroCoordinates);

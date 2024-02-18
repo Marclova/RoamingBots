@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import classes.SimulationManager;
+import classes.bots.BotManager;
+import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 import classes.targets.Circle;
@@ -18,10 +20,9 @@ import interfaces.programs.ProgramManagerInterface;
 public class FluidMovementsExample {
     public static void main(String[] args) throws FileNotFoundException {
         
-        SimulationManager simulationManager = new SimulationManager();
-        ProgramManagerInterface programManager = simulationManager.getProgramManager();
-        BotManagerInterface botManager = simulationManager.getBotManager();
-
+        ProgramManagerInterface programManager = new ProgramManager();
+        BotManagerInterface botManager = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
         //values
         Coordinates zeroCoordinates = new Coordinates(0, 0);
         double zoom = 11;

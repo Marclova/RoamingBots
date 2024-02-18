@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import classes.bots.BotManager;
-import classes.programs.ProgramManager;
 import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
 import classes.services.graphic.GraphicServiceManager;
@@ -26,10 +24,8 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
     GraphicServiceManager graphicServiceManager = new GraphicServiceManager();
 
     private ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-    private BotManagerInterface botManager = new BotManager();
-    private ProgramManagerInterface programManager = new ProgramManager();
-
-    public SimulationManager() {}
+    private BotManagerInterface botManager;
+    private ProgramManagerInterface programManager;
 
     public SimulationManager(BotManagerInterface botM, ProgramManagerInterface progM) {
         this.checkNotNullObjects(botM, progM);

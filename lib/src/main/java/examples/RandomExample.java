@@ -3,6 +3,8 @@ package examples;
 import java.util.ArrayList;
 
 import classes.SimulationManager;
+import classes.bots.BotManager;
+import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 import classes.targets.Circle;
@@ -21,13 +23,14 @@ import interfaces.programs.ProgramManagerInterface;
  *              increasing the chance to create a bigger fleet.
  *      Once reached the center the bots will not stop emitting the "follow me" label in order to
  *          make the center to eventual searching bots passing nearby.
+ *  The available time is limited and there are no borders, so not all the bots may arrive at destination.
  */
 public class RandomExample {
     public static void main(String[] args) {
         
-        SimulationManager simulationManager = new SimulationManager();
-        ProgramManagerInterface programManager = simulationManager.getProgramManager();
-        BotManagerInterface botManager = simulationManager.getBotManager();
+        ProgramManagerInterface programManager = new ProgramManager();
+        BotManagerInterface botManager = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values

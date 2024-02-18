@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import classes.SimulationManager;
 import classes.bots.Bot;
+import classes.bots.BotManager;
 import classes.programs.RepeatingProgram;
 import classes.programs.InfiniteProgram;
 import classes.programs.LabelProgram;
@@ -19,7 +20,6 @@ import classes.services.containers.DirectionalVectors;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
 import interfaces.CartesianAreaInterface;
-import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
@@ -182,10 +182,10 @@ public class ProgramTests {
     @Test
     public void programManagerExecutionTests() {
 
-        SimulationManagerInterface simulationManager = new SimulationManager();
+        ProgramManagerInterface programManager = new ProgramManager();
+        BotManagerInterface botManager = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
         ArrayList<CartesianAreaInterface> targetList = simulationManager.getTargetList();
-        BotManagerInterface botManager = simulationManager.getBotManager();
-        ProgramManagerInterface programManager = simulationManager.getProgramManager();
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         BotInterface botToProgram = botManager.createBot(zeroCoordinates);

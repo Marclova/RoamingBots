@@ -3,6 +3,8 @@ package examples;
 import java.util.ArrayList;
 
 import classes.SimulationManager;
+import classes.bots.BotManager;
+import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
 import classes.targets.Circle;
@@ -22,9 +24,9 @@ import interfaces.programs.ProgramManagerInterface;
 public class DeterministicExample {
     public static void main(String[] args) {
 
-        SimulationManager simulationManager = new SimulationManager();
-        ProgramManagerInterface programManager = simulationManager.getProgramManager();
-        BotManagerInterface botManager = simulationManager.getBotManager();
+        ProgramManagerInterface programManager = new ProgramManager();
+        BotManagerInterface botManager = new BotManager();
+        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values
