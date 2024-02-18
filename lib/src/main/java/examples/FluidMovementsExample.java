@@ -8,10 +8,13 @@ import classes.bots.BotManager;
 import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
+import classes.targets.CartesianAreaManager;
 import classes.targets.Circle;
 import functionalInterfaces.BotCommand;
+import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
 /**
  * In this example the bot is just moving in random directions,
@@ -22,7 +25,9 @@ public class FluidMovementsExample {
         
         ProgramManagerInterface programManager = new ProgramManager();
         BotManagerInterface botManager = new BotManager();
-        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
+        SimulationManagerInterface simulationManager = new SimulationManager(botManager, programManager, cartesianAreaManager);
+
         //values
         Coordinates zeroCoordinates = new Coordinates(0, 0);
         double zoom = 11;
@@ -33,8 +38,8 @@ public class FluidMovementsExample {
         botManager.createBot(new Coordinates(-1, 0));
         botManager.createBot(new Coordinates(1, 0));
         // simulationManager.createTargetsFromTxtFile("FTargetInput.txt");
-        simulationManager.createTarget(new Circle(new Coordinates(-1, 0), "null", minimalLength));
-        simulationManager.createTarget(new Circle(new Coordinates(1, 0), "null", minimalLength));
+        cartesianAreaManager.createTarget(new Circle(new Coordinates(-1, 0), "null", minimalLength));
+        cartesianAreaManager.createTarget(new Circle(new Coordinates(1, 0), "null", minimalLength));
 
 
         ArrayList<BotCommand> moveRandomly = new ArrayList<>();

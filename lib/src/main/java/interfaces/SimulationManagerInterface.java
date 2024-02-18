@@ -1,10 +1,8 @@
 package interfaces;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
 /**
  * It contains and executes all the elements of the simulation.
@@ -12,26 +10,12 @@ import interfaces.programs.ProgramManagerInterface;
 public interface SimulationManagerInterface {
 
     //Getters and setters
-    public ArrayList<CartesianAreaInterface> getTargetList();
+    public CartesianAreaManagerInterface getCartesianAreaManager();
     public BotManagerInterface getBotManager();
     public ProgramManagerInterface getProgramManager();
     public void setBotManager(BotManagerInterface botM);
     public void setProgramManager(ProgramManagerInterface progM);
-
-    /**
-     * Adds the given target into the targetList.
-     * 
-     * @param target The target to add.
-     */
-    public void createTarget(CartesianAreaInterface target);
-
-    /**
-     * Adds the given cartesian shape into the "targetList" reading a txt file.
-     * 
-     * @param fileAddress The name of the file in the local file system to read.
-     * @return The list of targets that has been created.
-     */
-    public ArrayList<CartesianAreaInterface> createTargetsFromTxtFile(String fileName) throws FileNotFoundException;
+    public void setCartesianAreaManager(CartesianAreaManagerInterface cartAreaM);
 
     /**
      * Runs the simulation with the current settings for the given amount of time.

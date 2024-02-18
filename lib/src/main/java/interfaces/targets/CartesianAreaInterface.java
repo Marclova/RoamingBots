@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.targets;
 
 import classes.services.containers.Coordinates;
 

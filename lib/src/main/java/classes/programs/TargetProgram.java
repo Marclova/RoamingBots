@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import classes.services.containers.Coordinates;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianAreaInterface;
 import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * A program that executes its tasks until its bot has reached the given target.

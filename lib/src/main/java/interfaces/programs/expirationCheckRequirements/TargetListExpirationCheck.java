@@ -1,10 +1,9 @@
 package interfaces.programs.expirationCheckRequirements;
 
-import interfaces.CartesianAreaInterface;
-
 import java.util.ArrayList;
 
 import classes.services.containers.Coordinates;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * Interface for programs that check their expiration requiring the bot's coordinates and a targetList.

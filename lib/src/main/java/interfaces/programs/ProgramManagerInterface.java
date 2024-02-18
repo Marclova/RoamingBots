@@ -7,8 +7,8 @@ import classes.programs.LabelProgram;
 import classes.programs.RepeatingProgram;
 import classes.programs.TargetProgram;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * Creates, manages and executes all the bot's programs.

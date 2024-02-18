@@ -3,8 +3,8 @@ package classes.services.graphic;
 import java.util.ArrayList;
 
 import classes.services.abstractServices.ArgumentChecker;
-import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
+import interfaces.targets.CartesianAreaInterface;
 
 public class GraphicServiceManager extends ArgumentChecker {
 

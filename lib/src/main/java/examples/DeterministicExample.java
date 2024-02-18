@@ -7,12 +7,15 @@ import classes.bots.BotManager;
 import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
+import classes.targets.CartesianAreaManager;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
+import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
 /**
  *  In this example two bots are moving towards left emitting a signal.
@@ -26,7 +29,8 @@ public class DeterministicExample {
 
         ProgramManagerInterface programManager = new ProgramManager();
         BotManagerInterface botManager = new BotManager();
-        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
+        SimulationManagerInterface simulationManager = new SimulationManager(botManager, programManager, cartesianAreaManager);
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values
@@ -71,8 +75,8 @@ public class DeterministicExample {
 
 
         //creating targets
-        simulationManager.createTarget(new Circle(new Coordinates(-11, -0.2), "goal", 3));  //the bot's goal
-        simulationManager.createTarget(new Rectangle(new Coordinates(-5.7, -9), "line", 1.1, 18));
+        cartesianAreaManager.createTarget(new Circle(new Coordinates(-11, -0.2), "goal", 3));  //the bot's goal
+        cartesianAreaManager.createTarget(new Rectangle(new Coordinates(-5.7, -9), "line", 1.1, 18));
         
 
         //creating bots

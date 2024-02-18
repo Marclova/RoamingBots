@@ -1,13 +1,17 @@
 import org.junit.Test;
 
 import classes.services.containers.Coordinates;
+import classes.targets.CartesianAreaManager;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
-import interfaces.CartesianAreaInterface;
+import interfaces.targets.CartesianAreaInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.FileNotFoundException;
 
 import java.util.ArrayList;
 
@@ -16,7 +20,7 @@ public class TargetTests {
     Coordinates zeroCoordinates = new Coordinates(0,0);
 
     @Test
-    public void targetExceptionTests() {
+    public void cartesianAreaExceptionTests() {
         
         Circle circle = new Circle(zeroCoordinates, "label", 1);
         Rectangle rectangle = new Rectangle(zeroCoordinates, "label", 1, 1);
@@ -36,21 +40,46 @@ public class TargetTests {
     }
 
     @Test
-    public void targetCreationAndCheckTests() {
+    public void cartesianAreaManagerExceptionTests() {
 
-        Rectangle rectangle = new Rectangle(zeroCoordinates, "target", 10, 20);
-        Circle circle = new Circle(zeroCoordinates, "target", 10);
-        ArrayList<CartesianAreaInterface> targetList = new ArrayList<>();
-        targetList.add(circle);
-        targetList.add(rectangle);
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
 
-        for (CartesianAreaInterface c : targetList) {
-            assertTrue(c.getCoordinates().x == 0 && c.getCoordinates().y == 0);
-            assertEquals("target", c.getLabel());
-            assertTrue(c.checkAreaIntersection(new Coordinates(5, 5)));
+        assertThrows(NullPointerException.class, () -> {cartesianAreaManager.createTarget(null);});
+
+        assertThrows(NullPointerException.class, () -> {cartesianAreaManager.createTargetsFromTxtFile(null);});
+        assertThrows(IllegalArgumentException.class, () -> {cartesianAreaManager.createTargetsFromTxtFile("");});
+        assertThrows(FileNotFoundException.class, () -> {cartesianAreaManager.createTargetsFromTxtFile("ciao");});
+    }
+
+    @Test
+    public void targetCreationTests() {
+
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
+        ArrayList<CartesianAreaInterface> targetList = cartesianAreaManager.getTargetList();
+        cartesianAreaManager.createTarget(new Circle(zeroCoordinates, "circleLabel", 3));
+        cartesianAreaManager.createTarget(new Rectangle(zeroCoordinates, "rectangleLabel", 5, 6));
+
+        assertTrue(targetList.size() == 2);
+        Circle circle = (Circle)cartesianAreaManager.getTargetList().get(0);
+        Rectangle rectangle = (Rectangle)cartesianAreaManager.getTargetList().get(1);
+
+        assertTrue(circle.getCoordinates().equals(zeroCoordinates) && circle.getLabel().equals("circleLabel") &&
+                    circle.getRadius() == 3);
+        assertTrue(rectangle.getCoordinates() == zeroCoordinates && rectangle.getLabel().equals("rectangleLabel") &&
+                    rectangle.getWidth() == 5 && rectangle.getHeight() == 6);
+
+        try {
+            cartesianAreaManager.createTargetsFromTxtFile("testTargetInput.txt");
+        } catch (FileNotFoundException e) {
+            fail(e.getMessage());
         }
 
-        assertTrue(circle.getRadius() == 10);
-        assertTrue(rectangle.getWidth() == 10 && rectangle.getHeight() == 20);
+        assertTrue(targetList.size() == 4);
+        Circle txtCircle = (Circle)targetList.get(2);
+        Rectangle txtRectangle = (Rectangle)targetList.get(3);
+        assertTrue(txtCircle.getCoordinates().equals(new Coordinates(2, 2)) && txtCircle.getLabel().equals("t4rget!|") &&
+                    txtCircle.getRadius() == 3);
+        assertTrue(txtRectangle.getCoordinates().equals(zeroCoordinates) && txtRectangle.getLabel().equals("tar-get_") &&
+                    txtRectangle.getWidth() == 2 && txtRectangle.getHeight() == 1);
     }
 }

@@ -2,7 +2,7 @@ package classes.targets;
 
 import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
-import interfaces.CartesianAreaInterface;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * Abstract class containing all the common instances and methods between the various types of targets.

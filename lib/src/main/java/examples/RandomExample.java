@@ -7,12 +7,15 @@ import classes.bots.BotManager;
 import classes.programs.ProgramManager;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
+import classes.targets.CartesianAreaManager;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
+import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
 /**
  *  In this example there is a center to reach and two kind of bots named "leaders" and "searching".
@@ -30,7 +33,8 @@ public class RandomExample {
         
         ProgramManagerInterface programManager = new ProgramManager();
         BotManagerInterface botManager = new BotManager();
-        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
+        SimulationManagerInterface simulationManager = new SimulationManager(botManager, programManager, cartesianAreaManager);
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values
@@ -84,7 +88,7 @@ public class RandomExample {
         //assigning programs
         double minimalLength = 1 / zoom; //minimal length needed by an area to be seen in the simulation.
         programManager.createRepeatingProgram(centralBot, isTheCenter, 1);
-        simulationManager.createTarget(new Circle(centralBot.getCoordinates(), "null", minimalLength)); //mark the center
+        cartesianAreaManager.createTarget(new Circle(centralBot.getCoordinates(), "null", minimalLength)); //mark the center
 
         for (BotInterface bot : botList) { //preparing all bots to move
             if(bot.equals(centralBot))
@@ -102,7 +106,7 @@ public class RandomExample {
 
             double x = leaderBot.getCoordinates().x - minimalLength;
             double y = leaderBot.getCoordinates().y - minimalLength;
-            simulationManager.createTarget(new Rectangle(new Coordinates(x, y), "null", (minimalLength*2), (minimalLength*2)));
+            cartesianAreaManager.createTarget(new Rectangle(new Coordinates(x, y), "null", (minimalLength*2), (minimalLength*2)));
 
             //waits for someone to lead
             programManager.createLabelProgram(leaderBot, readyToLead, "follow me", botsDetectingDistance);

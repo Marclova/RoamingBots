@@ -1,14 +1,14 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
-    id 'application'
+    // id 'application'
 }
 
-application {
-    deterministicExample = 'src.main.java.examples.DeterministicExample'
-    randomExample = 'src.main.java.examples.RandomExample'
-    fluidMovementExample = 'src.main.java.examples.FluidMovementExample'
-}
+// application {
+//     deterministicExample = 'src.main.java.examples.DeterministicExample'
+//     randomExample = 'src.main.java.examples.RandomExample'
+//     fluidMovementExample = 'src.main.java.examples.FluidMovementExample'
+// }
 
 repositories {
     // Use Maven Central for resolving dependencies.

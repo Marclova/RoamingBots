@@ -8,8 +8,8 @@ import classes.services.abstractServices.ArgumentChecker;
 import classes.services.containers.Coordinates;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
-import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * This class prints on console the current simulation status rounding every coordinates in whole numbers.

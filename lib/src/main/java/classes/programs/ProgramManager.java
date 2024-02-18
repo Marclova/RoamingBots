@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import classes.services.abstractServices.ArgumentChecker;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 import interfaces.programs.ProgramInterface;
 import interfaces.programs.ProgramManagerInterface;
 import interfaces.programs.expirationCheckRequirements.BotListExpirationCheck;
 import interfaces.programs.expirationCheckRequirements.NoArgsExpirationCheck;
 import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck;
+import interfaces.targets.CartesianAreaInterface;
 
 /**
  * Class responsible to create and insert program into bots, execute them and delete them.

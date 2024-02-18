@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import classes.SimulationManager;
 import classes.bots.Bot;
 import classes.bots.BotManager;
 import classes.programs.RepeatingProgram;
@@ -17,12 +16,14 @@ import classes.programs.ProgramManager;
 import classes.programs.TargetProgram;
 import classes.services.containers.Coordinates;
 import classes.services.containers.DirectionalVectors;
+import classes.targets.CartesianAreaManager;
 import classes.targets.Rectangle;
 import functionalInterfaces.BotCommand;
-import interfaces.CartesianAreaInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
+import interfaces.targets.CartesianAreaInterface;
+import interfaces.targets.CartesianAreaManagerInterface;
 
 public class ProgramTests {
 
@@ -184,8 +185,8 @@ public class ProgramTests {
 
         ProgramManagerInterface programManager = new ProgramManager();
         BotManagerInterface botManager = new BotManager();
-        SimulationManager simulationManager = new SimulationManager(botManager, programManager);
-        ArrayList<CartesianAreaInterface> targetList = simulationManager.getTargetList();
+        CartesianAreaManagerInterface cartesianAreaManager = new CartesianAreaManager();
+        ArrayList<CartesianAreaInterface> targetList = cartesianAreaManager.getTargetList();
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         BotInterface botToProgram = botManager.createBot(zeroCoordinates);
