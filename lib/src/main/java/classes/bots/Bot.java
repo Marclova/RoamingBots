@@ -1,7 +1,5 @@
 package classes.bots;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -277,10 +275,6 @@ public class Bot extends ArgumentChecker implements BotInterface {
 
         double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
         double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
-        botDeltaX = new BigDecimal(botDeltaX)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
-        botDeltaY = new BigDecimal(botDeltaY)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
         if( !(botDeltaX == 0 && botDeltaY == 0) )
         {
             this.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));

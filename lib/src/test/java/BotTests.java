@@ -3,8 +3,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import java.lang.IllegalArgumentException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -207,17 +205,9 @@ public class BotTests {
 
         movingBot.setMove(new DirectionalVectors(-0.5, 0.7), 2);
         movingBot.setContinueMotion(1);
-        assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue());
+        assertTrue(125.54 == movingBot.getDirectionAngle());
         botManager.moveBot(movingBot,1);
-        assertTrue(-1.16 == new BigDecimal(movingBot.getCoordinates().x)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue()
-                                &&
-                    1.63 == new BigDecimal(movingBot.getCoordinates().y)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue());
+        assertTrue(-1.16 == movingBot.getCoordinates().x && 1.63 == movingBot.getCoordinates().y);
 
         botManager = new BotManager();    
         movingBot = botManager.createBot(zeroCoordinates);
@@ -233,17 +223,9 @@ public class BotTests {
 
         movingBot.setFollow(rightLabel, 3, 2, botList);
         movingBot.setContinueMotion(1);
-        assertTrue(153.43 == new BigDecimal(movingBot.getDirectionAngle())
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue());
+        assertTrue(153.43 == movingBot.getDirectionAngle());
         botManager.moveBot(movingBot,1);
-        assertTrue(-1.79 == new BigDecimal(movingBot.getCoordinates().x)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue()
-                                &&
-                    0.89 == new BigDecimal(movingBot.getCoordinates().y)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue());
+        assertTrue(-1.79 == movingBot.getCoordinates().x && 0.89 == movingBot.getCoordinates().y);
     }
 
     @Test
@@ -288,19 +270,7 @@ public class BotTests {
         double y3 = bot3.getCoordinates().y;
 
         assertTrue(x1 == -1 && y1 == 0);
-        assertTrue(0.86 == new BigDecimal(x2)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue()
-                                && 
-                    -0.51 == new BigDecimal(y2)
-                    .setScale(2, RoundingMode.HALF_UP)
-                    .doubleValue());
-        assertTrue(-0.90 == new BigDecimal(x3)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue()
-                                &&
-                    -1.79 == new BigDecimal(y3)
-                                .setScale(2, RoundingMode.HALF_UP)
-                                .doubleValue());
+        assertTrue(0.86 == x2 && -0.51 == y2);
+        assertTrue(-0.90 == x3 && -1.79 == y3);
     }
  }

@@ -15,12 +15,10 @@ public class DirectionalVectors extends ArgumentChecker {
 
     public DirectionalVectors(double xVector, double yVector) {
         this.checkInsideIntervalValues(-1, 1, xVector, yVector);
-        
         if(xVector == 0 && yVector == 0)
         {
             throw new IllegalArgumentException();
         }
-        
         this.xVector = xVector;
         this.yVector = yVector;
     }
@@ -45,6 +43,6 @@ public class DirectionalVectors extends ArgumentChecker {
             degrees = 360 - degrees; //value included between 180 and 359,9_
         }
         return ( new BigDecimal(degrees)
-                        .setScale(8, RoundingMode.HALF_UP).doubleValue() );
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue() );
     }
 }

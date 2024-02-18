@@ -1,5 +1,8 @@
 package classes.services.containers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.google.common.base.Objects;
 
 import classes.services.abstractServices.ArgumentChecker;
@@ -14,8 +17,13 @@ public class Coordinates extends ArgumentChecker {
     public final double y;
 
     public Coordinates(double x, double y) {
-        this.x = x;
-        this.y = y;
+        double roundedX = new BigDecimal(x)
+                            .setScale(2, RoundingMode.HALF_UP).doubleValue();
+        double roundedY = new BigDecimal(y)
+                            .setScale(2, RoundingMode.HALF_UP).doubleValue();    
+
+        this.x = roundedX;
+        this.y = roundedY;
     }
 
     /**
