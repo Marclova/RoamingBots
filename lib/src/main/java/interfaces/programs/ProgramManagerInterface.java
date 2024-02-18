@@ -19,11 +19,12 @@ public interface ProgramManagerInterface {
      * Removes the first program in the given bot's programList if this results expired.
      *  Then executes the first program in the bot's programList.
      * 
-     * @param bot   The given bot which program must be checked.
-     * @param botList   List of bots which programs must be executed.
-     * @param targetList    Parameter used for program expiration check.
+     * @param bot The given bot which program must be checked.
+     * @param botList Parameter used for program's expiration check.
+     * @param targetList Parameter used for program's expiration check.
      */
-    public void deleteExpiredAndThenExecuteAllPrograms(ArrayList<BotInterface> botList, ArrayList<CartesianAreaInterface> targetList);
+    public void deleteExpiredAndThenExecuteProgram(BotInterface bot, ArrayList<BotInterface> botList,
+                                                    ArrayList<CartesianAreaInterface> targetList);
 
     /**
      * Creates and gives to the given bot a Program that executes all the given tasks a defined amount of times.

@@ -14,6 +14,7 @@ import classes.targets.Circle;
 import classes.targets.Rectangle;
 import interfaces.CartesianAreaInterface;
 import interfaces.SimulationManagerInterface;
+import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
 import interfaces.programs.ProgramManagerInterface;
 
@@ -99,6 +100,7 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
         this.checkZeroOrHigherValues(coolDownTime);
         this.checkGraterThanZeroValues(zoom);
 
+        ArrayList<BotInterface> botList = this.botManager.getBotList();
         while (progressionTime > 0) {
             if(executionDuration <= progressionTime)
             {
@@ -110,8 +112,11 @@ public class SimulationManager extends ArgumentChecker implements SimulationMana
                 progressionTime = 0;
             }
 
-            this.programManager.deleteExpiredAndThenExecuteAllPrograms(this.botManager.getBotList(), this.targetList);
-            this.botManager.moveAllBots(executionDuration);
+            for (BotInterface bot : botList) {
+                this.programManager.deleteExpiredAndThenExecuteProgram(bot, botList, this.targetList);
+                this.botManager.moveBot(bot, executionDuration);
+            }
+
             try {
                 Thread.sleep((long)(coolDownTime * 1000));
             } catch (InterruptedException e) {

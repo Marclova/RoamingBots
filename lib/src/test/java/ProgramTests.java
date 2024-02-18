@@ -73,8 +73,9 @@ public class ProgramTests {
         ArrayList<BotInterface> botList = new ArrayList<>();
         BotInterface bot = new Bot(zeroCoordinates);
 
-        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(null, targetList);});
-        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteAllPrograms(botList, null);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteProgram(null, botList, targetList);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteProgram(bot, null, targetList);});
+        assertThrows(NullPointerException.class, () -> {programManager.deleteExpiredAndThenExecuteProgram(bot, botList, null);});
 
         assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(null, taskList, 5);});
         assertThrows(NullPointerException.class, () -> {programManager.createRepeatingProgram(bot, null, 5);});
@@ -195,8 +196,8 @@ public class ProgramTests {
         programManager.createRepeatingProgram(botToProgram, taskList, 10); //sets movements for 1 second 10 times
         
         while (!botToProgram.getProgramList().isEmpty()) {
-            programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
-            botManager.moveAllBots(1);
+            programManager.deleteExpiredAndThenExecuteProgram(botToProgram, botList, targetList);
+            botManager.moveBot(botToProgram, 1);
         }
         assertTrue(botToProgram.getCoordinates().x == 0.0 && botToProgram.getCoordinates().y == 10.0);
 
@@ -205,11 +206,11 @@ public class ProgramTests {
         botList.clear();
         botList.add(botToProgram);
         programManager.createRepeatingProgram(botToProgram, taskList, 1); //sets movement for 10 seconds 1 time
-        programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
-        programManager.deleteExpiredAndThenExecuteAllPrograms(botList, targetList);
+        programManager.deleteExpiredAndThenExecuteProgram(botToProgram, botList, targetList); //executes and expires the program
+        programManager.deleteExpiredAndThenExecuteProgram(botToProgram, botList, targetList); //deletes the program
 
         assertTrue(botToProgram.getProgramList().isEmpty());
-        botManager.moveAllBots(20); //it just has 10 seconds of movement
+        botManager.moveBot(botToProgram, 20); //it just has 10 seconds of movement
         assertTrue(botToProgram.getCoordinates().x == 0 && botToProgram.getCoordinates().y == 10);
     }
 }

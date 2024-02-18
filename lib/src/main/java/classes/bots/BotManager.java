@@ -65,30 +65,26 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
     }
 
     @Override
-    public boolean moveAllBots(double movementTime) {
+    public boolean moveBot(BotInterface botToMove, double movementTime) {
+        this.checkNotNullObjects(botToMove);
         this.checkGraterThanZeroValues(movementTime);
 
-        boolean flag = false; //true if something has changed
-        for (BotInterface bot : botList) {
-            double botMovementTimer = bot.getMovementTimer();
-            if(botMovementTimer == 0 || bot.getSpeed() == 0) //The bot is not going to move.
-            {
-                continue;
-            }
-
-            double actualMovementTime = movementTime;
-            if(actualMovementTime <= botMovementTimer) //bot makes full movement
-            {
-                bot.setMovementTimer(botMovementTimer - actualMovementTime);
-            }
-            else //bot moves as much as it can
-            {
-                actualMovementTime = botMovementTimer;
-                bot.setMovementTimer(0);
-            }
-            flag = this.actuallyMoveSpecificBot(bot, actualMovementTime) || flag;
+        double botMovementTimer = botToMove.getMovementTimer();
+        if(botMovementTimer == 0 || botToMove.getSpeed() == 0) //The bot is not going to move.
+        {
+            return false;
         }
-        return flag;
+
+        if(movementTime <= botMovementTimer) //bot makes full movement
+        {
+            botToMove.setMovementTimer(botMovementTimer - movementTime);
+        }
+        else //bot moves as much as it can
+        {
+            movementTime = botMovementTimer;
+            botToMove.setMovementTimer(0);
+        }
+        return this.actuallyMoveBot(botToMove, movementTime);
     }
 
     //Public methods
@@ -100,7 +96,7 @@ public class BotManager extends ArgumentChecker implements BotManagerInterface {
      * @param movementTime The amount of time which the bot's going to move.
      * @return True if the bot has moved. False otherwise.
      */
-    private boolean actuallyMoveSpecificBot(BotInterface bot, double movementTime) {
+    private boolean actuallyMoveBot(BotInterface bot, double movementTime) {
         this.checkNotNullObjects(bot);
         this.checkZeroOrHigherValues(movementTime);
 

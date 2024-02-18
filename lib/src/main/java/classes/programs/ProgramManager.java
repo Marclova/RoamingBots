@@ -18,27 +18,24 @@ import interfaces.programs.expirationCheckRequirements.TargetListExpirationCheck
 public class ProgramManager extends ArgumentChecker implements ProgramManagerInterface {    
 
     @Override
-    public void deleteExpiredAndThenExecuteAllPrograms(ArrayList<BotInterface> botList,
+    public void deleteExpiredAndThenExecuteProgram(BotInterface bot, ArrayList<BotInterface> botList,
                                                     ArrayList<CartesianAreaInterface> targetList) {
-        this.checkNotNullObjects(botList, targetList);
+        this.checkNotNullObjects(bot, botList, targetList);
 
-        for (BotInterface bot : botList) {
-            int botProgramsCount = bot.getProgramList().size();
-
-            if(botProgramsCount == 0) //no elements to operate on
-            {
-                continue;
-            }
-            if(this.botActiveProgramIsExpired(bot, botList, targetList))
-            {
-                bot.removeActiveProgram();
-                if(botProgramsCount == 1) //no more elements left
-                {
-                    continue;
-                }
-            }
-            bot.getActiveProgram().executeTasks(bot);
+        int botProgramsCount = bot.getProgramList().size();
+        if(botProgramsCount == 0) //no elements to operate on
+        {
+            return;
         }
+        if(this.botActiveProgramIsExpired(bot, botList, targetList))
+        {
+            bot.removeActiveProgram();
+            if(botProgramsCount == 1) //no more elements left
+            {
+                return;
+            }
+        }
+        bot.getActiveProgram().executeTasks(bot);
     }
 
     @Override

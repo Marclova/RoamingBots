@@ -47,10 +47,11 @@ public interface BotManagerInterface {
     public boolean createRandomBots(int quantity, Coordinates coordinates1, Coordinates coordinates2);
 
     /**
-     * Moves the bots depending on their own orientation, speed and movementTimer.
-     *      
-     * @param movementTime The time given to every bot to move.
-     * @return True if any of the bots' disposition has been changed. False if no bot has moved.
+     * Moves the given bot depending on its own orientation, speed and movementTimer.
+     * 
+     * @param botToMove The bot to move.
+     * @param movementTime The time given to the bot to move.
+     * @return True if the bot has been moved. False otherwise.
      */
-    public boolean moveAllBots(double movementTime);
+    public boolean moveBot(BotInterface botToMove, double movementTime);
 }

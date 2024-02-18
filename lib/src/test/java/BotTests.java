@@ -68,6 +68,7 @@ public class BotTests {
     public void botManagerExceptionTests() {
 
         BotManagerInterface botManager = new BotManager();
+        BotInterface bot = new Bot(zeroCoordinates);
 
         assertThrows(NullPointerException.class, () -> {botManager.createBot((BotInterface)null);});
         assertThrows(NullPointerException.class, () -> {botManager.createBot((ArrayList<BotInterface>)null);});
@@ -75,7 +76,8 @@ public class BotTests {
         assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(0, negativeCoordinates, positiveCoordinates);});
         assertThrows(IllegalArgumentException.class, () -> {botManager.createRandomBots(1, positiveCoordinates, negativeCoordinates);});
         
-        assertThrows(IllegalArgumentException.class, () -> {botManager.moveAllBots(0);});
+        assertThrows(NullPointerException.class, () -> {botManager.moveBot(null, 1);});
+        assertThrows(IllegalArgumentException.class, () -> {botManager.moveBot(bot, 0);});
     }
 
     @Test
@@ -114,15 +116,15 @@ public class BotTests {
         bot.setMovementTimer(20);
         assertTrue(20 == bot.getMovementTimer());
 
-        assertFalse(botManager.moveAllBots(1));
+        assertFalse(botManager.moveBot(bot,1));
         assertTrue(0.0 == botCoordinates.x && 0.0 == botCoordinates.y);
 
         bot.setSpeed(1);
         
-        assertTrue(botManager.moveAllBots(1));
+        assertTrue(botManager.moveBot(bot,1));
         // assertTrue(bot.proceed(1));
         assertTrue(0.0 == bot.getCoordinates().x && 1.0 == bot.getCoordinates().y);
-        assertTrue(botManager.moveAllBots(1));
+        assertTrue(botManager.moveBot(bot,1));
         // assertTrue(bot.proceed(1));
 
         bot.stopEmittingSignalLabel();
@@ -130,7 +132,7 @@ public class BotTests {
 
         assertFalse(bot.IsEmittingSignal());
         assertEquals("", bot.getLabelToEmit());
-        assertFalse(botManager.moveAllBots(1));
+        assertFalse(botManager.moveBot(bot,1));
         // assertFalse(bot.proceed(1));
 
     }
@@ -209,7 +211,7 @@ public class BotTests {
         assertTrue(125.54 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
-        botManager.moveAllBots(1);
+        botManager.moveBot(movingBot,1);
         assertTrue(-1.16 == new BigDecimal(movingBot.getCoordinates().x)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
@@ -235,8 +237,7 @@ public class BotTests {
         assertTrue(153.43 == new BigDecimal(movingBot.getDirectionAngle())
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue());
-        botManager.moveAllBots(1);
-        // movingBot.proceed(1);
+        botManager.moveBot(movingBot,1);
         assertTrue(-1.79 == new BigDecimal(movingBot.getCoordinates().x)
                                 .setScale(2, RoundingMode.HALF_UP)
                                 .doubleValue()
@@ -277,7 +278,9 @@ public class BotTests {
         bot3.setMove(new DirectionalVectors(-0.5, -0.99), 2);
         bot3.setContinueMotion(1);
 
-        botManager.moveAllBots(1);
+        botManager.moveBot(bot1,1);
+        botManager.moveBot(bot2,1);
+        botManager.moveBot(bot3,1);
         double x1 = bot1.getCoordinates().x;
         double y1 = bot1.getCoordinates().y;
         double x2 = bot2.getCoordinates().x;
