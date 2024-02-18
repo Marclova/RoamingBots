@@ -9,12 +9,13 @@ import classes.services.containers.Coordinates;
 import classes.targets.Circle;
 import classes.targets.Rectangle;
 import interfaces.bots.BotInterface;
+import interfaces.graphic.GraphicOutputInterface;
 import interfaces.targets.CartesianAreaInterface;
 
 /**
  * This class prints on console the current simulation status rounding every coordinates in whole numbers.
  */
-public class ConsoleGraphicService {
+public class ConsoleGraphic implements GraphicOutputInterface {
     private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
     //contains all the points to draw bots and target areas.
@@ -22,13 +23,7 @@ public class ConsoleGraphicService {
     //defines the extension of the used simulation plane.
     LimitCoordinates limitCoordinates;
     
-    /**
-     * Prints on console the current simulation status.
-     * 
-     * @param targetList The cartesian areas to represent.
-     * @param botList The bots to represent.
-     * @param zoom Multiplier used to expand or contract the plane visualization.
-     */
+    @Override
     public void printSimulationPlane(ArrayList<CartesianAreaInterface> targetList, ArrayList<BotInterface> botList, double zoom) {
         argumentCheckerService.checkNotNullObjects(targetList, botList);
         argumentCheckerService.checkGraterThanZeroValues(zoom);

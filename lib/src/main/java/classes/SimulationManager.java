@@ -3,7 +3,7 @@ package classes;
 import java.util.ArrayList;
 
 import classes.services.ArgumentCheckerService;
-import classes.services.graphic.GraphicServiceManager;
+import classes.services.graphic.GraphicService;
 import interfaces.SimulationManagerInterface;
 import interfaces.bots.BotInterface;
 import interfaces.bots.BotManagerInterface;
@@ -16,8 +16,7 @@ import interfaces.targets.CartesianAreaManagerInterface;
  */
 public class SimulationManager implements SimulationManagerInterface {
     private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
-
-    GraphicServiceManager graphicServiceManager = new GraphicServiceManager();
+    private GraphicService graphicServiceManager = new GraphicService();
 
     private BotManagerInterface botManager;
     private ProgramManagerInterface programManager;
@@ -96,6 +95,7 @@ public class SimulationManager implements SimulationManagerInterface {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             this.graphicServiceManager.projectConsoleFrame(targetList, this.botManager.getBotList(), zoom);
         }
     }

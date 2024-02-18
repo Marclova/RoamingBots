@@ -10,6 +10,9 @@ import classes.services.containers.Coordinates;
 import interfaces.targets.CartesianAreaInterface;
 import interfaces.targets.CartesianAreaManagerInterface;
 
+/**
+ * Class responsible to create targets.
+ */
 public class CartesianAreaManager implements CartesianAreaManagerInterface {
     private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 

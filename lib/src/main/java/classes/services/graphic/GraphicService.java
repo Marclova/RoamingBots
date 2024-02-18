@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import classes.services.ArgumentCheckerService;
 import interfaces.bots.BotInterface;
+import interfaces.graphic.GraphicOutputInterface;
 import interfaces.targets.CartesianAreaInterface;
 
-public class GraphicServiceManager {
+public class GraphicService {
     private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
-    ConsoleGraphicService consoleGraphicService = new ConsoleGraphicService();
+    GraphicOutputInterface graphicOutput = new ConsoleGraphic();
     
     /**
      * Prints on console the current simulation status.
@@ -22,6 +23,6 @@ public class GraphicServiceManager {
         argumentCheckerService.checkNotNullObjects(targetList, botList);
         argumentCheckerService.checkGraterThanZeroValues(zoom);
 
-        this.consoleGraphicService.printSimulationPlane(targetList, botList, zoom);
+        this.graphicOutput.printSimulationPlane(targetList, botList, zoom);
     }
 }
