@@ -235,7 +235,7 @@ public class Bot implements BotInterface {
         ArrayList<BotInterface> botToFollowList = this.getBotsToFollow(botList);
         Coordinates botToFollowAverageCoordinates = this.calculateAverageBotsCoordinates(botToFollowList);
         
-        if(botToFollowAverageCoordinates != null)
+        if(botToFollowAverageCoordinates != null && !botToFollowAverageCoordinates.equals(this.coordinates))
         {
             double oldAngle = this.directionAngle;
             this.setDirectionAngle(this.calculateDirectionAngleTowardsCoordinates(botToFollowAverageCoordinates));

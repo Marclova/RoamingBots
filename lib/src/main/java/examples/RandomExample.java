@@ -38,16 +38,17 @@ public class RandomExample {
         ArrayList<BotInterface> botList = botManager.getBotList();
 
         //values
-        double generationLimits = 20;
+        double heightGenerationLimits = 15;
+        double widthGenerationLimits = heightGenerationLimits * 1.1;
         int searchingBotsQuantity = 15;
         int leaderBotsQuantity = 5;
         double botsDetectingDistance = 4.5;
         double botsSpeed = 1.5;
-        Coordinates lowerCoordinates = new Coordinates(-generationLimits, -generationLimits);
-        Coordinates higherCoordinates = new Coordinates(generationLimits, generationLimits);
+        Coordinates lowerCoordinates = new Coordinates(-widthGenerationLimits, -heightGenerationLimits);
+        Coordinates higherCoordinates = new Coordinates(widthGenerationLimits, heightGenerationLimits);
         double simulationDuration = 50;
-        double executionDuration = 0.5;
-        double coolDownTime = 0.5;
+        double executionDuration = 0.4;
+        double coolDownTime = 0.3;
         double zoom = 1.45;
 
 

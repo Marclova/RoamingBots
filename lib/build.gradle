@@ -5,10 +5,37 @@ plugins {
 }
 
 // application {
-//     deterministicExample = 'src.main.java.examples.DeterministicExample'
+    // mainClassName = 'examples.DeterministicExample'
 //     randomExample = 'src.main.java.examples.RandomExample'
 //     fluidMovementExample = 'src.main.java.examples.FluidMovementExample'
 // }
+
+task run {
+    doLast {
+        println "Instruction to execute the examples in this project:"
+        println " - gradle runDeterministicExample"
+        println " - gradle runFluidMovementsExample"
+        println " - gradle runRandomExample"
+    }
+}
+
+// Configura un task per eseguire il primo main
+task runDeterministicExample(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'examples.DeterministicExample' // Sostituisci con il nome completo della tua prima classe main
+}
+
+// Configura un task per eseguire il secondo main
+task runFluidMovementsExample(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'examples.FluidMovementsExample' // Sostituisci con il nome completo della tua seconda classe main
+}
+
+// Configura un task per eseguire il terzo main
+task runRandomExample(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'examples.RandomExample' // Sostituisci con il nome completo della tua terza classe main
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.

@@ -35,11 +35,11 @@ public class FluidMovementsExample {
         double botSpeed = 1;
 
         botManager.createBot(zeroCoordinates);
-        botManager.createBot(new Coordinates(-1, 0));
-        botManager.createBot(new Coordinates(1, 0));
+        botManager.createBot(new Coordinates(-1, -1));
+        botManager.createBot(new Coordinates(1, 1));
         // simulationManager.createTargetsFromTxtFile("FTargetInput.txt");
-        cartesianAreaManager.createTarget(new Circle(new Coordinates(-1, 0), "null", minimalLength));
-        cartesianAreaManager.createTarget(new Circle(new Coordinates(1, 0), "null", minimalLength));
+        cartesianAreaManager.createTarget(new Circle(new Coordinates(-1, -1), "null", minimalLength));
+        cartesianAreaManager.createTarget(new Circle(new Coordinates(1, 1), "null", minimalLength));
 
 
         ArrayList<BotCommand> moveRandomly = new ArrayList<>();
@@ -49,6 +49,6 @@ public class FluidMovementsExample {
 
         programManager.createInfiniteProgram(botManager.getBotList().get(0), moveRandomly); //program one bot to move randomly
 
-        simulationManager.simulate(60, 0.1, 0.2, zoom);
+        simulationManager.simulate(30, 0.1, 0.15, zoom);
     }
 }
