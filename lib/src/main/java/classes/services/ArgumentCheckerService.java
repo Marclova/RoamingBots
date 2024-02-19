@@ -1,5 +1,8 @@
 package classes.services;
 
+/**
+ * Service used to check methods' received parameters.
+ */
 public class ArgumentCheckerService {
     
     /**

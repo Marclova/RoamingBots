@@ -7,6 +7,9 @@ import interfaces.bots.BotInterface;
 import interfaces.graphic.GraphicOutputInterface;
 import interfaces.targets.CartesianAreaInterface;
 
+/**
+ * Service that provides a generic graphic.
+ */
 public class GraphicService {
     private ArgumentCheckerService argumentCheckerService = new ArgumentCheckerService();
 
