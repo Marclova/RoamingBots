@@ -58,6 +58,9 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.x * this.y); //I'm aware of the lack of security
+        int hash = 11;
+        hash *= 11 + Objects.hashCode(this.x);
+        hash *= 11 + Objects.hashCode(this.y);
+        return hash;
     }
 }
