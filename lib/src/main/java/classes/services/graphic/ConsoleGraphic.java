@@ -1,6 +1,7 @@
 package classes.services.graphic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,15 +127,11 @@ public class ConsoleGraphic implements GraphicOutputInterface {
 
         long cordX = Math.round(rectangle.getCoordinates().x * zoom);
         long cordY = Math.round(rectangle.getCoordinates().y * zoom);
-        long width = Math.round(rectangle.getWidth() * zoom );
-        long height = Math.round(rectangle.getHeight() * zoom );
-        long xLimit = cordX+width;
-        long yLimit = cordY+height;
+        long xLimit = cordX + Math.round(rectangle.getWidth() * zoom );
+        long yLimit = cordY + Math.round(rectangle.getHeight() * zoom );
 
-        long[] xCords = {cordX, xLimit};
-        long[] yCords = {cordY, yLimit};
-        for (long x : xCords) {
-            for (long y : yCords) {
+        for (long x : Arrays.asList(cordX, xLimit)) {
+            for (long y : Arrays.asList(cordY, yLimit)) {
                 this.pointMap.put(new Coordinates(x, y), PointOfInterest.ANGLE_BORDER);
                 this.limitCoordinates.updateLimitCoordinates(new Coordinates(x, y));
             }

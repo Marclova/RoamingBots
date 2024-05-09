@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
-import java.util.IllegalFormatFlagsException;
 
 import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
