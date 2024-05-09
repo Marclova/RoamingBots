@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
+import java.util.IllegalFormatFlagsException;
 
 import classes.services.ArgumentCheckerService;
 import classes.services.containers.Coordinates;
@@ -76,7 +78,7 @@ public class CartesianAreaManager implements CartesianAreaManagerInterface {
                     return new Rectangle(coordinates, label, width, height);
             
                 default:
-                    return null;
+                    throw new IllegalArgumentException();
             }
         }catch(Exception e) {
             return null;

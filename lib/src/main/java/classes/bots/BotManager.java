@@ -84,7 +84,6 @@ public class BotManager implements BotManagerInterface {
             botToMove.setMovementTimer(0);
         }
         Coordinates oldCoordinates = botToMove.getCoordinates();
-        // return this.actuallyMoveBot(botToMove, movementTime);
-        return !( oldCoordinates.equals(botToMove.proceed(movementTime)) );
+        return !( oldCoordinates.equals(botToMove.proceed(movementTime)) ); //actual movement
     }
 }

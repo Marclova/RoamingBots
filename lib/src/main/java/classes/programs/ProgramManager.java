@@ -30,7 +30,7 @@ public class ProgramManager extends ArgumentCheckerService implements ProgramMan
         if(this.botActiveProgramIsExpired(bot, botList, targetList))
         {
             bot.removeActiveProgram();
-            if(botProgramsCount == 1) //no more elements left
+            if(botProgramsCount == 1) //no more elements left after removing it
             {
                 return;
             }
@@ -84,7 +84,7 @@ public class ProgramManager extends ArgumentCheckerService implements ProgramMan
      */
     private boolean botActiveProgramIsExpired(BotInterface bot,
                                             ArrayList<BotInterface> botList,
-                                            ArrayList<CartesianAreaInterface> targetList) { //code smell which lowers slightly the code's extendibility
+                                            ArrayList<CartesianAreaInterface> targetList) { //code smell which lowers the code's extendibility
         this.checkNotNullObjects(bot, botList, targetList);
 
         ProgramInterface activeProgram = bot.getActiveProgram();

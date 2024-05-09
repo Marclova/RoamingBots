@@ -32,11 +32,11 @@ public class ConsoleGraphic implements GraphicOutputInterface {
         limitCoordinates = new LimitCoordinates();
 
         for (CartesianAreaInterface target : targetList) {
-            this.extractInterestingCoordinates(target, zoom);
+            this.extractInterestingCoordinatesFromCartesianArea(target, zoom);
         }
         //bots will be printed with priority if they'll have the same coordinates of the area's borders.
         for (BotInterface bot : botList) {
-            this.extractInterestingCoordinates(bot, zoom);
+            this.extractInterestingCoordinatesFromBot(bot, zoom);
         }
 
         this.actuallyPrintSimulationPlane();
@@ -51,7 +51,7 @@ public class ConsoleGraphic implements GraphicOutputInterface {
      * @param bot The bot to extract the coordinates from.
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinates(BotInterface bot, double zoom) {
+    private void extractInterestingCoordinatesFromBot(BotInterface bot, double zoom) {
         argumentCheckerService.checkNotNullObjects(bot);
         argumentCheckerService.checkGraterThanZeroValues(zoom);
         
@@ -71,23 +71,19 @@ public class ConsoleGraphic implements GraphicOutputInterface {
      * @param target The target to extract the coordinates from.
      * @param zoom Multiplier used to expand or contract the plane visualization.
      */
-    private void extractInterestingCoordinates(CartesianAreaInterface target, double zoom) {
+    private void extractInterestingCoordinatesFromCartesianArea(CartesianAreaInterface target, double zoom) {
         argumentCheckerService.checkNotNullObjects(target);
         argumentCheckerService.checkGraterThanZeroValues(zoom);
-        boolean targetRecognized = false;
 
         if(target instanceof Circle)
         {
-            targetRecognized = true;
             this.extractInterestingCoordinatesFromCircle((Circle)target, zoom);
         }
-
-        if (target instanceof Rectangle)
+        else if (target instanceof Rectangle)
         {
-            targetRecognized = true;
             this.extractInterestingCoordinatesFromRectangle((Rectangle)target, zoom);
         }
-        if(!targetRecognized) {throw new ClassCastException();}
+        else {throw new ClassCastException();}
     }
 
     /**
@@ -107,14 +103,13 @@ public class ConsoleGraphic implements GraphicOutputInterface {
         long radius = Math.round( ((Circle)circle).getRadius() * zoom );
 
         this.pointMap.put(new Coordinates(cordX, cordY), PointOfInterest.ANGLE_BORDER);
-        this.pointMap.put(new Coordinates(cordX+radius, cordY), PointOfInterest.VERTICAL_BORDER);
-        this.pointMap.put(new Coordinates(cordX-radius, cordY), PointOfInterest.VERTICAL_BORDER);
-        this.pointMap.put(new Coordinates(cordX, cordY+radius), PointOfInterest.HORIZONTAL_BORDER);
-        this.pointMap.put(new Coordinates(cordX, cordY-radius), PointOfInterest.HORIZONTAL_BORDER);
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX+radius, cordY));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX-radius, cordY));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX, cordY+radius));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX, cordY-radius));
+        for (int i = -1; i <= 1; i+=2) {
+            long signedRadius = radius*i;
+            this.pointMap.put(new Coordinates(cordX+signedRadius, cordY), PointOfInterest.VERTICAL_BORDER);
+            this.pointMap.put(new Coordinates(cordX, cordY+signedRadius), PointOfInterest.HORIZONTAL_BORDER);
+            this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX+signedRadius, cordY));
+            this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX, cordY+signedRadius));
+        }
     }
 
     /**
@@ -131,36 +126,28 @@ public class ConsoleGraphic implements GraphicOutputInterface {
 
         long cordX = Math.round(rectangle.getCoordinates().x * zoom);
         long cordY = Math.round(rectangle.getCoordinates().y * zoom);
-        long width = Math.round( (rectangle).getWidth() * zoom );
-        long height = Math.round( (rectangle).getHeight() * zoom );
+        long width = Math.round(rectangle.getWidth() * zoom );
+        long height = Math.round(rectangle.getHeight() * zoom );
         long xLimit = cordX+width;
         long yLimit = cordY+height;
 
-        this.pointMap.put(new Coordinates(cordX, cordY), PointOfInterest.ANGLE_BORDER);
-        this.pointMap.put(new Coordinates(xLimit, cordY), PointOfInterest.ANGLE_BORDER);
-        this.pointMap.put(new Coordinates(cordX, yLimit), PointOfInterest.ANGLE_BORDER);
-        this.pointMap.put(new Coordinates(xLimit, yLimit), PointOfInterest.ANGLE_BORDER);
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX, cordY));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(xLimit, cordY));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(cordX, yLimit));
-        this.limitCoordinates.updateLimitCoordinates(new Coordinates(xLimit, yLimit));
-        for (long i = cordX+1; i < xLimit; i++) {
-            Coordinates lowCoordinates = new Coordinates(i, cordY);
-            Coordinates highCoordinates = new Coordinates(i, yLimit);
-
-            this.pointMap.put(lowCoordinates, PointOfInterest.HORIZONTAL_BORDER);
-            this.pointMap.put(highCoordinates, PointOfInterest.HORIZONTAL_BORDER);
-            this.limitCoordinates.updateLimitCoordinates(lowCoordinates);
-            this.limitCoordinates.updateLimitCoordinates(highCoordinates);
+        long[] xCords = {cordX, xLimit};
+        long[] yCords = {cordY, yLimit};
+        for (long x : xCords) {
+            for (long y : yCords) {
+                this.pointMap.put(new Coordinates(x, y), PointOfInterest.ANGLE_BORDER);
+                this.limitCoordinates.updateLimitCoordinates(new Coordinates(x, y));
+            }
         }
-        for (long i = cordY+1; i < yLimit; i++) {
-            Coordinates leftCoordinates = new Coordinates(cordX, i);
-            Coordinates rightCoordinates = new Coordinates(xLimit, i);
 
-            this.pointMap.put(leftCoordinates, PointOfInterest.VERTICAL_BORDER);
-            this.pointMap.put(rightCoordinates, PointOfInterest.VERTICAL_BORDER);
-            this.limitCoordinates.updateLimitCoordinates(leftCoordinates);
-            this.limitCoordinates.updateLimitCoordinates(rightCoordinates);
+        for (long i = cordX+1; i < xLimit; i++) {
+            this.pointMap.put(new Coordinates(i, cordY), PointOfInterest.HORIZONTAL_BORDER);
+            this.pointMap.put(new Coordinates(i, yLimit), PointOfInterest.HORIZONTAL_BORDER);
+        }
+        
+        for (long i = cordY+1; i < yLimit; i++) {
+            this.pointMap.put(new Coordinates(cordX, i), PointOfInterest.VERTICAL_BORDER);
+            this.pointMap.put(new Coordinates(xLimit, i), PointOfInterest.VERTICAL_BORDER);
         }
     }
 

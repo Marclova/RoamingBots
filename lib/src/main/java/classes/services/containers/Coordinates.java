@@ -31,7 +31,7 @@ public class Coordinates {
      * Calculates the hypotenuse from the difference of the two pairs of coordinates.
      * 
      * @param otherCoordinates The point from which the distance will be calculated.
-     * @return The distance from this coordinates and the other coordinate.
+     * @return The distance from this coordinates and the other coordinates.
      */
     public double calculateDistanceFrom(Coordinates otherCoordinates) {
         argumentCheckerService.checkNotNullObjects(otherCoordinates);
@@ -53,14 +53,14 @@ public class Coordinates {
             return false;
         }
         Coordinates other = (Coordinates) o;
-        return x == other.x && y == other.y;
+        return ( x == other.x && y == other.y );
     }
 
     @Override
     public int hashCode() {
         int hash = 11;
-        hash *= 11 + Objects.hashCode(this.x);
-        hash *= 11 + Objects.hashCode(this.y);
+        hash *= 13 + Objects.hashCode(this.x);
+        hash *= 17 + Objects.hashCode(this.y);
         return hash;
     }
 }

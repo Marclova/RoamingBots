@@ -36,8 +36,8 @@ public class RepeatingProgram extends AbstractProgram implements NoArgsExpiratio
      * Executes once all the tasks in the "taskList" and then decreases the program's counter.
      * 
      * @param bot The bot owning this program.
-     * @return True if every command has been executed correctly.
-     *          False if at least least one of them has caused no changes.
+     * @return True if at least one command has been executed with effective effects on the bot.
+     *          False if none of them has caused no changes.
      */
     @Override
     public boolean executeTasks(BotInterface bot) {

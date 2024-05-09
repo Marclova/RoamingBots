@@ -29,17 +29,19 @@ public class DirectionalVectors {
      * 
      * @return The vectors' direction expressed in degrees
      */
-    public double getDirectionalDegrees() {
+    public double getDirectionalDegrees() { //I hate trigonometry
         double absY = Math.abs(this.yVector);
         double hypotenuse = Math.sqrt( this.xVector*this.xVector + this.yVector*this.yVector );
         
         double degrees = Math.toDegrees( Math.asin(absY/hypotenuse) ); //value included between 0 and 90
 
+        //We have the absolute value of the angle (in the first quadrant),
+        //  now we have to find in witch quadrant this angle is actually placed.
         if(this.xVector < 0) //is needed to mirror the angle along the y axis
         {
-            degrees += 2*(90-degrees); //value included between 90 and 180
+            degrees += 2*(90-degrees); //value included between 90 and 180 (second or third quadrant)
         }
-        if(this.yVector < 0 ) //is needed to mirror the angle along the x axis
+        if(this.yVector < 0 ) //is needed to mirror the angle along the x axis (third or fourth quadrant)
         {
             degrees = 360 - degrees; //value included between 180 and 359,9_
         }

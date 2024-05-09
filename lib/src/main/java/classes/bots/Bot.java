@@ -114,27 +114,6 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance) {
-        argumentCheckerService.checkNotNullObjects(botList);
-        argumentCheckerService.checkNotEmptyStrings(labelToDetect);
-        argumentCheckerService.checkGraterThanZeroValues(detectingDistance);
-
-        for (BotInterface bot : botList) {
-            if(bot.equals(this))
-            {
-                continue;
-            }
-
-            if(bot.IsEmittingSignal() && bot.getLabelToEmit().equals(labelToDetect) &&
-                bot.getCoordinates().calculateDistanceFrom(this.coordinates) <= detectingDistance)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void setCoordinates(Coordinates coordinates) {
         argumentCheckerService.checkNotNullObjects(coordinates);
 
@@ -268,22 +247,6 @@ public class Bot implements BotInterface {
     }
 
     @Override
-    public Coordinates proceed(double timeToProceed) {
-        argumentCheckerService.checkGraterThanZeroValues(timeToProceed);
-            
-        double botDistanceMovement = this.getSpeed() * timeToProceed;
-        double botRadiantDirectionAngle = Math.toRadians( this.getDirectionAngle() );
-
-        double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
-        double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
-        if( !(botDeltaX == 0 && botDeltaY == 0) )
-        {
-            this.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
-        }
-        return this.coordinates;
-    }
-
-    @Override
     public boolean startEmittingSignalLabel(String label) {
         argumentCheckerService.checkNotEmptyStrings(label);
 
@@ -307,11 +270,66 @@ public class Bot implements BotInterface {
         return true;
     }
 
+    @Override
+    public boolean isDetectingLabel(ArrayList<BotInterface> botList, String labelToDetect, double detectingDistance) {
+        argumentCheckerService.checkNotNullObjects(botList);
+        argumentCheckerService.checkNotEmptyStrings(labelToDetect);
+        argumentCheckerService.checkGraterThanZeroValues(detectingDistance);
+
+        for (BotInterface bot : botList) {
+            // if(bot.equals(this))
+            // {
+            //     continue; //excludes itself
+            // }
+
+            // if(bot.IsEmittingSignal() && bot.getLabelToEmit().equals(labelToDetect) &&
+            //     bot.getCoordinates().calculateDistanceFrom(this.coordinates) <= detectingDistance)
+            // {
+            //     return true; //return at the first match
+            // }
+            if(this.isDetectingLabel(bot, labelToDetect, detectingDistance))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDetectingLabel(BotInterface bot, String labelToDetect, double detectingDistance) {
+        argumentCheckerService.checkNotNullObjects(bot);
+        argumentCheckerService.checkNotEmptyStrings(labelToDetect);
+        argumentCheckerService.checkGraterThanZeroValues(detectingDistance);
+
+        if(!bot.equals(this) && bot.IsEmittingSignal() && bot.getLabelToEmit().equals(labelToDetect) &&
+                bot.getCoordinates().calculateDistanceFrom(this.coordinates) <= detectingDistance)
+            {
+                return true; //return at the first match
+            }
+        return false;
+    }
+
+    @Override
+    public Coordinates proceed(double timeToProceed) {
+        argumentCheckerService.checkGraterThanZeroValues(timeToProceed);
+            
+        double botDistanceMovement = this.getSpeed() * timeToProceed;
+        double botRadiantDirectionAngle = Math.toRadians( this.getDirectionAngle() );
+
+        double botDeltaX = botDistanceMovement * Math.cos(botRadiantDirectionAngle);
+        double botDeltaY = botDistanceMovement * Math.sin(botRadiantDirectionAngle);
+        if( !(botDeltaX == 0 && botDeltaY == 0) )
+        {
+            this.incrementCoordinates(new Coordinates(botDeltaX, botDeltaY));
+        }
+        return this.coordinates;
+    }
+
     //Private methods
 
     /**
-     * Looks for all the detectable bots within the following distance with the right emitting label.
+     * Looks for all the detected bots within the following distance with the right emitting label.
      * 
+     * @param botList The list of all bots.
      * @return A list of detected bots that this bot may follow.
      */
     private ArrayList<BotInterface> getBotsToFollow(ArrayList<BotInterface> botList) {
@@ -323,7 +341,7 @@ public class Bot implements BotInterface {
             {
                 continue;
             }
-            if(this.isDetectingLabel(new ArrayList<>(Arrays.asList(bot)), this.labelToFollow, this.followingDistance))
+            if(this.isDetectingLabel(bot, this.labelToFollow, this.followingDistance))
             {
                 listToReturn.add(bot);
             }
@@ -359,7 +377,7 @@ public class Bot implements BotInterface {
     }
 
     /**
-     * calculates the direction angle expressed in degrees which will consent the bot's
+     * calculates the direction angle expressed in degrees which will consent the bot
      *  to point towards the given coordinates position.
      * 
      * @param coordinatesToPoint The coordinates to point to.
